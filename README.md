@@ -4,6 +4,12 @@
 
 Based on Nodejs/Express
 
+##Git Repository structure
+
+* Branch master : production branch, contains code deployed in production. Stable.
+* Branch dev : development branch, contains current development. Stable.
+* Other branches : unstable development
+
 ## Build Setup
 
 ``` bash

@@ -5,9 +5,13 @@
  */
 
 //Includes
-const logger = require('../src/infrastructure/logging/logger');
+
+// Class
 const Server = require('../src/infrastructure/Server');
 const Application = require('../src/infrastructure/Application');
+
+//Functions/utils
+const debugLogger = require('../src/infrastructure/logging/debugLogger');
 
 //Initialize components
 const currentServer = new Server();
@@ -18,10 +22,10 @@ const searchDirectoryApplication = new Application(currentServer);
 searchDirectoryApplication
   .start()
   .then(()=>{
-    logger('Success Launch');
+    debugLogger('Success Launch');
   })
   .catch((error)=>{
-    logger('Erreur');
+    debugLogger(`Error : ${error}`);
   });
 
 

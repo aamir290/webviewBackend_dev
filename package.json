@@ -11,5 +11,8 @@
     "url": "https://www.forge.orange-labs.fr/plugins/git/maapservinfra/FrontEnd_BotGallery_anticipation.git"
   },
   "author": "Jeremy Le Piolet <jeremy.le-piolet@gfi.fr>",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.4"
+  }
 }

@@ -4,9 +4,16 @@
  * Module dependencies.
  */
 
+//Includes
+const Server = require('../src/infrastructure/Server');
 const Application = require('../src/infrastructure/Application');
 
-const searchDirectoryApplication = new Application();
+//Initialize components
+const currentServer = new Server();
+const searchDirectoryApplication = new Application(currentServer);
+
+
+//Start Application
 searchDirectoryApplication
   .start()
   .then(()=>{

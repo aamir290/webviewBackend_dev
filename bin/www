@@ -13,30 +13,24 @@ const Application = require('../src/infrastructure/Application');
 //Functions/utils
 const debugLogger = require('../src/infrastructure/logging/debugLogger');
 
+//Other
+const config = require('../config/config.js');
+
 //Initialize components
 const currentServer = new Server();
 const searchDirectoryApplication = new Application(currentServer);
 
+debugLogger(config);
 
 //Start Application
 searchDirectoryApplication
   .start()
-  .then(()=>{
+  .then(() => {
     debugLogger('Success Launch');
   })
-  .catch((error)=>{
+  .catch((error) => {
     debugLogger(`Error : ${error}`);
   });
-
-
-
-
-
-
-
-
-
-
 
 
 // var app = require('../app');

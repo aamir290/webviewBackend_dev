@@ -12,9 +12,11 @@ class Server {
    * Init application
    * @param router application router
    * @param config Server configuration
+   * @param logger logger for application
    */
-  constructor(router, config) {
+  constructor(router, config, logger) {
     this.config = config;
+    this.logger = logger;
 
     this.express = express();
     this.express.use(router);
@@ -27,7 +29,7 @@ class Server {
       const http = this.express
         .listen(port, () => {
           const {port} = http.address();
-          console.log(`[p ${process.pid}] Listening at port ${port}`);
+          this.logger(`[p ${process.pid}] Listening at port ${port}`);
           resolve();
         });
     });

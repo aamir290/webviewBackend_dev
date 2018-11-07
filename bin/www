@@ -11,26 +11,26 @@ const Server = require('../src/infrastructure/Server');
 const Application = require('../src/infrastructure/Application');
 
 //Functions/utils
-const debugLogger = require('../src/infrastructure/logging/debugLogger');
+const logger = require('../src/infrastructure/logging/debugLogger');
 const router = require('../src/infrastructure/routes/router');
 
 //Other
 const config = require('../config/config.js');
 
 //Initialize components
-const currentServer = new Server(router, config);
+const currentServer = new Server(router, config, logger);
 const searchDirectoryApplication = new Application(currentServer);
 
-debugLogger(config);
+logger(config);
 
 //Start Application
 searchDirectoryApplication
   .start()
   .then(() => {
-    debugLogger('Success Launch');
+    logger('Success Launch');
   })
   .catch((error) => {
-    debugLogger(`Error : ${error}`);
+    logger(`Error : ${error}`);
   });
 
 

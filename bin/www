@@ -12,12 +12,13 @@ const Application = require('../src/infrastructure/Application');
 
 //Functions/utils
 const debugLogger = require('../src/infrastructure/logging/debugLogger');
+const router = require('../src/infrastructure/routes/router');
 
 //Other
 const config = require('../config/config.js');
 
 //Initialize components
-const currentServer = new Server();
+const currentServer = new Server(router);
 const searchDirectoryApplication = new Application(currentServer);
 
 debugLogger(config);

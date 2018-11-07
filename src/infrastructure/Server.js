@@ -8,7 +8,8 @@ class Server {
   /**
    * Init application.
    */
-  constructor() {
+  constructor(router) {
+    this.router = router;
   }
 
   async start() {

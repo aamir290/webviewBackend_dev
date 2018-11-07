@@ -13,8 +13,8 @@ class Server {
    * @param router application router
    */
   constructor(router) {
-    this.router = router;
     this.express = express();
+    this.express.use(router);
   }
 
   start() {

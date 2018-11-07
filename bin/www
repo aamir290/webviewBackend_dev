@@ -18,7 +18,7 @@ const router = require('../src/infrastructure/routes/router');
 const config = require('../config/config.js');
 
 //Initialize components
-const currentServer = new Server(router);
+const currentServer = new Server(router, config);
 const searchDirectoryApplication = new Application(currentServer);
 
 debugLogger(config);

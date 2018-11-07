@@ -3,18 +3,28 @@
  * Setup server and launch.
  */
 
+const express = require('express');
+
+
 class Server {
 
   /**
-   * Init application.
+   * Init application
+   * @param router application router
    */
   constructor(router) {
     this.router = router;
+    this.express = express();
   }
 
-  async start() {
+  start() {
     return new Promise((resolve) => {
-      resolve();
+      const http = this.express
+        .listen(3000, () => {
+          const { port } = http.address();
+          console.log(`[p ${process.pid}] Listening at port ${port}`);
+          resolve();
+        });
     });
   }
 }

@@ -1,5 +1,5 @@
 /**
- * Init and configure debugger
+ * Init and configure debug loger
  */
 
 const debug = require('debug')('searchDirectoryApi');

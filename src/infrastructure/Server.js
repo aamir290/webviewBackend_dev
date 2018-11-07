@@ -29,7 +29,7 @@ class Server {
       const http = this.express
         .listen(port, () => {
           const {port} = http.address();
-          this.logger(`[p ${process.pid}] Listening at port ${port}`);
+          this.logger.info(`[p ${process.pid}] Listening at port ${port}`);
           resolve();
         });
     });

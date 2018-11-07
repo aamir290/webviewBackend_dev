@@ -21,16 +21,16 @@ const config = require('../config/config.js');
 const currentServer = new Server(router, config, logger);
 const searchDirectoryApplication = new Application(currentServer);
 
-logger(config);
+logger.debug(config);
 
 //Start Application
 searchDirectoryApplication
   .start()
   .then(() => {
-    logger('Success Launch');
+    logger.info('Success Launch');
   })
   .catch((error) => {
-    logger(`Error : ${error}`);
+    logger.error(`Error : ${error}`);
   });
 
 

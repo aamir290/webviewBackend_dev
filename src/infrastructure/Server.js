@@ -3,7 +3,7 @@
  * Setup server and launch.
  */
 
-module.exports = class Server {
+class Server {
 
   /**
    * Init application.
@@ -16,4 +16,6 @@ module.exports = class Server {
       resolve();
     });
   }
-};
+}
+
+module.exports = Server;

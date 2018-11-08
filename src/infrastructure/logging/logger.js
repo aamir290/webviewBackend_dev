@@ -11,10 +11,21 @@
  */
 const winston = require('winston');
 
-module.exports = () => {
+module.exports = (config) => {
+
+  //Custom log format
+  const myFormat = winston.format.printf(info => {
+    return `${info.level} - ${info.timestamp} : ${info.message}`;
+  });
+
+  //Create logger
   const logger = winston.createLogger({
-    level: 'debug',
-    format: winston.format.json(),
+    level: config.log.level || 'info',
+    format: winston.format.combine(
+      winston.format.splat(),
+      winston.format.timestamp(),
+      myFormat
+    ),
     transports: [
       //
       // - Write to all logs with level `info` and below to `combined.log`
@@ -25,9 +36,17 @@ module.exports = () => {
     ]
   });
 
+  //Add console in development mode as stdout
   if (process.env.NODE_ENV !== 'production') {
+
+
     logger.add(new winston.transports.Console({
-      format: winston.format.simple()
+      format: winston.format.combine(
+        winston.format.splat(),
+        winston.format.timestamp(),
+        winston.format.colorize(),
+        myFormat
+      )
     }));
   }
 

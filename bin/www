@@ -14,16 +14,15 @@ const Application = require('../src/infrastructure/Application');
 const config = require('../config/config.js');
 
 //Functions/utils/middleware
-const logger = require('../src/infrastructure/logging/logger')();
+const logger = require('../src/infrastructure/logging/logger')(config);
 const router = require('../src/infrastructure/routes/router');
-
 
 
 //Initialize components
 const currentServer = new Server(router, config, logger);
 const searchDirectoryApplication = new Application(currentServer);
 
-logger.debug(config);
+logger.debug('%o', config);
 
 //Start Application
 searchDirectoryApplication

@@ -1,5 +1,5 @@
 /**
- *  Configure and init router component for application.
+ *  Configure and init main router component for application.
  *  Init middleware and routes.
  */
 

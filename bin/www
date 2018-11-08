@@ -10,7 +10,7 @@
 const Server = require('../src/infrastructure/Server');
 const Application = require('../src/infrastructure/Application');
 
-//Coànfiguration
+//Configuration
 const config = require('../config/config.js');
 
 //Functions/utils/middleware

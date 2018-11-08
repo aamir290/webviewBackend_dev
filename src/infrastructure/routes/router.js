@@ -3,8 +3,8 @@
  *  Init middleware and routes.
  */
 
-//Includes
-const {Router} = require('express');
+const express = require('express');
+const path = require('path');
 
 /**
  *
@@ -16,7 +16,7 @@ const {Router} = require('express');
 module.exports = (config, requestLoggerFile, requestLogger) => {
 
   //Init router
-  const appRouter = Router();
+  const appRouter = express.Router();
 
   //Add logger for request
   appRouter.use(requestLoggerFile);
@@ -24,8 +24,13 @@ module.exports = (config, requestLoggerFile, requestLogger) => {
     appRouter.use(requestLogger);
   }
 
+  //Static file and UI
+  appRouter.use(express.static(path.resolve('public')));
+
+  //API
+
   //Init route
-  appRouter.get('/', function (req, res, next) {
+  appRouter.get('/api', function (req, res, next) {
     res.send('respond with a resource');
   });
 

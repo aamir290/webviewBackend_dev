@@ -16,7 +16,8 @@ const config = require('../config/config.js');
 //Functions/utils/middleware
 const logger = require('../src/infrastructure/logging/logger')(config);
 const requestLoggerFile = require('../src/infrastructure/logging/requestLoggerToFile')(config);
-const router = require('../src/infrastructure/routes/router')(requestLoggerFile);
+const requestLogger = require('../src/infrastructure/logging/requestLogger');
+const router = require('../src/infrastructure/routes/router')(requestLoggerFile, requestLogger);
 
 
 //Initialize components

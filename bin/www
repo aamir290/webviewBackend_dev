@@ -13,12 +13,14 @@ const Application = require('../src/infrastructure/Application');
 //Configuration
 const config = require('../config/config.js');
 
+//Load use case
+const useCaseContainer = {};
+
 //Functions/utils/middleware
 const logger = require('../src/infrastructure/logging/logger')(config);
 const requestLoggerFile = require('../src/infrastructure/logging/requestLoggerToFile')(config);
 const requestLogger = require('../src/infrastructure/logging/requestLogger');
 const router = require('../src/infrastructure/routes/router')(config, requestLoggerFile, requestLogger);
-
 
 //Initialize components
 const currentServer = new Server(router, config, logger);

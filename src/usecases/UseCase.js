@@ -1,5 +1,10 @@
 const EventEmitter = require('events');
 
+/**
+ * Base class for use case.
+ * Add common methods for use case.
+ * Extends EventEmitter to handle different response for method.
+ */
 class UseCase extends EventEmitter {
 
   /**

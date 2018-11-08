@@ -6,12 +6,19 @@
 //Includes
 const {Router} = require('express');
 
-//Init router
-const appRouter = Router();
+module.exports = (requestLogger) => {
 
-appRouter.get('/', function(req, res, next) {
-  res.send('respond with a resource');
-});
+  //Init router
+  const appRouter = Router();
+
+  //Add logger for request
+  appRouter.use(requestLogger);
+
+  //Init route
+  appRouter.get('/', function (req, res, next) {
+    res.send('respond with a resource');
+  });
 
 
-module.exports = appRouter;
+  return appRouter;
+};

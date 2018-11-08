@@ -7,7 +7,7 @@
 //Includes middleware
 var express = require('express');
 var path = require('path');
-const loggerMiddleware = require('./src/infrastructure/logging/requestLogger');
+const loggerMiddleware = require('./src/infrastructure/logging/requestLoggerToFile');
 
 //Router
 var indexRouter = require('./src/infrastructure/routes/index');

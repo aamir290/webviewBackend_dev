@@ -8,18 +8,21 @@ const {Router} = require('express');
 
 /**
  *
+ * @param config configuration
  * @param requestLoggerFile middleware for logging request to file
  * @param requestLogger middleware for logging request to console
  * @returns {*} application router
  */
-module.exports = (requestLoggerFile, requestLogger) => {
+module.exports = (config, requestLoggerFile, requestLogger) => {
 
   //Init router
   const appRouter = Router();
 
   //Add logger for request
   appRouter.use(requestLoggerFile);
-  appRouter.use(requestLogger);
+  if(config.env === 'development') {
+    appRouter.use(requestLogger);
+  }
 
   //Init route
   appRouter.get('/', function (req, res, next) {

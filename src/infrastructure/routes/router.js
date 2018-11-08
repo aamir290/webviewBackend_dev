@@ -6,13 +6,13 @@
 //Includes
 const {Router} = require('express');
 
-module.exports = (requestLogger) => {
+module.exports = (requestLoggerFile) => {
 
   //Init router
   const appRouter = Router();
 
   //Add logger for request
-  appRouter.use(requestLogger);
+  appRouter.use(requestLoggerFile);
 
   //Init route
   appRouter.get('/', function (req, res, next) {

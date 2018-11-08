@@ -25,11 +25,11 @@ class Server {
   start() {
     return new Promise((resolve) => {
       const port = this.config.port || 3000;
+      const host = this.config.host || 'localhost';
 
       const http = this.express
-        .listen(port, () => {
-          const {port} = http.address();
-          this.logger.info(`[p ${process.pid}] Listening at port ${port}`);
+        .listen(port, host, () => {
+          this.logger.info(`[p ${process.pid}] - Listening at ${host}:${port}`);
           resolve();
         });
     });

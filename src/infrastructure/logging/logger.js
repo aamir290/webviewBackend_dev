@@ -10,6 +10,8 @@
  *  logger.error('message');
  */
 const winston = require('winston');
+const fs = require('fs');
+const path = require('path');
 
 module.exports = (config) => {
 
@@ -18,12 +20,21 @@ module.exports = (config) => {
     return `${info.level} - ${info.timestamp} : ${info.message}`;
   });
 
+  //Logs directory => create it if not exists
+  const logDirectory = config.log.logDirectory || 'logs';
+  if (!fs.existsSync(logDirectory)) {
+    fs.mkdir(logDirectory, {recursive: true}, (err) => {
+      if (err) throw err;
+    });
+  }
+
   //Create logger
   const logger = winston.createLogger({
     level: config.log.level || 'info',
     format: winston.format.combine(
       winston.format.splat(),
       winston.format.timestamp(),
+      winston.format.prettyPrint(),
       myFormat
     ),
     transports: [
@@ -31,8 +42,8 @@ module.exports = (config) => {
       // - Write to all logs with level `info` and below to `combined.log`
       // - Write all logs error (and below) to `error.log`.
       //
-      new winston.transports.File({filename: 'error.log', level: 'error'}),
-      new winston.transports.File({filename: 'combined.log'})
+      new winston.transports.File({filename: path.join(logDirectory, 'error.log'), level: 'error'}),
+      new winston.transports.File({filename: path.join(logDirectory, 'combined.log')})
     ]
   });
 
@@ -45,6 +56,7 @@ module.exports = (config) => {
         winston.format.splat(),
         winston.format.timestamp(),
         winston.format.colorize(),
+        winston.format.prettyPrint(),
         myFormat
       )
     }));

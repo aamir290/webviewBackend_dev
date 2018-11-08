@@ -6,6 +6,7 @@
 module.exports = {
   port: 4000,
   log : {
-    level : 'info'
+    level : 'info',
+    logDirectory : 'logs'
   }
 };

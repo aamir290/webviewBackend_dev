@@ -1,17 +1,26 @@
 /**
- * Init and configure debug loger
+ * Init and configure logger.
+ * Use winston library
  */
+const winston = require('winston');
 
-const logger = {};
+const logger = winston.createLogger({
+  level: 'info',
+  format: winston.format.json(),
+  transports: [
+    //
+    // - Write to all logs with level `info` and below to `combined.log`
+    // - Write all logs error (and below) to `error.log`.
+    //
+    new winston.transports.File({ filename: 'error.log', level: 'error' }),
+    new winston.transports.File({ filename: 'combined.log' })
+  ]
+});
 
-//method for debug log
-logger.debug = require('debug')('searchDirectoryApi-debug');
-
-//Method for information log
-logger.info = require('debug')('searchDirectoryApi-info');
-
-//Method for error log
-logger.error = require('debug')('searchDirectoryApi-error');
-
+if (process.env.NODE_ENV !== 'production') {
+  logger.add(new winston.transports.Console({
+    format: winston.format.simple()
+  }));
+}
 
 module.exports = logger;

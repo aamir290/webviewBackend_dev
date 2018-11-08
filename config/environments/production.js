@@ -4,7 +4,7 @@
  */
 
 module.exports = {
-  port: 4000,
+  port: process.env.OPENSHIFT_NODEJS_PORT || process.env.PORT || 4000,
   log : {
     level : 'info',
     logDirectory : 'logs'

@@ -5,7 +5,7 @@
 
 module.exports = {
   // port: process.env.PORT
-  port: 3000,
+  port: process.env.PORT || 3000,
   log : {
     level : 'debug',
     logDirectory : 'logs'

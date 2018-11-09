@@ -1,5 +1,4 @@
 const EventEmitter = require('events');
-const define = Object.defineProperty;
 
 /**
  * Base class for use case.
@@ -8,14 +7,26 @@ const define = Object.defineProperty;
  */
 class UseCase extends EventEmitter {
 
-  constructor(){
+  /**
+   * Construct use case
+   * @param events array of events handle by use case
+   */
+  constructor(events) {
     super();
+
+    this._setEvents(events);
   }
 
-  static setOutputs(events) {
-    define(this.prototype, 'events', {
-      value: createOutputs(events)
-    });
+  /**
+   * Set array off events handle by usecase
+   * @param eventsArray array of events handle by use case
+   * @private
+   */
+  _setEvents(eventsArray) {
+    this.events = eventsArray.reduce((array, currentEvent) => {
+      array[currentEvent] = currentEvent;
+      return array;
+    }, Object.create(null));
   }
 
   /**
@@ -31,12 +42,5 @@ class UseCase extends EventEmitter {
     throw new Error(`Event ${event} doesn't exists for ${this.constructor.name}`);
   }
 }
-
-const createOutputs = (outputsArray) => {
-  return outputsArray.reduce((obj, output) => {
-    obj[output] = output;
-    return obj;
-  }, Object.create(null));
-};
 
 module.exports = UseCase;

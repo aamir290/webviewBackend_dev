@@ -3,12 +3,14 @@ const UseCase = require('./UseCase');
 /**
  * Base class for use case.
  * Add common methods for use case.
- * Extends EventEmitter to handle different response for method.
+ * Extends EventEmitter to handle different response for method :
+ *    - SUCCESS => response OK
+ *    - ERROR => error in process
  */
 class GetAllCategoriesUseCase extends UseCase{
 
   constructor(){
-    super();
+    super(['SUCCESS', 'ERROR']);
   }
 
   /**
@@ -17,11 +19,8 @@ class GetAllCategoriesUseCase extends UseCase{
   async execute(){
     const { SUCCESS, ERROR } = this.events;
 
-    console.log("before emit event");
     this.emit(SUCCESS);
-    console.log("after emit event");
   }
 }
-GetAllCategoriesUseCase.setOutputs(['SUCCESS', 'ERROR']);
 
 module.exports = GetAllCategoriesUseCase;

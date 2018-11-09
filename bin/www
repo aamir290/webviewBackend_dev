@@ -25,7 +25,7 @@ const requestLogger = require('../src/infrastructure/logging/requestLoggerMiddle
 //Initialize components
 
 const ApiRouter = require('../src/infrastructure/routes/apiRouter');
-const apiRouter = new ApiRouter(useCaseContainer);
+const apiRouter = new ApiRouter(useCaseContainer, logger);
 const mainRouter = require('../src/infrastructure/routes/router')(config, requestLoggerFile, requestLogger, apiRouter.apiRouter);
 
 const currentServer = new Server(mainRouter, config, logger);

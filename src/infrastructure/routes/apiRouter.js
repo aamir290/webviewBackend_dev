@@ -12,8 +12,9 @@ const Status = require('http-status');
  */
 class ApiRouter {
 
-  constructor(useCaseContainer) {
+  constructor(useCaseContainer, logger) {
     this.useCaseContainer = useCaseContainer || {};
+    this.logger = logger;
     this.apiRouter = express.Router();
 
     this._setupRoutes();

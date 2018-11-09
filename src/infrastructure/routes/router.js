@@ -11,9 +11,10 @@ const path = require('path');
  * @param config configuration
  * @param requestLoggerFile middleware for logging request to file
  * @param requestLogger middleware for logging request to console
+ * @param apiRouter router controller for api
  * @returns {*} application router
  */
-module.exports = (config, requestLoggerFile, requestLogger) => {
+module.exports = (config, requestLoggerFile, requestLogger, apiRouter) => {
 
   //Init router
   const appRouter = express.Router();
@@ -28,12 +29,7 @@ module.exports = (config, requestLoggerFile, requestLogger) => {
   appRouter.use(express.static(path.resolve('public')));
 
   //API
-
-  //Init route
-  appRouter.get('/api', function (req, res, next) {
-    res.send('respond with a resource');
-  });
-
+  appRouter.use(apiRouter);
 
   return appRouter;
 };

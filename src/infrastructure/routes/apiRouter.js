@@ -12,48 +12,29 @@ const Status = require('http-status');
  */
 class ApiRouter {
 
-  constructor(useCaseContainer){
-    this.useCaseContainer = useCaseContainer;
+  constructor(useCaseContainer) {
+    this.useCaseContainer = useCaseContainer || {};
     this.apiRouter = express.Router();
 
-    //Init route
-    this.apiRouter.get('/api', function (req, res, next) {
-      if (useCaseContainer && useCaseContainer.getAllCategoriesUsecase) {
-        const getAllCategoriesUseCase = new useCaseContainer.getAllCategoriesUsecase();
-        const {SUCCESS, ERROR} = getAllCategoriesUseCase.events;
-
-        getAllCategoriesUseCase.on(SUCCESS, () => {
-          res.status(Status.OK).send('Success API');
-        });
-        getAllCategoriesUseCase.execute();
-      }
-    });
+    this._setupRoutes();
   }
 
+  _setupRoutes() {
+    this.apiRouter.get('/api', this._index.bind(this));
+  }
 
+  _index(req, res, next) {
+    if (this.useCaseContainer.getAllCategoriesUsecase) {
+      const getAllCategoriesUseCase = new this.useCaseContainer.getAllCategoriesUsecase();
+      const {SUCCESS, ERROR} = getAllCategoriesUseCase.events;
+
+      getAllCategoriesUseCase.on(SUCCESS, () => {
+        res.status(Status.OK).send('Success API');
+      });
+      getAllCategoriesUseCase.execute();
+    }
+  }
 
 }
 
 module.exports = ApiRouter;
-
-// module.exports = (useCaseContainer) => {
-//
-//   //Init router
-//   const appRouter = express.Router();
-//
-//   //Init route
-//   appRouter.get('/api', function (req, res, next) {
-//     if (useCaseContainer && useCaseContainer.getAllCategoriesUsecase) {
-//       const getAllCategoriesUseCase = new useCaseContainer.getAllCategoriesUsecase();
-//       const {SUCCESS, ERROR} = getAllCategoriesUseCase.events;
-//
-//       getAllCategoriesUseCase.on(SUCCESS, () => {
-//         res.status(Status.OK).send('Success API');
-//       });
-//       getAllCategoriesUseCase.execute();
-//     }
-//   });
-//
-//
-//   return appRouter;
-// };

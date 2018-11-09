@@ -22,12 +22,12 @@ const logger = require('../src/infrastructure/logging/logger')(config);
 const requestLoggerFile = require('../src/infrastructure/logging/requestLoggerToFileMiddleware')(config);
 const requestLogger = require('../src/infrastructure/logging/requestLoggerMiddleware');
 
-// const apiRouter = require('../src/infrastructure/routes/apiRouter')(useCaseContainer);
+//Initialize components
+
 const ApiRouter = require('../src/infrastructure/routes/apiRouter');
 const apiRouter = new ApiRouter(useCaseContainer);
 const mainRouter = require('../src/infrastructure/routes/router')(config, requestLoggerFile, requestLogger, apiRouter.apiRouter);
 
-//Initialize components
 const currentServer = new Server(mainRouter, config, logger);
 const searchDirectoryApplication = new Application(currentServer);
 

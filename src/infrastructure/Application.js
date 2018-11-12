@@ -14,8 +14,10 @@ module.exports = class Application {
   }
 
   async start() {
-    if (this.server.start) {
+    if (this.server && this.server.start) {
       await this.server.start();
+    }else{
+      throw new Error('Application must have server to start');
     }
   }
 };

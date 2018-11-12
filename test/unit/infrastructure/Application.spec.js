@@ -1,7 +1,7 @@
 /**
  * Unit tests for Application
  */
-const {expect} = require('chai');
+
 const sinon = require('sinon');
 const Application = require('../../../src/infrastructure/Application');
 
@@ -15,7 +15,23 @@ describe('Application', () => {
 
       application.start();
 
-      expect(mockServer.start).to.have.been.calledOnce;
+      mockServer.start.should.have.been.calledOnce;
+    });
+  });
+
+  context('when launching application with incorrect server', () => {
+    it('must throw error when no server',  async () => {
+      const application = new Application();
+
+      await application.start()
+        .should.be.rejected;
+    });
+
+    it('must throw error when no start method on server',  async () => {
+      const application = new Application({});
+
+      await application.start()
+        .should.be.rejected;
     });
   });
 

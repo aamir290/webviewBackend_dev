@@ -20,7 +20,7 @@ class LocalSource {
     const categories = [];
 
     jsonCategories.forEach((currentCategory)=>{
-      categories.push(new Category(currentCategory.name));
+      categories.push(new Category(currentCategory.id, currentCategory.name));
     });
 
     return categories;

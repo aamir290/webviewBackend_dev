@@ -7,8 +7,9 @@
     "test": "npm run test-unit",
     "start": "DEBUG=searchDirectoryApi*,-*debug node ./bin/www",
     "dev": "DEBUG=searchDirectoryApi* NODE_ENV=development nodemon ./bin/www",
-    "test-unit": "NODE_ENV_=test mocha --opts test/mocha.opts.unit ",
-    "coverage": "NODE_ENV_=test nyc mocha --opts test/mocha.opts.unit "
+    "test:unit": "NODE_ENV_=test mocha --opts test/mocha.opts.unit ",
+    "coverage": "NODE_ENV_=test nyc mocha --opts test/mocha.opts.unit ",
+    "coverage:html": "NODE_ENV_=test nyc --reporter=html mocha --opts test/mocha.opts.unit "
   },
   "repository": {
     "type": "git",

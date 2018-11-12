@@ -5,11 +5,11 @@
   "main": "./bin/www",
   "scripts": {
     "test": "npm run test-unit",
-    "start": "DEBUG=searchDirectoryApi*,-*debug node ./bin/www",
-    "dev": "DEBUG=searchDirectoryApi* NODE_ENV=development nodemon ./bin/www",
-    "test:unit": "NODE_ENV_=test mocha --opts test/mocha.opts.unit ",
-    "coverage": "NODE_ENV_=test nyc mocha --opts test/mocha.opts.unit ",
-    "coverage:html": "NODE_ENV_=test nyc --reporter=html mocha --opts test/mocha.opts.unit "
+    "start": "cross-env DEBUG=searchDirectoryApi*,-*debug node ./bin/www",
+    "dev": "cross-env DEBUG=searchDirectoryApi* NODE_ENV=development nodemon ./bin/www",
+    "test:unit": "cross-env NODE_ENV_=test mocha --opts test/mocha.opts.unit ",
+    "coverage": "cross-env NODE_ENV_=test nyc mocha --opts test/mocha.opts.unit ",
+    "coverage:html": "cross-env NODE_ENV_=test nyc --reporter=html mocha --opts test/mocha.opts.unit "
   },
   "repository": {
     "type": "git",
@@ -18,6 +18,7 @@
   "author": "Jeremy Le Piolet <jeremy.le-piolet@gfi.fr>",
   "license": "ISC",
   "dependencies": {
+    "cross-env": "^5.2.0",
     "debug": "~2.6.9",
     "express": "^4.16.4",
     "http-errors": "~1.6.2",

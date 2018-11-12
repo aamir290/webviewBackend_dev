@@ -18,7 +18,7 @@ describe('GetAllCategoriesUseCase', () => {
       const getAllCategories = new GetAllCategoriesUseCase(stubRepository);
 
       getAllCategories.on(getAllCategories.events.SUCCESS, () => {
-        expect(stubGetAllCategories).to.have.been.calledOnce;
+        stubGetAllCategories.should.have.been.calledOnce;
         done();
       });
       getAllCategories.on(getAllCategories.events.ERROR, () => {
@@ -40,7 +40,7 @@ describe('GetAllCategoriesUseCase', () => {
       const getAllCategories = new GetAllCategoriesUseCase(stubRepository);
 
       getAllCategories.on(getAllCategories.events.ERROR, () => {
-        expect(stubGetAllCategories).to.have.been.calledOnce;
+        stubGetAllCategories.should.have.been.calledOnce;
         done();
       });
       getAllCategories.on(getAllCategories.events.SUCCESS, () => {

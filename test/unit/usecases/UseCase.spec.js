@@ -1,7 +1,6 @@
 /**
  * Unit tests for Usecase
  */
-const {expect} = require('chai');
 const UseCase = require('../../../src/usecases/UseCase');
 
 describe('UseCase', () => {
@@ -14,15 +13,17 @@ describe('UseCase', () => {
     });
 
     it('add callback to success event', () => {
-      useCase.on(useCase.events.SUCCESS, () => {
-      });
+      (() => {
+        useCase.on(useCase.events.SUCCESS, () => {
+        });
+      }).should.not.throw;
     });
 
     it('throws error for unknown event', () => {
-      expect(() =>
+      (() => {
         useCase.on('HELLO', () => {
-        }))
-        .to.throw('Event HELLO doesn\'t exists for UseCase');
+        });
+      }).should.throw('Event HELLO doesn\'t exists for UseCase');
     });
   });
 });

@@ -18,14 +18,15 @@ describe('GetAllCategoriesUseCase', () => {
       const getAllCategories = new GetAllCategoriesUseCase(stubRepository);
 
       getAllCategories.on(getAllCategories.events.SUCCESS, () => {
-
         expect(stubGetAllCategories).to.have.been.calledOnce;
         done();
       });
+      getAllCategories.on(getAllCategories.events.ERROR, () => {
+        done('fail');
+      });
+
 
       getAllCategories.execute();
-
-
     });
   });
 
@@ -42,10 +43,17 @@ describe('GetAllCategoriesUseCase', () => {
         expect(stubGetAllCategories).to.have.been.calledOnce;
         done();
       });
+      getAllCategories.on(getAllCategories.events.SUCCESS, () => {
+        done('fail');
+      });
 
       getAllCategories.execute();
-
-
     });
+  });
+
+
+  afterEach(() => {
+    // Restore the default sandbox here
+    sinon.restore();
   });
 });

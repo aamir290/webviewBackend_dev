@@ -10,7 +10,8 @@ describe('LocalSource', () => {
       const localSource = new LocalSource();
       const categories = await localSource.getAllCategories();
 
-      categories.should.eql([], 'Array categories should be the same');
+      categories.length.should.be.equal(10);
+      // categories.should.eql([], 'Array categories should be the same');
     });
   });
 });

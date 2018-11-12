@@ -28,4 +28,24 @@ describe('GetAllCategoriesUseCase', () => {
 
     });
   });
+
+  context('when query is unsuccessful', () => {
+    it('emits ERROR', (done)=>{
+      const stubGetAllCategories = sinon.stub().rejects();
+      const stubRepository = sinon.createStubInstance(ChatBotRepository, {
+        getAllCategories : stubGetAllCategories
+      });
+
+      const getAllCategories = new GetAllCategoriesUseCase(stubRepository);
+
+      getAllCategories.on(getAllCategories.events.ERROR, () => {
+        expect(stubGetAllCategories).to.have.been.calledOnce;
+        done();
+      });
+
+      getAllCategories.execute();
+
+
+    });
+  });
 });

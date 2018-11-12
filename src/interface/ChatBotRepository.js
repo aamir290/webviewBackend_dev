@@ -4,7 +4,14 @@
  */
 class ChatBotRepository {
 
-  constructor(){
+  /**
+   * Create a chatbot repository
+   * @param localSource local source for data
+   * @param distantSource distant soruce for data, aka server
+   */
+  constructor(localSource, distantSource){
+    this._localSource = localSource;
+    this._distantSource = distantSource;
   }
 
   /**

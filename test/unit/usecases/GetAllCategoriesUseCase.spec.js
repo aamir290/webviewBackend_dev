@@ -4,7 +4,7 @@
 const { expect } = require('chai');
 const sinon = require('sinon');
 const GetAllCategoriesUseCase = require('../../../src/usecases/GetAllCategoriesUseCase');
-const ChatBotRepository = require('../../../src/infrastructure/repository/ChatBotRepository');
+const ChatBotRepository = require('../../../src/interface/ChatBotRepository');
 
 describe('GetAllCategoriesUseCase', () => {
 

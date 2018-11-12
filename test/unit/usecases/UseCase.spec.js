@@ -13,19 +13,16 @@ describe('UseCase', () => {
       useCase = new UseCase(['SUCCESS', 'SUCCESS2']);
     });
 
-    it('add callback to success event', (done) => {
+    it('add callback to success event', () => {
       useCase.on(useCase.events.SUCCESS, () => {
       });
-
-      done();
     });
 
-    it('throws error for unknown event', (done) => {
+    it('throws error for unknown event', () => {
       expect(() =>
         useCase.on('HELLO', () => {
         }))
         .to.throw('Event HELLO doesn\'t exists for UseCase');
-      done();
     });
   });
 });

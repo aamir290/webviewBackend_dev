@@ -23,7 +23,7 @@ class GetAllCategoriesUseCase extends UseCase{
 
     try {
       const categories = await this.chatBotRepository.getAllCategories();
-      this.emit(SUCCESS);
+      this.emit(SUCCESS, categories);
     }catch (e) {
       this.emit(ERROR);
     }

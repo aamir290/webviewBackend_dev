@@ -21,7 +21,7 @@ class ChatBotRepository {
    * @returns {Promise<void>}
    */
   async getAllCategories(){
-    return undefined;
+    return [];
   }
 }
 

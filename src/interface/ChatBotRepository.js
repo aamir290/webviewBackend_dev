@@ -6,7 +6,7 @@ class ChatBotRepository {
 
   /**
    * Create a chatbot repository
-   * @param localSource local source for data
+   * @param localSource local sources for data
    * @param distantSource distant soruce for data, aka server
    */
   constructor(localSource, distantSource){
@@ -21,7 +21,9 @@ class ChatBotRepository {
    * @returns {Promise<void>}
    */
   async getAllCategories(){
-    return [];
+    if(this._localSource && this._localSource.getAllCategories) {
+      return this._localSource.getAllCategories();
+    }
   }
 }
 

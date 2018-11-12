@@ -3,6 +3,7 @@
  * Could be constant or database from current repository.
  */
 const Category = require('../../domain/Category');
+const jsonCategories = require('../../../data/categories');
 
 class LocalSource {
 
@@ -16,22 +17,10 @@ class LocalSource {
    * @returns {Promise<void>}
    */
   async getAllCategories(){
-    const defaultCategories = [
-      'Education',
-      'Finance',
-      'Food & Drink',
-      'Games',
-      'Health & Fitness',
-      'Lifestyle',
-      'News & Media',
-      'Entertainment',
-      'Shopping',
-      'Travel'
-    ];
     const categories = [];
 
-    defaultCategories.forEach((currentCategory)=>{
-      categories.push(new Category(currentCategory));
+    jsonCategories.forEach((currentCategory)=>{
+      categories.push(new Category(currentCategory.name));
     });
 
     return categories;

@@ -1,5 +1,5 @@
 /**
- * Unit tests for GetAllCategoriesUseCase
+ * Unit tests for Usecase
  */
 const {expect} = require('chai');
 const UseCase = require('../../../src/usecases/UseCase');

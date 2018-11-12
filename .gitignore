@@ -9,3 +9,4 @@ logs/
 
 #coverage
 coverage/
+.nyc_output

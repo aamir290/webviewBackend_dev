@@ -8,8 +8,8 @@
     "start": "cross-env DEBUG=searchDirectoryApi*,-*debug node ./bin/www",
     "dev": "cross-env DEBUG=searchDirectoryApi* NODE_ENV=development nodemon ./bin/www",
     "test:unit": "cross-env NODE_ENV_=test mocha --opts test/mocha.opts.unit ",
-    "coverage": "cross-env NODE_ENV_=test nyc mocha --opts test/mocha.opts.unit ",
-    "coverage:html": "cross-env NODE_ENV_=test nyc --reporter=html mocha --opts test/mocha.opts.unit "
+    "coverage": "cross-env NODE_ENV_=test nyc --all mocha --opts test/mocha.opts.unit ",
+    "coverage:html": "cross-env NODE_ENV_=test nyc --all --reporter=html mocha --opts test/mocha.opts.unit "
   },
   "repository": {
     "type": "git",
@@ -34,5 +34,14 @@
     "nodemon": "^1.18.6",
     "nyc": "^13.1.0",
     "sinon": "^7.1.1"
+  },
+  "nyc": {
+    "exclude": [
+      "test",
+      "config",
+      "public",
+      "bin",
+      "coverage"
+    ]
   }
 }

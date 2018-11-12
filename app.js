@@ -2,6 +2,10 @@
  * Express application creation script.
  * Initiate express and middleware.
  * Add routing.
+ *
+ * /!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\
+ *  /!\ Used only for test purpose /!\
+ *  /!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\
  */
 
 //Includes middleware

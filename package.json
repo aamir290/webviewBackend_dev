@@ -41,7 +41,8 @@
       "config",
       "public",
       "bin",
-      "coverage"
+      "coverage",
+      "app.js"
     ]
   }
 }

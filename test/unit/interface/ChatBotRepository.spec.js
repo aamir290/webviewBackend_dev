@@ -44,9 +44,7 @@ describe('ChatBotRepository', () => {
     });
 
     it('return undefined when local source has a problem', async () => {
-      const stubLocalSource = sinon.createStubInstance(LocalSource);
-
-      const chatBotRepository = new ChatBotRepository(stubLocalSource);
+      const chatBotRepository = new ChatBotRepository();
       const categories = await chatBotRepository.getRootCategories();
 
       expect(categories).to.eql(undefined);

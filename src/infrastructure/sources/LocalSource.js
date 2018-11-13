@@ -7,8 +7,22 @@ const path = require('path');
 
 class LocalSource {
 
-  constructor(dataPath){
-    this.jsonCategories = require(path.resolve(path.join(dataPath, 'categories')));
+  /**
+   * Initiate local source
+   * @param dataPath path to local data
+   * @param logger logger
+   */
+  constructor(dataPath, logger){
+    this.logger = logger;
+
+    try {
+      this.jsonCategories = require(path.resolve(path.join(dataPath, 'categories')));
+    }catch (e) {
+      this.logger.error('Error while loading local source file');
+      this.logger.error(e);
+      this.jsonCategories = [];
+    }
+
   }
 
   /**

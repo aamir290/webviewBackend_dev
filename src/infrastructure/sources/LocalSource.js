@@ -3,12 +3,11 @@
  * Could be constant or database from current repository.
  */
 const Category = require('../../domain/Category');
-const jsonCategories = require('../../../data/categories');
 
 class LocalSource {
 
-  constructor(){
-
+  constructor(dataPath){
+    this.jsonCategories = require('../../../data/categories');
   }
 
   /**
@@ -19,7 +18,7 @@ class LocalSource {
   async getRootCategories(){
     const categories = [];
 
-    jsonCategories.forEach((currentCategory)=>{
+    this.jsonCategories.forEach((currentCategory)=>{
       categories.push(new Category(currentCategory.id, currentCategory.name));
     });
 

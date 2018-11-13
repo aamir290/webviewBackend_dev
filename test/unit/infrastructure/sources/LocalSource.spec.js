@@ -14,53 +14,43 @@ describe('LocalSource', () => {
       categories.should.eql([
         {
           id: 'educ',
-          name: 'Education',
-          idParent : undefined
+          name: 'Education'
         },
         {
           id: 'fina',
-          name: 'Finance',
-          idParent : undefined
+          name: 'Finance'
         },
         {
           id: 'food',
-          name: 'Food & Drink',
-          idParent : undefined
+          name: 'Food & Drink'
         },
         {
           id: 'game',
-          name: 'Games',
-          idParent : undefined
+          name: 'Games'
         },
         {
           id: 'heal',
-          name: 'Health & Fitness',
-          idParent : undefined
+          name: 'Health & Fitness'
         },
         {
           id: 'life',
-          name: 'Lifestyle',
-          idParent : undefined
+          name: 'Lifestyle'
         },
         {
           id: 'news',
-          name: 'News & Media',
-          idParent : undefined
+          name: 'News & Media'
         },
         {
           id: 'ente',
-          name: 'Entertainment',
-          idParent : undefined
+          name: 'Entertainment'
         },
         {
           id: 'shop',
-          name: 'Shopping',
-          idParent : undefined
+          name: 'Shopping'
         },
         {
           id: 'trav',
-          name: 'Travel',
-          idParent : undefined
+          name: 'Travel'
         }
       ], 'Array categories should be the same');
     });

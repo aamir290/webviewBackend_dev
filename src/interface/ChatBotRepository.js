@@ -20,9 +20,9 @@ class ChatBotRepository {
    * Throw error if error occurs (distant server unreachable, network unavailable,...)
    * @returns {Promise<void>}
    */
-  async getAllCategories(){
-    if(this._localSource && this._localSource.getAllCategories) {
-      return this._localSource.getAllCategories();
+  async getRootCategories(){
+    if(this._localSource && this._localSource.getRootCategories) {
+      return this._localSource.getRootCategories();
     }
   }
 }

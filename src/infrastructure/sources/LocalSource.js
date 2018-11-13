@@ -12,11 +12,11 @@ class LocalSource {
   }
 
   /**
-   * Return array of categories from locals constant
+   * Return array of root categories (not subcategories)
    * Empty array if no categories.
    * @returns {Promise<void>}
    */
-  async getAllCategories(){
+  async getRootCategories(){
     const categories = [];
 
     jsonCategories.forEach((currentCategory)=>{

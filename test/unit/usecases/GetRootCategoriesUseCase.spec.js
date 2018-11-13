@@ -1,31 +1,31 @@
 /**
- * Unit tests for GetAllCategoriesUseCase
+ * Unit tests for GetRootCategoriesUseCase
  */
 const sinon = require('sinon');
-const GetAllCategoriesUseCase = require('../../../src/usecases/GetAllCategoriesUseCase');
+const GetRootCategoriesUseCase = require('../../../src/usecases/GetRootCategoriesUseCase');
 const ChatBotRepository = require('../../../src/interface/ChatBotRepository');
 
-describe('GetAllCategoriesUseCase', () => {
+describe('GetRootCategoriesUseCase', () => {
 
   context('when query is successful', () => {
     it('emits SUCCESS with a empty category array result', (done) => {
       const stubGetAllCategories = sinon.stub().resolves([]);
       const stubRepository = sinon.createStubInstance(ChatBotRepository, {
-        getAllCategories: stubGetAllCategories
+        getRootCategories: stubGetAllCategories
       });
 
-      const getAllCategories = new GetAllCategoriesUseCase(stubRepository);
+      const getRootCategories = new GetRootCategoriesUseCase(stubRepository);
 
-      getAllCategories.on(getAllCategories.events.SUCCESS, (categories) => {
+      getRootCategories.on(getRootCategories.events.SUCCESS, (categories) => {
         stubGetAllCategories.should.have.been.calledOnce;
         categories.should.eql([], 'Array categories should be the same');
         done();
       });
-      getAllCategories.on(getAllCategories.events.ERROR, () => {
+      getRootCategories.on(getRootCategories.events.ERROR, () => {
         done('fail');
       });
 
-      getAllCategories.execute();
+      getRootCategories.execute();
     });
   });
 
@@ -33,20 +33,20 @@ describe('GetAllCategoriesUseCase', () => {
     it('emits ERROR', (done) => {
       const stubGetAllCategories = sinon.stub().rejects();
       const stubRepository = sinon.createStubInstance(ChatBotRepository, {
-        getAllCategories: stubGetAllCategories
+        getRootCategories: stubGetAllCategories
       });
 
-      const getAllCategories = new GetAllCategoriesUseCase(stubRepository);
+      const getRootCategories = new GetRootCategoriesUseCase(stubRepository);
 
-      getAllCategories.on(getAllCategories.events.ERROR, () => {
+      getRootCategories.on(getRootCategories.events.ERROR, () => {
         stubGetAllCategories.should.have.been.calledOnce;
         done();
       });
-      getAllCategories.on(getAllCategories.events.SUCCESS, () => {
+      getRootCategories.on(getRootCategories.events.SUCCESS, () => {
         done('fail');
       });
 
-      getAllCategories.execute();
+      getRootCategories.execute();
     });
   });
 

@@ -7,7 +7,7 @@ const UseCase = require('./UseCase');
  *    - SUCCESS => response OK
  *    - ERROR => error in process
  */
-class GetAllCategoriesUseCase extends UseCase{
+class GetRootCategoriesUseCase extends UseCase{
 
   constructor(chatBotRepository){
     super(['SUCCESS', 'ERROR']);
@@ -22,7 +22,7 @@ class GetAllCategoriesUseCase extends UseCase{
     const { SUCCESS, ERROR } = this.events;
 
     try {
-      const categories = await this.chatBotRepository.getAllCategories();
+      const categories = await this.chatBotRepository.getRootCategories();
       this.emit(SUCCESS, categories);
     }catch (e) {
       this.emit(ERROR);
@@ -31,4 +31,4 @@ class GetAllCategoriesUseCase extends UseCase{
   }
 }
 
-module.exports = GetAllCategoriesUseCase;
+module.exports = GetRootCategoriesUseCase;

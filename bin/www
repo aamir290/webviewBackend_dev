@@ -15,7 +15,7 @@ const config = require('../config/config.js');
 
 //Load use case
 const useCaseContainer = {};
-useCaseContainer.getAllCategoriesUsecase = require('../src/usecases/GetAllCategoriesUseCase');
+useCaseContainer.getAllCategoriesUsecase = require('../src/usecases/GetRootCategoriesUseCase');
 
 //Functions/utils/middleware
 const logger = require('../src/infrastructure/logging/logger')(config);

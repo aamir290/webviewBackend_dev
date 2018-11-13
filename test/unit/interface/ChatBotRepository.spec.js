@@ -11,11 +11,11 @@ describe('ChatBotRepository', () => {
     it('return empty array when local sources has no data', async () => {
       const stubGetAllCategoriesLocalSource = sinon.stub().resolves([]);
       const stubLocalSource = sinon.createStubInstance(LocalSource, {
-        getAllCategories: stubGetAllCategoriesLocalSource
+        getRootCategories: stubGetAllCategoriesLocalSource
       });
 
       const chatBotRepository = new ChatBotRepository(stubLocalSource);
-      const categories = await chatBotRepository.getAllCategories();
+      const categories = await chatBotRepository.getRootCategories();
 
       stubGetAllCategoriesLocalSource.should.have.been.calledOnce;
       categories.should.eql([], 'Array categories should be the same');

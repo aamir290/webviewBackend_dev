@@ -8,49 +8,59 @@ describe('LocalSource', () => {
   context('when getting default categories', () => {
     it('return default categories array', async () => {
       const localSource = new LocalSource();
-      const categories = await localSource.getAllCategories();
+      const categories = await localSource.getRootCategories();
 
       categories.length.should.be.equal(10);
       categories.should.eql([
         {
           id: 'educ',
-          name: 'Education'
+          name: 'Education',
+          idParent : undefined
         },
         {
-          id: 'educ',
-          name: 'Finance'
+          id: 'fina',
+          name: 'Finance',
+          idParent : undefined
         },
         {
-          id: 'educ',
-          name: 'Food & Drink'
+          id: 'food',
+          name: 'Food & Drink',
+          idParent : undefined
         },
         {
-          id: 'educ',
-          name: 'Games'
+          id: 'game',
+          name: 'Games',
+          idParent : undefined
         },
         {
           id: 'heal',
-          name: 'Health & Fitness'
+          name: 'Health & Fitness',
+          idParent : undefined
         },
         {
           id: 'life',
-          name: 'Lifestyle'
+          name: 'Lifestyle',
+          idParent : undefined
         },
         {
           id: 'news',
-          name: 'News & Media'
+          name: 'News & Media',
+          idParent : undefined
         },
         {
           id: 'ente',
-          name: 'Entertainment'
+          name: 'Entertainment',
+          idParent : undefined
         },
         {
           id: 'shop',
-          name: 'Shopping'
+          name: 'Shopping',
+          idParent : undefined
         },
         {
           id: 'trav',
-          name: 'Travel'
+          name: 'Travel',
+          idParent : undefined
         }
       ], 'Array categories should be the same');
     });

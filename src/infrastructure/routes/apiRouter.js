@@ -37,6 +37,10 @@ class ApiRouter {
           .json(categories);
       });
 
+      getAllCategoriesUseCase.on(ERROR, ()=>{
+        next();
+      });
+
       getAllCategoriesUseCase.execute();
     }
   }

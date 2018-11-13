@@ -1,42 +1,222 @@
 [
   {
     "id" : "educ",
-    "name" : "Education"
+    "name" : "Education",
+    "subCategories" : [
+      {
+        "id": "educbook",
+        "name": "Books"
+      },
+      {
+        "id": "educcour",
+        "name": "Courses"
+      },
+      {
+        "id": "educuniv",
+        "name": "Universities"
+      },
+      {
+        "id": "educscho",
+        "name": "Schools & Colleges"
+      }
+    ]
   },
   {
-    "id" : "educ",
-    "name" : "Finance"
+    "id" : "fina",
+    "name" : "Finance",
+    "subCategories" : [
+      {
+        "id": "finabills",
+        "name": "Bills"
+      },
+      {
+        "id": "finabank",
+        "name": "Banking"
+      },
+      {
+        "id": "finainsu",
+        "name": "Insurance"
+      },
+      {
+        "id": "finapens",
+        "name": "Pensions"
+      }
+    ]
   },
   {
-    "id" : "educ",
-    "name" : "Food & Drink"
+    "id" : "food",
+    "name" : "Food & Drink",
+    "subCategories" : [
+      {
+        "id": "foodtake",
+        "name": "Takeaways"
+      },
+      {
+        "id": "foodrest",
+        "name": "Restaurants & Bars"
+      },
+      {
+        "id": "foodcafe",
+        "name": "Cafes"
+      },
+      {
+        "id": "foodcook",
+        "name": "Cooking & Baking"
+      }
+    ]
   },
   {
-    "id" : "educ",
-    "name" : "Games"
+    "id" : "game",
+    "name" : "Games",
+    "subCategories" : [
+      {
+        "id": "gametopr",
+        "name": "Top rated games"
+      },
+      {
+        "id": "gameadul",
+        "name": "Games for grown-ups"
+      },
+      {
+        "id": "gamefami",
+        "name": "Family games"
+      },
+      {
+        "id": "gamereco",
+        "name": "Recommendations"
+      }
+    ]
   },
   {
     "id" : "heal",
-    "name" : "Health & Fitness"
+    "name" : "Health & Fitness",
+    "subCategories" : [
+      {
+        "id": "healcare",
+        "name": "Healthcare"
+      },
+      {
+        "id": "healfitn",
+        "name": "Fitness"
+      },
+      {
+        "id": "healspor",
+        "name": "Sport"
+      },
+      {
+        "id": "healphar",
+        "name": "Pharmacy"
+      }
+    ]
   },
   {
     "id" : "life",
-    "name" : "Lifestyle"
+    "name" : "Lifestyle",
+    "subCategories" : [
+      {
+        "id": "liferela",
+        "name": "Relationships"
+      },
+      {
+        "id": "lifebeau",
+        "name": "Beauty"
+      },
+      {
+        "id": "lifefash",
+        "name": "Fashion"
+      },
+      {
+        "id": "lifecars",
+        "name": "Cars"
+      }
+    ]
   },
   {
     "id" : "news",
-    "name" : "News & Media"
+    "name" : "News & Media",
+    "subCategories" : [
+      {
+        "id": "newsnews",
+        "name": "Newspaper"
+      },
+      {
+        "id": "newsmaga",
+        "name": "Magazines"
+      },
+      {
+        "id": "newstele",
+        "name": "TV"
+      },
+      {
+        "id": "newsradi",
+        "name": "Radio"
+      }
+    ]
   },
   {
     "id" : "ente",
-    "name" : "Entertainment"
+    "name" : "Entertainment",
+    "subCategories" : [
+      {
+        "id": "entemovi",
+        "name": "Movies"
+      },
+      {
+        "id": "entemusi",
+        "name": "Music"
+      },
+      {
+        "id": "entethea",
+        "name": "Theaters"
+      },
+      {
+        "id": "entemuse",
+        "name": "Museums"
+      }
+    ]
   },
   {
     "id" : "shop",
-    "name" : "Shopping"
+    "name" : "Shopping",
+    "subCategories" : [
+      {
+        "id": "shoponli",
+        "name": "Online shopping"
+      },
+      {
+        "id": "shopsupe",
+        "name": "Supermarkets"
+      },
+      {
+        "id": "shopstor",
+        "name": "Stores"
+      },
+      {
+        "id": "shopmall",
+        "name": "Malls"
+      }
+    ]
   },
   {
     "id" : "trav",
-    "name" : "Travel"
+    "name" : "Travel",
+    "subCategories" : [
+      {
+        "id": "travtran",
+        "name": "Public Transport"
+      },
+      {
+        "id": "travhote",
+        "name": "Hotels"
+      },
+      {
+        "id": "travflig",
+        "name": "Flights"
+      },
+      {
+        "id": "travcars",
+        "name": "Taxis & Car Hire"
+      }
+    ]
   }
 ]

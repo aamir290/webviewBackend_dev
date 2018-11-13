@@ -23,11 +23,15 @@ class GetRootCategoriesUseCase extends UseCase{
 
     try {
       const categories = await this.chatBotRepository.getRootCategories();
-      this.emit(SUCCESS, categories);
+
+      if(categories) {
+        this.emit(SUCCESS, categories);
+      }else{
+        this.emit(ERROR);
+      }
     }catch (e) {
       this.emit(ERROR);
     }
-
   }
 }
 

@@ -18,11 +18,13 @@ class ChatBotRepository {
    * Return array of categories from chatbot repository.
    * Empty array if no categories.
    * Throw error if error occurs (distant server unreachable, network unavailable,...)
-   * @returns {Promise<void>}
+   * @returns array of root category, undefined if error occurs
    */
   async getRootCategories(){
     if(this._localSource && this._localSource.getRootCategories) {
       return this._localSource.getRootCategories();
+    }else {
+      return undefined;
     }
   }
 }

@@ -8,7 +8,7 @@ const ChatBotRepository = require('../../../src/interface/ChatBotRepository');
 describe('GetRootCategoriesUseCase', () => {
 
   context('when query is successful', () => {
-    it('emits SUCCESS with a empty category array result', (done) => {
+    it('emits SUCCESS with a category array result', (done) => {
       const stubGetAllCategories = sinon.stub().resolves([
         {
           id: 'educ',
@@ -31,6 +31,25 @@ describe('GetRootCategoriesUseCase', () => {
       });
       getRootCategories.on(getRootCategories.events.ERROR, () => {
         done('fail');
+      });
+
+      getRootCategories.execute();
+    });
+
+    it('emits ERROR when result is undefined', (done) => {
+      const stubGetAllCategories = sinon.stub().resolves(undefined);
+      const stubRepository = sinon.createStubInstance(ChatBotRepository, {
+        getRootCategories: stubGetAllCategories
+      });
+
+      const getRootCategories = new GetRootCategoriesUseCase(stubRepository);
+
+      getRootCategories.on(getRootCategories.events.SUCCESS, () => {
+        done('fail');
+      });
+      getRootCategories.on(getRootCategories.events.ERROR, () => {
+        stubGetAllCategories.should.have.been.calledOnce;
+        done();
       });
 
       getRootCategories.execute();

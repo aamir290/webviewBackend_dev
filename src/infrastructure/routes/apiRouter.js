@@ -27,21 +27,21 @@ class ApiRouter {
 
   _index(req, res, next) {
     if (this.useCaseContainer.getRootCategoriesUsecase) {
-      const getAllCategoriesUseCase = new this.useCaseContainer.getRootCategoriesUsecase(this.chatBotRepository);
-      const {SUCCESS, ERROR} = getAllCategoriesUseCase.events;
+      const getRootCategoriesUseCase = new this.useCaseContainer.getRootCategoriesUsecase(this.chatBotRepository);
+      const {SUCCESS, ERROR} = getRootCategoriesUseCase.events;
 
-      getAllCategoriesUseCase.on(SUCCESS, (categories) => {
+      getRootCategoriesUseCase.on(SUCCESS, (categories) => {
         this.logger.debug(categories);
         res
           .status(Status.OK)
           .json(categories);
       });
 
-      getAllCategoriesUseCase.on(ERROR, ()=>{
+      getRootCategoriesUseCase.on(ERROR, ()=>{
         next();
       });
 
-      getAllCategoriesUseCase.execute();
+      getRootCategoriesUseCase.execute();
     }
   }
 

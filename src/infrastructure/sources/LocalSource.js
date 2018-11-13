@@ -3,11 +3,12 @@
  * Could be constant or database from current repository.
  */
 const Category = require('../../domain/Category');
+const path = require('path');
 
 class LocalSource {
 
   constructor(dataPath){
-    this.jsonCategories = require('../../../data/categories');
+    this.jsonCategories = require(path.resolve(path.join(dataPath, 'categories')));
   }
 
   /**

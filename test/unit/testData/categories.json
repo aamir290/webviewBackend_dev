@@ -1,0 +1,46 @@
+[
+  {
+    "id" : "educ",
+    "name" : "Education",
+    "subCategories" : [
+      {
+        "id": "educbook",
+        "name": "Books"
+      },
+      {
+        "id": "educcour",
+        "name": "Courses"
+      },
+      {
+        "id": "educuniv",
+        "name": "Universities"
+      },
+      {
+        "id": "educscho",
+        "name": "Schools & Colleges"
+      }
+    ]
+  },
+  {
+    "id" : "fina",
+    "name" : "Finance",
+    "subCategories" : [
+      {
+        "id": "finabills",
+        "name": "Bills"
+      },
+      {
+        "id": "finabank",
+        "name": "Banking"
+      },
+      {
+        "id": "finainsu",
+        "name": "Insurance"
+      },
+      {
+        "id": "finapens",
+        "name": "Pensions"
+      }
+    ]
+  }
+]

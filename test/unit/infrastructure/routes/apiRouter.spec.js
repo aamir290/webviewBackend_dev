@@ -9,7 +9,7 @@ const GetRootCategoriesUseCase = require('../../../../src/usecases/GetRootCatego
 const ChatBotRepository = require('../../../../src/interface/ChatBotRepository');
 
 
-describe('GET /api', function() {
+describe('GET /getDefaultCategories', function() {
 
   it('respond with json with categories', function(done) {
     //Init
@@ -32,7 +32,7 @@ describe('GET /api', function() {
 
     //Test
     request(app)
-      .get('/api')
+      .get('/getDefaultCategories')
       .expect('Content-Type', /json/)
       .expect(200)
       .then(response => {
@@ -65,7 +65,7 @@ describe('GET /api', function() {
 
     //Test
     request(app)
-      .get('/api')
+      .get('/getDefaultCategories')
       .expect(400, done);
   });
 
@@ -79,7 +79,7 @@ describe('GET /api', function() {
 
     //Test
     request(app)
-      .get('/api')
+      .get('/getDefaultCategories')
       .expect(400, done);
   });
 
@@ -91,7 +91,7 @@ describe('GET /api', function() {
 
     //Test
     request(app)
-      .get('/api')
+      .get('/getDefaultCategories')
       .expect(400, done);
   });
 });

@@ -21,7 +21,7 @@ class ApiRouter {
   }
 
   _setupRoutes() {
-    this.apiRouter.get('/api', this._index.bind(this));
+    this.apiRouter.get('/getDefaultCategories', this._index.bind(this));
   }
 
   _index(req, res, next) {

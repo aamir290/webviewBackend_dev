@@ -29,7 +29,7 @@ module.exports = (config, requestLoggerFile, requestLogger, apiRouter) => {
   appRouter.use(express.static(path.resolve('public')));
 
   //API
-  appRouter.use(apiRouter);
+  appRouter.use('/api', apiRouter);
 
   return appRouter;
 };

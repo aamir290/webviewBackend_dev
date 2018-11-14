@@ -7,36 +7,85 @@ const ChatBotRepository = require('../../../src/interface/ChatBotRepository');
 
 describe('GetChatbotInCategoryUseCase', () => {
 
-  context('when query is unsuccessful', () => {
-    it('emits PARAMETER_ERROR when categoryid is undefined', (done) => {
-      // const stubGetAllCategories = sinon.stub().rejects();
-      // const stubRepository = sinon.createStubInstance(ChatBotRepository, {
-      //   getRootCategories: stubGetAllCategories
-      // });
+  let stubRepository;
+  let stubIsInCategoryList;
 
-      const getChatbotCategory = new GetChatbotInCategoryUseCase();
+  before(() => {
+    stubIsInCategoryList= sinon.stub();
+    stubIsInCategoryList.withArgs('tit').rejects();
+    stubIsInCategoryList.withArgs('toto').resolves(false);
+
+    stubRepository = sinon.createStubInstance(ChatBotRepository, {
+      isCategoryInList: stubIsInCategoryList
+    });
+  });
+
+  context('when query is unsuccessful', () => {
+
+    it('emits PARAMETER_ERROR when categoryid is undefined', (done) => {
+      const getChatbotCategory = new GetChatbotInCategoryUseCase(stubRepository);
 
       getChatbotCategory.on(getChatbotCategory.events.PARAMETER_ERROR, (errorMessage) => {
         errorMessage.should.eql('Incorrect category id parameter');
         done();
       });
       getChatbotCategory.on(getChatbotCategory.events.SUCCESS, () => {
-        done('fail');
+        done('fail - SUCCESS');
       });
       getChatbotCategory.on(getChatbotCategory.events.NOT_FOUND, () => {
-        done('fail');
+        done('fail - NOT_FOUND');
       });
       getChatbotCategory.on(getChatbotCategory.events.ERROR, () => {
-        done('fail');
+        done('fail - ERROR');
       });
 
       getChatbotCategory.execute();
+    });
+
+    it('emits PARAMETER_ERROR when categoryid is incorrect format', (done) => {
+      const getChatbotCategory = new GetChatbotInCategoryUseCase(stubRepository);
+
+      getChatbotCategory.on(getChatbotCategory.events.PARAMETER_ERROR, (errorMessage) => {
+        errorMessage.should.eql('Incorrect category id parameter');
+        done();
+      });
+      getChatbotCategory.on(getChatbotCategory.events.SUCCESS, () => {
+        done('fail - SUCCESS');
+      });
+      getChatbotCategory.on(getChatbotCategory.events.NOT_FOUND, () => {
+        done('fail - NOT_FOUND');
+      });
+      getChatbotCategory.on(getChatbotCategory.events.ERROR, () => {
+        done('fail - ERROR');
+      });
+
+      getChatbotCategory.execute('tit');
+    });
+
+    it('emits NOT_FOUND when categoryid does not exists', (done) => {
+      const getChatbotCategory = new GetChatbotInCategoryUseCase(stubRepository);
+
+      getChatbotCategory.on(getChatbotCategory.events.PARAMETER_ERROR, () => {
+        done('fail - PARAMETER_ERROR');
+      });
+      getChatbotCategory.on(getChatbotCategory.events.SUCCESS, () => {
+        done('fail - SUCCESS');
+      });
+      getChatbotCategory.on(getChatbotCategory.events.NOT_FOUND, () => {
+        stubIsInCategoryList.should.have.been.calledOnce;
+        done();
+      });
+      getChatbotCategory.on(getChatbotCategory.events.ERROR, () => {
+        done('fail - ERROR');
+      });
+
+      getChatbotCategory.execute('toto');
     });
   });
 
 
   afterEach(() => {
     // Restore the default sandbox here
-    sinon.restore();
+    sinon.resetHistory();
   });
 });

@@ -24,6 +24,16 @@ class GetChatbotInCategoryUseCase extends UseCase{
     const { SUCCESS, NOT_FOUND, PARAMETER_ERROR, ERROR } = this.events;
 
     if(categoryId){
+      try{
+        const isInCategoryList = await this.chatBotRepository.isCategoryInList(categoryId);
+        if(isInCategoryList){
+
+        }else{
+          this.emit(NOT_FOUND);
+        }
+      }catch (e) {
+        this.emit(PARAMETER_ERROR, 'Incorrect category id parameter');
+      }
     }else{
       this.emit(PARAMETER_ERROR, 'Incorrect category id parameter');
     }

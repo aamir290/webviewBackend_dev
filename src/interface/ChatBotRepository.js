@@ -50,10 +50,10 @@ class ChatBotRepository {
    *  @throws Error if  incorrect distant source
    */
   async getListCategory(categoryId) {
-    if(this._distantSource && this._distantSource.listCategory) {
+    if(this._distantSource && this._distantSource.listCategory && categoryId) {
       return await this._distantSource.listCategory(categoryId);
     }else{
-      throw new Error('DistantSource has no method listCategory');
+      throw new Error('DistantSource has no method listCategory or is called with wrong parameter');
     }
   }
 }

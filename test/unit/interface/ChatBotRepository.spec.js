@@ -185,6 +185,12 @@ describe('ChatBotRepository', () => {
       await chatBotRepository.getListCategory().should.be.rejected;
     });
 
+    it('throw error when no parameter', async () => {
+      const chatBotRepository = new ChatBotRepository(stubDistantSource);
+
+      await chatBotRepository.getListCategory().should.be.rejected;
+    });
+
     afterEach(() => {
       // Reset count
       sinon.resetHistory();

@@ -26,7 +26,7 @@ class LocalSource {
   }
 
   /**
-   * Return array of root categories (not subcategories)
+   * Return array of root categories (with no subcategories)
    * Empty array if no categories.
    * @returns categories array
    */
@@ -46,11 +46,28 @@ class LocalSource {
    * @return true if present, false otherwise
    */
   isCategoryInList(categoryId){
-    const found = this.jsonCategories.find(function(currentCategory) {
-      return currentCategory.id === categoryId;
-    });
+    if(categoryId && categoryId.length >= 4) {
+      const rootCategory = categoryId.substring(0, 4);  //Get root category
+      const found = this.jsonCategories.find(function (currentCategory) {
+        if(currentCategory.id === rootCategory){
+          if(currentCategory.id === categoryId){
+            //It's the root category
+            return true;
+          }else{
+            //It's a sub category
+            return currentCategory.subCategories.find(function (currentSubCategory) {
+              return currentSubCategory.id === categoryId;
+            }) !== undefined;
+          }
+        }
 
-    return found !== undefined;
+      });
+
+      return found !== undefined;
+    }else{
+      this.logger.error('isCategoryInList - Requesting undefined');
+      throw new Error('Missing parameter');
+    }
   }
 
 }

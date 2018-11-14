@@ -6,6 +6,7 @@ const request = require('supertest');
 const express = require('express');
 const ApiRouter = require('../../../../src/infrastructure/routes/ApiRouter');
 const GetRootCategoriesUseCase = require('../../../../src/usecases/GetRootCategoriesUseCase');
+const GetChatbotInCategoryUseCase = require('../../../../src/usecases/GetChatbotInCategoryUseCase');
 const ChatBotRepository = require('../../../../src/interface/ChatBotRepository');
 
 
@@ -103,12 +104,76 @@ describe('GET /getDefaultCategories', function () {
 
 describe('GET /listCategory', function () {
 
+  let stubRepository, useCaseContainer, getChatbotInCategoryUseCaseImpl;
+
+  before(() => {
+    const stubIsInCategoryList= sinon.stub();
+    stubIsInCategoryList.withArgs('tit').rejects();
+    stubIsInCategoryList.withArgs('toto').resolves(false);
+    stubIsInCategoryList.withArgs('fina').resolves(true);
+    stubIsInCategoryList.withArgs('finabank').resolves(true);
+
+    const stubGetListCategory= sinon.stub();
+    stubGetListCategory.withArgs('fina').resolves({
+      result: [
+        {
+          category: 'finabank',
+          description: 'elue meilleure banque pour les jeunes',
+          icon: 'https://upload.wikimedia.org/wikipedia/fr/0/09/Orange_Bank_2017.png',
+          id: 'orangebank@botplatform.orange.fr',
+          name: 'Orange Bank'
+        },
+        {
+          category: 'finabank',
+          description: 'oldest bank in town',
+          icon: 'http://icons.iconarchive.com/icons/designcontest/ecommerce-business/128/bank-icon.png',
+          id: 'oldbank@botplatform.orange.fr',
+          name: 'Old Bank'
+        }]});
+    stubGetListCategory.withArgs('finabank').rejects();
+
+    stubRepository = sinon.createStubInstance(ChatBotRepository, {
+      isCategoryInList: stubIsInCategoryList,
+      getListCategory: stubGetListCategory
+    });
+
+
+    getChatbotInCategoryUseCaseImpl = new GetChatbotInCategoryUseCase(stubRepository);
+    useCaseContainer = {};
+    useCaseContainer.getChatbotInCategoryUseCase = getChatbotInCategoryUseCaseImpl;
+  });
+
   context('when query is successful', () => {
 
+    it('respond with 404 when category not found', function (done) {
+      const apiRouter = new ApiRouter(useCaseContainer, {}, {});
+      const app = express();
+      app.use(apiRouter.apiRouter);
+
+      //Test
+      request(app)
+        .get('/listCategory/toto')
+        .expect(404, done);
+    });
   });
 
   context('when query is unsuccessful', () => {
 
+    it('respond with error when category parameter incorrect', function (done) {
+      //Init
+      const useCaseContainer = {};
+      useCaseContainer.getRootCategoriesUsecase = {};
+
+
+      const apiRouter = new ApiRouter(useCaseContainer, {}, {});
+      const app = express();
+      app.use(apiRouter.apiRouter);
+
+      //Test
+      request(app)
+        .get('/listCategory')
+        .expect(400, done);
+    });
 
     it('respond with error when parameter not set', function (done) {
       //Init
@@ -151,5 +216,10 @@ describe('GET /listCategory', function () {
         .get('/listCategory')
         .expect(400, done);
     });
+  });
+
+  afterEach(() => {
+    // Restore the default sandbox here
+    sinon.resetHistory();
   });
 });

@@ -7,7 +7,6 @@ const UseCase = require('./UseCase');
  *    - SUCCESS => response OK
  *    - NOT_FOUND => unknown category
  *    - PARAMETER_ERROR => error with category parameter (+ error message)
- *    - ERROR => error in process
  */
 class GetChatbotInCategoryUseCase extends UseCase{
 

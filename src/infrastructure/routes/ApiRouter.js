@@ -55,7 +55,7 @@ class ApiRouter {
   }
 
   /**
-   * handle request /litsCategory
+   * handle request /listCategory
    * @param req
    * @param res
    * @param next

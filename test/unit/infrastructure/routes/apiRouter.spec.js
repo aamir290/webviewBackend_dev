@@ -103,11 +103,28 @@ describe('GET /getDefaultCategories', function () {
 
 describe('GET /listCategory', function () {
 
-  context('when query is unsuccessful', () => {
+  context('when query is successful', () => {
 
   });
 
   context('when query is unsuccessful', () => {
+
+
+    it('respond with error when parameter not set', function (done) {
+      //Init
+      const useCaseContainer = {};
+      useCaseContainer.getRootCategoriesUsecase = {};
+
+
+      const apiRouter = new ApiRouter(useCaseContainer, {}, {});
+      const app = express();
+      app.use(apiRouter.apiRouter);
+
+      //Test
+      request(app)
+        .get('/listCategory')
+        .expect(400, done);
+    });
 
     it('respond with error when usecase not added to container', function (done) {
       //Init

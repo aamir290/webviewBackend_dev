@@ -1,12 +1,14 @@
 /**
  * Unit tests for chatBotReoository
  */
-const {expect} = require('chai');
 const sinon = require('sinon');
 const ChatBotRepository = require('../../../src/interface/ChatBotRepository');
 const LocalSource = require('../../../src/infrastructure/sources/LocalSource');
+const DistantSource = require('../../../src/infrastructure/sources/DistantSource');
 
 describe('ChatBotRepository', () => {
+
+  /***********************************************************************************************************/
 
   context('when getting default categories', () => {
     it('return empty array when local sources has no data', async () => {
@@ -48,6 +50,8 @@ describe('ChatBotRepository', () => {
       await chatBotRepository.getRootCategories().should.be.rejected;
     });
   });
+
+  /***********************************************************************************************************/
 
   context('when testing category in list', () => {
 
@@ -106,19 +110,72 @@ describe('ChatBotRepository', () => {
     });
   });
 
+  /***********************************************************************************************************/
+
   context('when testing get listcategory', () => {
 
-    let stubLocalSource;
-    let stubIsCategoryInListLocalSource;
+    let stubDistantSource;
+    let stubListCategory;
 
     before(() => {
-      stubIsCategoryInListLocalSource = sinon.stub();
-      stubIsCategoryInListLocalSource.withArgs('titi').resolves(true);
-      stubIsCategoryInListLocalSource.withArgs('toto').resolves(false);
-      stubIsCategoryInListLocalSource.rejects('Missing parameter');
+      stubListCategory = sinon.stub();
+      stubListCategory.withArgs('titi').resolves({
+        result: [
+          {
+            category: 'finabank',
+            description: 'elue meilleure banque pour les jeunes',
+            icon: 'https://upload.wikimedia.org/wikipedia/fr/0/09/Orange_Bank_2017.png',
+            id: 'orangebank@botplatform.orange.fr',
+            name: 'Orange Bank'
+          },
+          {
+            category: 'finabank',
+            description: 'oldest bank in town',
+            icon: 'http://icons.iconarchive.com/icons/designcontest/ecommerce-business/128/bank-icon.png',
+            id: 'oldbank@botplatform.orange.fr',
+            name: 'Old Bank'
+          }]});
+      stubListCategory.withArgs('toto').resolves({
+        result: []
+      });
+      stubListCategory.rejects('Missing parameter');
 
-      stubLocalSource = sinon.createStubInstance(LocalSource, {
-        isCategoryInList: stubIsCategoryInListLocalSource
+      stubDistantSource = sinon.createStubInstance(DistantSource, {
+        listCategory: stubListCategory
+      });
+    });
+
+    it('return array of chatbot when distant source return array', async () => {
+      const chatBotRepository = new ChatBotRepository({}, stubDistantSource);
+      const isInList = await chatBotRepository.getListCategory('titi');
+
+      stubListCategory.should.have.been.calledOnce;
+      isInList.should.eql({
+        result: [
+          {
+            category: 'finabank',
+            description: 'elue meilleure banque pour les jeunes',
+            icon: 'https://upload.wikimedia.org/wikipedia/fr/0/09/Orange_Bank_2017.png',
+            id: 'orangebank@botplatform.orange.fr',
+            name: 'Orange Bank'
+          },
+          {
+            category: 'finabank',
+            description: 'oldest bank in town',
+            icon: 'http://icons.iconarchive.com/icons/designcontest/ecommerce-business/128/bank-icon.png',
+            id: 'oldbank@botplatform.orange.fr',
+            name: 'Old Bank'
+          }]});
+
+    });
+
+    it('return empty array of chatbot when distant source return empty array', async () => {
+      const chatBotRepository = new ChatBotRepository({}, stubDistantSource);
+      const isInList = await chatBotRepository.getListCategory('toto');
+
+      stubListCategory.should.have.been.calledOnce;
+      isInList.should.eql({
+        result: []
       });
     });
 

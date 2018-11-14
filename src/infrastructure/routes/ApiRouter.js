@@ -22,6 +22,7 @@ class ApiRouter {
 
   _setupRoutes() {
     this.apiRouter.get('/getDefaultCategories', this._getDefaultCategory.bind(this));
+    this.apiRouter.get('/listCategory', this._getListCategory.bind(this));
   }
 
   _getDefaultCategory(req, res, next) {
@@ -42,6 +43,16 @@ class ApiRouter {
       });
 
       getRootCategoriesUseCase.execute();
+    }else{
+      res
+        .status(Status.BAD_REQUEST)
+        .send();
+    }
+  }
+
+  _getListCategory(req, res, next) {
+    if (this.useCaseContainer.getChatbotInCategoryUseCase) {
+
     }else{
       res
         .status(Status.BAD_REQUEST)

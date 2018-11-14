@@ -53,13 +53,21 @@ describe('ChatBotRepository', () => {
 
   context('when testing category in list', () => {
 
+    let stubLocalSource;
+    let stubIsCategoryInListLocalSource;
 
-    it('return true when localsource return true', async () => {
-      const stubIsCategoryInListLocalSource = sinon.stub().resolves(true);
-      const stubLocalSource = sinon.createStubInstance(LocalSource, {
+    before(() => {
+      stubIsCategoryInListLocalSource = sinon.stub();
+      stubIsCategoryInListLocalSource.withArgs('titi').resolves(true);
+      stubIsCategoryInListLocalSource.withArgs('toto').resolves(false);
+      stubIsCategoryInListLocalSource.rejects('Missing parameter');
+
+      stubLocalSource = sinon.createStubInstance(LocalSource, {
         isCategoryInList: stubIsCategoryInListLocalSource
       });
+    });
 
+    it('return true when localsource return true', async () => {
       const chatBotRepository = new ChatBotRepository(stubLocalSource);
       const isInList = await chatBotRepository.isCategoryInList('titi');
 
@@ -69,13 +77,8 @@ describe('ChatBotRepository', () => {
     });
 
     it('return true when localsource return false', async () => {
-      const stubIsCategoryInListLocalSource = sinon.stub().resolves(false);
-      const stubLocalSource = sinon.createStubInstance(LocalSource, {
-        isCategoryInList: stubIsCategoryInListLocalSource
-      });
-
       const chatBotRepository = new ChatBotRepository(stubLocalSource);
-      const isInList = await chatBotRepository.isCategoryInList('titi');
+      const isInList = await chatBotRepository.isCategoryInList('toto');
 
       stubIsCategoryInListLocalSource.should.have.been.calledOnce;
       isInList.should.eql(false);
@@ -83,20 +86,19 @@ describe('ChatBotRepository', () => {
     });
 
     it('reject when localsource throw error', async () => {
-      const stubIsCategoryInListLocalSource = sinon.stub().rejects('Missing parameter');
-      const stubLocalSource = sinon.createStubInstance(LocalSource, {
-        isCategoryInList: stubIsCategoryInListLocalSource
-      });
-
       const chatBotRepository = new ChatBotRepository(stubLocalSource);
 
-      chatBotRepository.isCategoryInList('titi').should.be.rejected;
+      chatBotRepository.isCategoryInList().should.be.rejected;
     });
-  });
 
+    afterEach(() => {
+      // Reset count
+      sinon.resetHistory();
+    });
 
-  afterEach(() => {
-    // Restore the default sandbox here
-    sinon.restore();
+    after(()=>{
+      //restore all previous stubed method
+      sinon.restore();
+    });
   });
 });

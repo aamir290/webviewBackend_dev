@@ -28,9 +28,9 @@ class LocalSource {
   /**
    * Return array of root categories (not subcategories)
    * Empty array if no categories.
-   * @returns {Promise<void>}
+   * @returns categories array
    */
-  async getRootCategories(){
+  getRootCategories(){
     const categories = [];
 
     this.jsonCategories.forEach((currentCategory)=>{
@@ -39,6 +39,7 @@ class LocalSource {
 
     return categories;
   }
+
 }
 
 module.exports = LocalSource;

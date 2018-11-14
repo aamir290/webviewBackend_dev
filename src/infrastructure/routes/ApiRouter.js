@@ -36,7 +36,9 @@ class ApiRouter {
       });
 
       getRootCategoriesUseCase.on(ERROR, ()=>{
-        next();
+        res
+          .status(Status.BAD_REQUEST)
+          .send();
       });
 
       getRootCategoriesUseCase.execute();

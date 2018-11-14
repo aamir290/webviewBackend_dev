@@ -48,4 +48,24 @@ describe('GET /api', function() {
         done(e);
       });
   });
+
+  it('respond with error when error occurs', function(done) {
+    //Init
+    const stubChatBotRepository = sinon.createStubInstance(ChatBotRepository, {
+      getRootCategories: sinon.stub().rejects(),
+    });
+    const getRootCategoriesUseCaseImpl = new GetRootCategoriesUseCase(stubChatBotRepository);
+    const useCaseContainer = {};
+    useCaseContainer.getRootCategoriesUsecase = getRootCategoriesUseCaseImpl;
+
+
+    const apiRouter = new ApiRouter(useCaseContainer, {}, {});
+    const app = express();
+    app.use(apiRouter.apiRouter);
+
+    //Test
+    request(app)
+      .get('/api')
+      .expect(400, done);
+  });
 });

@@ -45,9 +45,7 @@ describe('ChatBotRepository', () => {
 
     it('return undefined when local source has a problem', async () => {
       const chatBotRepository = new ChatBotRepository();
-      const categories = await chatBotRepository.getRootCategories();
-
-      expect(categories).to.eql(undefined);
+      await chatBotRepository.getRootCategories().should.be.rejected;
     });
   });
 
@@ -91,12 +89,18 @@ describe('ChatBotRepository', () => {
       chatBotRepository.isCategoryInList().should.be.rejected;
     });
 
+    it('throw error when problem with local source', async () => {
+      const chatBotRepository = new ChatBotRepository();
+
+      await chatBotRepository.isCategoryInList().should.be.rejected;
+    });
+
     afterEach(() => {
       // Reset count
       sinon.resetHistory();
     });
 
-    after(()=>{
+    after(() => {
       //restore all previous stubed method
       sinon.restore();
     });

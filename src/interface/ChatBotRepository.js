@@ -24,7 +24,7 @@ class ChatBotRepository {
     if (this._localSource && this._localSource.getRootCategories) {
       return this._localSource.getRootCategories();
     } else {
-      return undefined;
+      throw new Error('LocalSource has no method getRootCategories');
     }
   }
 
@@ -35,7 +35,11 @@ class ChatBotRepository {
    * @throws Error if categoryId parameter incorrect
    */
   async isCategoryInList(categoryId) {
-    return await this._localSource.isCategoryInList(categoryId);
+    if (this._localSource && this._localSource.isCategoryInList) {
+      return await this._localSource.isCategoryInList(categoryId);
+    }else{
+      throw new Error('LocalSource has no method isCategoryInList');
+    }
   }
 }
 

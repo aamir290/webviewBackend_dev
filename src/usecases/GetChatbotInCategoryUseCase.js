@@ -12,7 +12,7 @@ const UseCase = require('./UseCase');
 class GetChatbotInCategoryUseCase extends UseCase{
 
   constructor(chatBotRepository){
-    super(['SUCCESS', 'NOT_FOUND', 'PARAMETER_ERROR', 'ERROR']);
+    super(['SUCCESS', 'NOT_FOUND', 'PARAMETER_ERROR']);
 
     this.chatBotRepository = chatBotRepository;
   }
@@ -21,13 +21,14 @@ class GetChatbotInCategoryUseCase extends UseCase{
    * Launch use case task
    */
   async execute(categoryId){
-    const { SUCCESS, NOT_FOUND, PARAMETER_ERROR, ERROR } = this.events;
+    const { SUCCESS, NOT_FOUND, PARAMETER_ERROR} = this.events;
 
     if(categoryId){
       try{
         const isInCategoryList = await this.chatBotRepository.isCategoryInList(categoryId);
         if(isInCategoryList){
-
+          const chatbotArray = await this.chatBotRepository.getListCategory(categoryId);
+          this.emit(SUCCESS, chatbotArray);
         }else{
           this.emit(NOT_FOUND);
         }

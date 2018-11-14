@@ -9,16 +9,82 @@ describe('GetChatbotInCategoryUseCase', () => {
 
   let stubRepository;
   let stubIsInCategoryList;
+  let stubGetListCategory;
 
   before(() => {
     stubIsInCategoryList= sinon.stub();
     stubIsInCategoryList.withArgs('tit').rejects();
     stubIsInCategoryList.withArgs('toto').resolves(false);
+    stubIsInCategoryList.withArgs('fina').resolves(true);
+    stubIsInCategoryList.withArgs('finabank').resolves(true);
+
+    stubGetListCategory= sinon.stub();
+    stubGetListCategory.withArgs('fina').resolves({
+      result: [
+        {
+          category: 'finabank',
+          description: 'elue meilleure banque pour les jeunes',
+          icon: 'https://upload.wikimedia.org/wikipedia/fr/0/09/Orange_Bank_2017.png',
+          id: 'orangebank@botplatform.orange.fr',
+          name: 'Orange Bank'
+        },
+        {
+          category: 'finabank',
+          description: 'oldest bank in town',
+          icon: 'http://icons.iconarchive.com/icons/designcontest/ecommerce-business/128/bank-icon.png',
+          id: 'oldbank@botplatform.orange.fr',
+          name: 'Old Bank'
+        }]});
+    stubGetListCategory.withArgs('finabank').rejects();
 
     stubRepository = sinon.createStubInstance(ChatBotRepository, {
-      isCategoryInList: stubIsInCategoryList
+      isCategoryInList: stubIsInCategoryList,
+      getListCategory: stubGetListCategory
     });
   });
+
+  /*************************************************************************/
+
+  context('when query is successful', () => {
+
+    it('emits Success with array of chatbot when category exists and chatbots exists', (done) => {
+      const getChatbotCategory = new GetChatbotInCategoryUseCase(stubRepository);
+
+      getChatbotCategory.on(getChatbotCategory.events.PARAMETER_ERROR, () => {
+        done('fail - PARAMETER_ERROR');
+      });
+      getChatbotCategory.on(getChatbotCategory.events.SUCCESS, (chatbotResult) => {
+        stubIsInCategoryList.should.have.been.calledOnce;
+        stubGetListCategory.should.have.been.calledOnce;
+
+        chatbotResult.should.eql({
+          result: [
+            {
+              category: 'finabank',
+              description: 'elue meilleure banque pour les jeunes',
+              icon: 'https://upload.wikimedia.org/wikipedia/fr/0/09/Orange_Bank_2017.png',
+              id: 'orangebank@botplatform.orange.fr',
+              name: 'Orange Bank'
+            },
+            {
+              category: 'finabank',
+              description: 'oldest bank in town',
+              icon: 'http://icons.iconarchive.com/icons/designcontest/ecommerce-business/128/bank-icon.png',
+              id: 'oldbank@botplatform.orange.fr',
+              name: 'Old Bank'
+            }]});
+        done();
+      });
+      getChatbotCategory.on(getChatbotCategory.events.NOT_FOUND, () => {
+        done('fail - NOT_FOUND');
+      });
+
+      getChatbotCategory.execute('fina');
+    });
+
+  });
+
+  /*************************************************************************/
 
   context('when query is unsuccessful', () => {
 
@@ -34,9 +100,6 @@ describe('GetChatbotInCategoryUseCase', () => {
       });
       getChatbotCategory.on(getChatbotCategory.events.NOT_FOUND, () => {
         done('fail - NOT_FOUND');
-      });
-      getChatbotCategory.on(getChatbotCategory.events.ERROR, () => {
-        done('fail - ERROR');
       });
 
       getChatbotCategory.execute();
@@ -55,9 +118,6 @@ describe('GetChatbotInCategoryUseCase', () => {
       getChatbotCategory.on(getChatbotCategory.events.NOT_FOUND, () => {
         done('fail - NOT_FOUND');
       });
-      getChatbotCategory.on(getChatbotCategory.events.ERROR, () => {
-        done('fail - ERROR');
-      });
 
       getChatbotCategory.execute('tit');
     });
@@ -75,11 +135,26 @@ describe('GetChatbotInCategoryUseCase', () => {
         stubIsInCategoryList.should.have.been.calledOnce;
         done();
       });
-      getChatbotCategory.on(getChatbotCategory.events.ERROR, () => {
-        done('fail - ERROR');
-      });
 
       getChatbotCategory.execute('toto');
+    });
+
+    it('emits PARAMETER_ERROR when error occurs with distant source', (done) => {
+      const getChatbotCategory = new GetChatbotInCategoryUseCase(stubRepository);
+
+      getChatbotCategory.on(getChatbotCategory.events.PARAMETER_ERROR, () => {
+        stubIsInCategoryList.should.have.been.calledOnce;
+        stubGetListCategory.should.have.been.calledOnce;
+        done();
+      });
+      getChatbotCategory.on(getChatbotCategory.events.SUCCESS, () => {
+        done('fail - SUCCESS');
+      });
+      getChatbotCategory.on(getChatbotCategory.events.NOT_FOUND, () => {
+        done('fail - NOT_FOUND');
+      });
+
+      getChatbotCategory.execute('finabank');
     });
   });
 

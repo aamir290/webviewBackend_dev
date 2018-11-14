@@ -51,6 +51,50 @@ describe('ChatBotRepository', () => {
     });
   });
 
+  context('when testing category in list', () => {
+
+
+    it('return true when localsource return true', async () => {
+      const stubIsCategoryInListLocalSource = sinon.stub().resolves(true);
+      const stubLocalSource = sinon.createStubInstance(LocalSource, {
+        isCategoryInList: stubIsCategoryInListLocalSource
+      });
+
+      const chatBotRepository = new ChatBotRepository(stubLocalSource);
+      const isInList = await chatBotRepository.isCategoryInList('titi');
+
+      stubIsCategoryInListLocalSource.should.have.been.calledOnce;
+      isInList.should.eql(true);
+
+    });
+
+    it('return true when localsource return false', async () => {
+      const stubIsCategoryInListLocalSource = sinon.stub().resolves(false);
+      const stubLocalSource = sinon.createStubInstance(LocalSource, {
+        isCategoryInList: stubIsCategoryInListLocalSource
+      });
+
+      const chatBotRepository = new ChatBotRepository(stubLocalSource);
+      const isInList = await chatBotRepository.isCategoryInList('titi');
+
+      stubIsCategoryInListLocalSource.should.have.been.calledOnce;
+      isInList.should.eql(false);
+
+    });
+
+    it('reject when localsource throw error', async () => {
+      const stubIsCategoryInListLocalSource = sinon.stub().rejects('Missing parameter');
+      const stubLocalSource = sinon.createStubInstance(LocalSource, {
+        isCategoryInList: stubIsCategoryInListLocalSource
+      });
+
+      const chatBotRepository = new ChatBotRepository(stubLocalSource);
+
+      chatBotRepository.isCategoryInList('titi').should.be.rejected;
+    });
+  });
+
+
   afterEach(() => {
     // Restore the default sandbox here
     sinon.restore();

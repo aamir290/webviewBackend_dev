@@ -9,7 +9,7 @@ class ChatBotRepository {
    * @param localSource local sources for data
    * @param distantSource distant soruce for data, aka server
    */
-  constructor(localSource, distantSource){
+  constructor(localSource, distantSource) {
     this._localSource = localSource;
     this._distantSource = distantSource;
   }
@@ -20,12 +20,22 @@ class ChatBotRepository {
    * Throw error if error occurs (distant server unreachable, network unavailable,...)
    * @returns array of root category, undefined if error occurs
    */
-  async getRootCategories(){
-    if(this._localSource && this._localSource.getRootCategories) {
+  async getRootCategories() {
+    if (this._localSource && this._localSource.getRootCategories) {
       return this._localSource.getRootCategories();
-    }else {
+    } else {
       return undefined;
     }
+  }
+
+  /**
+   * Test if categorie exists in list or not.
+   * @param categoryId id of category to test
+   * @returns {boolean} true if category exists, false otherwise
+   * @throws Error if categoryId parameter incorrect
+   */
+  async isCategoryInList(categoryId) {
+    return await this._localSource.isCategoryInList(categoryId);
   }
 }
 

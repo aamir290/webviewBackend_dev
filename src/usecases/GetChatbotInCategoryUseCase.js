@@ -24,7 +24,6 @@ class GetChatbotInCategoryUseCase extends UseCase{
     const { SUCCESS, NOT_FOUND, PARAMETER_ERROR, ERROR } = this.events;
 
     if(categoryId){
-
     }else{
       this.emit(PARAMETER_ERROR, 'Incorrect category id parameter');
     }

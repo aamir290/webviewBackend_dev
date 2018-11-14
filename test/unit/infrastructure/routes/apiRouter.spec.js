@@ -68,4 +68,30 @@ describe('GET /api', function() {
       .get('/api')
       .expect(400, done);
   });
+
+  it('respond with error when usecase not added to container', function(done) {
+    //Init
+    const useCaseContainer = {};
+
+    const apiRouter = new ApiRouter(useCaseContainer, {}, {});
+    const app = express();
+    app.use(apiRouter.apiRouter);
+
+    //Test
+    request(app)
+      .get('/api')
+      .expect(400, done);
+  });
+
+  it('respond with error when no container', function(done) {
+    //Init
+    const apiRouter = new ApiRouter(undefined, {}, {});
+    const app = express();
+    app.use(apiRouter.apiRouter);
+
+    //Test
+    request(app)
+      .get('/api')
+      .expect(400, done);
+  });
 });

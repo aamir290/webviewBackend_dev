@@ -42,6 +42,10 @@ class ApiRouter {
       });
 
       getRootCategoriesUseCase.execute();
+    }else{
+      res
+        .status(Status.BAD_REQUEST)
+        .send();
     }
   }
 

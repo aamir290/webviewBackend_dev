@@ -12,9 +12,8 @@ const Status = require('http-status');
  */
 class ApiRouter {
 
-  constructor(useCaseContainer, chatBotRepository, logger) {
+  constructor(useCaseContainer, logger) {
     this.useCaseContainer = useCaseContainer || {};
-    this.chatBotRepository = chatBotRepository;
     this.logger = logger;
     this.apiRouter = express.Router();
 
@@ -27,11 +26,10 @@ class ApiRouter {
 
   _index(req, res, next) {
     if (this.useCaseContainer.getRootCategoriesUsecase) {
-      const getRootCategoriesUseCase = new this.useCaseContainer.getRootCategoriesUsecase(this.chatBotRepository);
+      const getRootCategoriesUseCase = this.useCaseContainer.getRootCategoriesUsecase;
       const {SUCCESS, ERROR} = getRootCategoriesUseCase.events;
 
       getRootCategoriesUseCase.on(SUCCESS, (categories) => {
-        this.logger.debug(categories);
         res
           .status(Status.OK)
           .json(categories);

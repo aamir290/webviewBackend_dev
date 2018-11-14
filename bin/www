@@ -11,14 +11,11 @@ const Server = require('../src/infrastructure/Server');
 const Application = require('../src/infrastructure/Application');
 const LocalSource = require('../src/infrastructure/sources/LocalSource');
 const ChatBotRepository = require('../src/interface/ChatBotRepository');
-const ApiRouter = require('../src/infrastructure/routes/apiRouter');
+const ApiRouter = require('../src/infrastructure/routes/ApiRouter');
 
 //Configuration
 const config = require('../config/config.js');
 
-//Load use case
-const useCaseContainer = {};
-useCaseContainer.getRootCategoriesUsecase = require('../src/usecases/GetRootCategoriesUseCase');
 
 //Functions/utils/middleware
 const logger = require('../src/infrastructure/logging/logger')(config);
@@ -30,7 +27,13 @@ const requestLogger = require('../src/infrastructure/logging/requestLoggerMiddle
 const localSourceImpl = new LocalSource('data', logger);
 const chatBotRepositoryImpl = new ChatBotRepository(localSourceImpl);
 
-const apiRouterImpl = new ApiRouter(useCaseContainer, chatBotRepositoryImpl, logger);
+//Load use case
+const useCaseContainer = {};
+const GetRootCategoriesUsecase = require('../src/usecases/GetRootCategoriesUseCase');
+useCaseContainer.getRootCategoriesUsecase = new GetRootCategoriesUsecase(chatBotRepositoryImpl);
+
+
+const apiRouterImpl = new ApiRouter(useCaseContainer, logger);
 const mainRouter = require('../src/infrastructure/routes/router')(config, requestLoggerFile, requestLogger, apiRouterImpl.apiRouter);
 
 const currentServer = new Server(mainRouter, config, logger);

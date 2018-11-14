@@ -105,4 +105,37 @@ describe('ChatBotRepository', () => {
       sinon.restore();
     });
   });
+
+  context('when testing get listcategory', () => {
+
+    let stubLocalSource;
+    let stubIsCategoryInListLocalSource;
+
+    before(() => {
+      stubIsCategoryInListLocalSource = sinon.stub();
+      stubIsCategoryInListLocalSource.withArgs('titi').resolves(true);
+      stubIsCategoryInListLocalSource.withArgs('toto').resolves(false);
+      stubIsCategoryInListLocalSource.rejects('Missing parameter');
+
+      stubLocalSource = sinon.createStubInstance(LocalSource, {
+        isCategoryInList: stubIsCategoryInListLocalSource
+      });
+    });
+
+    it('throw error when problem with distant source', async () => {
+      const chatBotRepository = new ChatBotRepository();
+
+      await chatBotRepository.getListCategory().should.be.rejected;
+    });
+
+    afterEach(() => {
+      // Reset count
+      sinon.resetHistory();
+    });
+
+    after(() => {
+      //restore all previous stubed method
+      sinon.restore();
+    });
+  });
 });

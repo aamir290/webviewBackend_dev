@@ -19,6 +19,7 @@ class ChatBotRepository {
    * Empty array if no categories.
    * Throw error if error occurs (distant server unreachable, network unavailable,...)
    * @returns array of root category, undefined if error occurs
+   * @throws Error if  incorrect localsource
    */
   async getRootCategories() {
     if (this._localSource && this._localSource.getRootCategories) {
@@ -29,16 +30,30 @@ class ChatBotRepository {
   }
 
   /**
-   * Test if categorie exists in list or not.
+   * Test if category exists in list or not.
    * @param categoryId id of category to test
    * @returns {boolean} true if category exists, false otherwise
-   * @throws Error if categoryId parameter incorrect
+   * @throws Error if categoryId parameter incorrect or incorrect localsource
    */
   async isCategoryInList(categoryId) {
     if (this._localSource && this._localSource.isCategoryInList) {
       return await this._localSource.isCategoryInList(categoryId);
     }else{
       throw new Error('LocalSource has no method isCategoryInList');
+    }
+  }
+
+  /**
+   * Return list of chatbot associated with given catgeory id.
+   * @param categoryId category id to retrive chatbot from
+   * @returns {Promise<void>} array of chatbot (could be empty if no chatbot found)
+   *  @throws Error if  incorrect distant source
+   */
+  async getListCategory(categoryId) {
+    if(this._distantSource && this._distantSource.listCategory) {
+
+    }else{
+      throw new Error('DistantSource has no method listCategory');
     }
   }
 }

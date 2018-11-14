@@ -40,6 +40,19 @@ class LocalSource {
     return categories;
   }
 
+  /**
+   * Test if given category present in category repository (category or subCategory)
+   * @param categoryId id of category to test
+   * @return true if present, false otherwise
+   */
+  isCategoryInList(categoryId){
+    const found = this.jsonCategories.find(function(currentCategory) {
+      return currentCategory.id === categoryId;
+    });
+
+    return found !== undefined;
+  }
+
 }
 
 module.exports = LocalSource;

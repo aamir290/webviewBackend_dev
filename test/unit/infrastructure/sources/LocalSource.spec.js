@@ -36,4 +36,20 @@ describe('LocalSource', () => {
       stubLogger.error.should.have.been.calledTwice;
     });
   });
+
+  context('when testing category in category list', () => {
+    it('return true if category exists', async () => {
+      const localSource = new LocalSource(testDataPath);
+      const isInCategoryList = await localSource.isCategoryInList('fina');
+
+      isInCategoryList.should.be.equal(true);
+    });
+
+    it('return false if category does not exist', async () => {
+      const localSource = new LocalSource(testDataPath);
+      const isInCategoryList = await localSource.isCategoryInList('toto');
+
+      isInCategoryList.should.be.equal(false);
+    });
+  });
 });

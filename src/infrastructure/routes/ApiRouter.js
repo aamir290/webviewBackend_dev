@@ -21,10 +21,10 @@ class ApiRouter {
   }
 
   _setupRoutes() {
-    this.apiRouter.get('/getDefaultCategories', this._index.bind(this));
+    this.apiRouter.get('/getDefaultCategories', this._getDefaultCategory.bind(this));
   }
 
-  _index(req, res, next) {
+  _getDefaultCategory(req, res, next) {
     if (this.useCaseContainer.getRootCategoriesUsecase) {
       const getRootCategoriesUseCase = this.useCaseContainer.getRootCategoriesUsecase;
       const {SUCCESS, ERROR} = getRootCategoriesUseCase.events;

@@ -155,6 +155,40 @@ describe('GET /listCategory', function () {
         .get('/listCategory/toto')
         .expect(404, done);
     });
+
+    it('respond with array of chatbots when category found', function (done) {
+      const apiRouter = new ApiRouter(useCaseContainer, {}, {});
+      const app = express();
+      app.use(apiRouter.apiRouter);
+
+      //Test
+      request(app)
+        .get('/listCategory/fina')
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .then(response => {
+          response.body.should.eql({
+            result: [
+              {
+                category: 'finabank',
+                description: 'elue meilleure banque pour les jeunes',
+                icon: 'https://upload.wikimedia.org/wikipedia/fr/0/09/Orange_Bank_2017.png',
+                id: 'orangebank@botplatform.orange.fr',
+                name: 'Orange Bank'
+              },
+              {
+                category: 'finabank',
+                description: 'oldest bank in town',
+                icon: 'http://icons.iconarchive.com/icons/designcontest/ecommerce-business/128/bank-icon.png',
+                id: 'oldbank@botplatform.orange.fr',
+                name: 'Old Bank'
+              }]});
+          done();
+        })
+        .catch((e) => {
+          done(e);
+        });
+    });
   });
 
   context('when query is unsuccessful', () => {

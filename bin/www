@@ -29,13 +29,13 @@ const requestLogger = require('../src/infrastructure/logging/requestLoggerMiddle
 //Initialize components
 
 const localSourceImpl = new LocalSource('data', logger);
-const distantSourceImpl = new DistantSource(config);
+const distantSourceImpl = new DistantSource(config, logger);
 const chatBotRepositoryImpl = new ChatBotRepository(localSourceImpl, distantSourceImpl);
 
 //Load use case
 const useCaseContainer = {};
 useCaseContainer.getRootCategoriesUsecase = GetRootCategoriesUseCase;
-useCaseContainer.getChatBotInCategoryUseCase = GetChatBotInCategoryUseCase;
+useCaseContainer.getChatbotInCategoryUseCase = GetChatBotInCategoryUseCase;
 
 
 const apiRouterImpl = new ApiRouter(useCaseContainer, chatBotRepositoryImpl, logger);

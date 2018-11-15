@@ -20,24 +20,18 @@ class DistantSource {
    * @param categoryId id of category to retrieve chatbots from
    * @returns promises with ategories array
    */
-  listCategory(categoryId) {
-    return new Promise((resolve, reject) => {
-      //Create url
-      if (categoryId === undefined) reject();
-      const url = this._urlServer + '/listCategory/' + categoryId + '/inapp';
+  async listCategory(categoryId) {
+    //Create url
+    if (categoryId === undefined) throw new Error('Incorrect parameter category id');
+    const url = this._urlServer + '/listCategory/' + categoryId + '/inapp';
 
-      this._logger.debug('Call to server request: ' + url);
-
-      request.get(url).then(res => {
-        if (res && res.body) {
-          resolve(res.body);
-        } else {
-          reject();
-        }
-      }).catch(error => {
-        reject(error);
-      });
-    });
+    //Request
+    const res = await request.get(url);
+    if (res && res.body) {
+      return res.body;
+    }else{
+      throw new Error('Request error');
+    }
   }
 
 }

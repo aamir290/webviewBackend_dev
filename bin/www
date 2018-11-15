@@ -13,6 +13,8 @@ const LocalSource = require('../src/infrastructure/sources/LocalSource');
 const ChatBotRepository = require('../src/interface/ChatBotRepository');
 const ApiRouter = require('../src/infrastructure/routes/ApiRouter');
 
+const GetRootCategoriesUsecase = require('../src/usecases/GetRootCategoriesUseCase');
+
 //Configuration
 const config = require('../config/config.js');
 
@@ -29,11 +31,10 @@ const chatBotRepositoryImpl = new ChatBotRepository(localSourceImpl);
 
 //Load use case
 const useCaseContainer = {};
-const GetRootCategoriesUsecase = require('../src/usecases/GetRootCategoriesUseCase');
-useCaseContainer.getRootCategoriesUsecase = new GetRootCategoriesUsecase(chatBotRepositoryImpl);
+useCaseContainer.getRootCategoriesUsecase = GetRootCategoriesUsecase;
 
 
-const apiRouterImpl = new ApiRouter(useCaseContainer, logger);
+const apiRouterImpl = new ApiRouter(useCaseContainer, chatBotRepositoryImpl, logger);
 const mainRouter = require('../src/infrastructure/routes/router')(config, requestLoggerFile, requestLogger, apiRouterImpl.apiRouter);
 
 const currentServer = new Server(mainRouter, config, logger);

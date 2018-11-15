@@ -12,11 +12,11 @@ const Status = require('http-status');
  */
 class ApiRouter {
 
-  constructor(useCaseContainer, chatbotRepository, logger) {
+  constructor(useCaseContainer, chatBotRepository, logger) {
     this.useCaseContainer = useCaseContainer || {};
     this.logger = logger;
     this.apiRouter = express.Router();
-    this._chatBotRepository = chatbotRepository;
+    this._chatBotRepository = chatBotRepository;
 
     this._setupRoutes();
   }

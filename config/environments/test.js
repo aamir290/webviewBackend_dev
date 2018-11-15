@@ -10,5 +10,6 @@ module.exports = {
   log : {
     level : 'debug',
     logDirectory : 'logs'
-  }
+  },
+  chatBotRepositoryServerUrl : 'https://pubsecbotdir.kmt.orange.com'
 };

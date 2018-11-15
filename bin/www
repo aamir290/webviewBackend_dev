@@ -29,7 +29,7 @@ const requestLogger = require('../src/infrastructure/logging/requestLoggerMiddle
 //Initialize components
 
 const localSourceImpl = new LocalSource('data', logger);
-const distantSourceImpl = new DistantSource();
+const distantSourceImpl = new DistantSource(config);
 const chatBotRepositoryImpl = new ChatBotRepository(localSourceImpl, distantSourceImpl);
 
 //Load use case

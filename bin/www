@@ -10,6 +10,7 @@
 const Server = require('../src/infrastructure/Server');
 const Application = require('../src/infrastructure/Application');
 const LocalSource = require('../src/infrastructure/sources/LocalSource');
+const DistantSource = require('../src/infrastructure/sources/DistantSource');
 const ChatBotRepository = require('../src/interface/ChatBotRepository');
 const ApiRouter = require('../src/infrastructure/routes/ApiRouter');
 
@@ -28,7 +29,8 @@ const requestLogger = require('../src/infrastructure/logging/requestLoggerMiddle
 //Initialize components
 
 const localSourceImpl = new LocalSource('data', logger);
-const chatBotRepositoryImpl = new ChatBotRepository(localSourceImpl);
+const distantSourceImpl = new DistantSource();
+const chatBotRepositoryImpl = new ChatBotRepository(localSourceImpl, distantSourceImpl);
 
 //Load use case
 const useCaseContainer = {};

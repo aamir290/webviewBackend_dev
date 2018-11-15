@@ -13,7 +13,8 @@ const LocalSource = require('../src/infrastructure/sources/LocalSource');
 const ChatBotRepository = require('../src/interface/ChatBotRepository');
 const ApiRouter = require('../src/infrastructure/routes/ApiRouter');
 
-const GetRootCategoriesUsecase = require('../src/usecases/GetRootCategoriesUseCase');
+const GetRootCategoriesUseCase = require('../src/usecases/GetRootCategoriesUseCase');
+const GetChatBotInCategoryUseCase = require('../src/usecases/GetChatbotInCategoryUseCase');
 
 //Configuration
 const config = require('../config/config.js');
@@ -31,7 +32,8 @@ const chatBotRepositoryImpl = new ChatBotRepository(localSourceImpl);
 
 //Load use case
 const useCaseContainer = {};
-useCaseContainer.getRootCategoriesUsecase = GetRootCategoriesUsecase;
+useCaseContainer.getRootCategoriesUsecase = GetRootCategoriesUseCase;
+useCaseContainer.getChatBotInCategoryUseCase = GetChatBotInCategoryUseCase;
 
 
 const apiRouterImpl = new ApiRouter(useCaseContainer, chatBotRepositoryImpl, logger);

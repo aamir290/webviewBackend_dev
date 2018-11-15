@@ -21,7 +21,7 @@ describe('LocalSource', () => {
   });
 
   context('when getting chatbot list for given category', () => {
-    it('return chatbot array', async () => {
+    it('return chatbot array when category correct', async () => {
       const distantSource = new DistantSource(config, stubLogger);
       const chatbots = await distantSource.listCategory('finabank');
 
@@ -61,6 +61,16 @@ describe('LocalSource', () => {
       );
     });
 
+
+    it('return error when no category parameter', async () => {
+      const distantSource = new DistantSource(config, stubLogger);
+      await distantSource.listCategory().should.be.rejected;
+    });
+
+    it('return error when error with server', async () => {
+      const distantSource = new DistantSource(config, stubLogger);
+      await distantSource.listCategory('educ').should.be.rejected;
+    });
   });
 
   afterEach(() => {

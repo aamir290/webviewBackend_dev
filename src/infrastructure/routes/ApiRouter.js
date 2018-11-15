@@ -12,10 +12,11 @@ const Status = require('http-status');
  */
 class ApiRouter {
 
-  constructor(useCaseContainer, logger) {
+  constructor(useCaseContainer, chatbotRepository, logger) {
     this.useCaseContainer = useCaseContainer || {};
     this.logger = logger;
     this.apiRouter = express.Router();
+    this._chatBotRepository = chatbotRepository;
 
     this._setupRoutes();
   }
@@ -61,10 +62,30 @@ class ApiRouter {
    * @param next
    * @private
    */
-  _getListCategory(req, res, next) {
+  async _getListCategory(req, res, next) {
     if (this.useCaseContainer.getChatbotInCategoryUseCase) {
       if(req.params && req.params.categoryId){
+        const paramCategoryId = req.params.categoryId;
+        const getChatbotInCategoryUseCase = new this.useCaseContainer.getChatbotInCategoryUseCase(this._chatBotRepository);
+        const {SUCCESS, NOT_FOUND, PARAMETER_ERROR} = getChatbotInCategoryUseCase.events;
 
+        getChatbotInCategoryUseCase.on(SUCCESS, (chatbots) => {
+          return res
+            .status(Status.OK)
+            .json(chatbots);
+        });
+
+        getChatbotInCategoryUseCase.on(NOT_FOUND, ()=>{
+          return res
+            .status(Status.NOT_FOUND)
+            .end();
+        });
+
+        getChatbotInCategoryUseCase.on(PARAMETER_ERROR, ()=>{
+          return this._sendBadRequest(res);
+        });
+
+        await getChatbotInCategoryUseCase.execute(paramCategoryId);
       }else{
         //No params => parameter error
         this._sendBadRequest(res);
@@ -82,7 +103,7 @@ class ApiRouter {
   _sendBadRequest(res){
     res
       .status(Status.BAD_REQUEST)
-      .send();
+      .end();
   }
 
 }

@@ -138,6 +138,7 @@ describe('ChatBotRepository', () => {
       stubListCategory.withArgs('toto').resolves({
         result: []
       });
+      stubListCategory.withArgs('tutu').rejects();
       stubListCategory.rejects('Missing parameter');
 
       stubDistantSource = sinon.createStubInstance(DistantSource, {
@@ -179,7 +180,7 @@ describe('ChatBotRepository', () => {
       });
     });
 
-    it('throw error when problem with distant source', async () => {
+    it('throw error when no distant source', async () => {
       const chatBotRepository = new ChatBotRepository();
 
       await chatBotRepository.getListCategory().should.be.rejected;
@@ -191,14 +192,15 @@ describe('ChatBotRepository', () => {
       await chatBotRepository.getListCategory().should.be.rejected;
     });
 
+    it('throw error when problem with distant source', async () => {
+      const chatBotRepository = new ChatBotRepository({}, stubDistantSource);
+      await chatBotRepository.getListCategory('tutu').should.be.rejected;
+    });
+
     afterEach(() => {
       // Reset count
       sinon.resetHistory();
     });
 
-    after(() => {
-      //restore all previous stubed method
-      sinon.restore();
-    });
   });
 });

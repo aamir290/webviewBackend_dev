@@ -36,7 +36,7 @@ class ApiRouter {
    */
   _getDefaultCategories(req, res, next) {
     if (this.useCaseContainer.getRootCategoriesUsecase) {
-      const getRootCategoriesUseCase = this.useCaseContainer.getRootCategoriesUsecase;
+      const getRootCategoriesUseCase = new this.useCaseContainer.getRootCategoriesUsecase(this._chatBotRepository);
       const {SUCCESS, ERROR} = getRootCategoriesUseCase.events;
 
       getRootCategoriesUseCase.on(SUCCESS, (categories) => {

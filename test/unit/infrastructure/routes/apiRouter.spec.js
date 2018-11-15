@@ -6,7 +6,7 @@ const request = require('supertest');
 const express = require('express');
 const ApiRouter = require('../../../../src/infrastructure/routes/ApiRouter');
 const GetRootCategoriesUseCase = require('../../../../src/usecases/GetRootCategoriesUseCase');
-const GetChatbotInCategoryUseCase = require('../../../../src/usecases/GetChatbotInCategoryUseCase');
+const GetChatBotInCategoryUseCase = require('../../../../src/usecases/GetChatbotInCategoryUseCase');
 const ChatBotRepository = require('../../../../src/interface/ChatBotRepository');
 
 
@@ -23,12 +23,11 @@ describe('GET /getDefaultCategories', function () {
           }
         ]),
       });
-      const getRootCategoriesUseCaseImpl = new GetRootCategoriesUseCase(stubChatBotRepository);
       const useCaseContainer = {};
-      useCaseContainer.getRootCategoriesUsecase = getRootCategoriesUseCaseImpl;
+      useCaseContainer.getRootCategoriesUsecase = GetRootCategoriesUseCase;
 
 
-      const apiRouter = new ApiRouter(useCaseContainer, {}, {});
+      const apiRouter = new ApiRouter(useCaseContainer, stubChatBotRepository, {});
       const app = express();
       app.use(apiRouter.apiRouter);
 
@@ -58,12 +57,11 @@ describe('GET /getDefaultCategories', function () {
       const stubChatBotRepository = sinon.createStubInstance(ChatBotRepository, {
         getRootCategories: sinon.stub().rejects(),
       });
-      const getRootCategoriesUseCaseImpl = new GetRootCategoriesUseCase(stubChatBotRepository);
       const useCaseContainer = {};
-      useCaseContainer.getRootCategoriesUsecase = getRootCategoriesUseCaseImpl;
+      useCaseContainer.getRootCategoriesUsecase = GetRootCategoriesUseCase;
 
 
-      const apiRouter = new ApiRouter(useCaseContainer, {}, {});
+      const apiRouter = new ApiRouter(useCaseContainer, stubChatBotRepository, {});
       const app = express();
       app.use(apiRouter.apiRouter);
 
@@ -104,7 +102,7 @@ describe('GET /getDefaultCategories', function () {
 
 describe('GET /listCategory', function () {
 
-  let stubRepository, useCaseContainer
+  let stubRepository, useCaseContainer;
 
   before(() => {
     const stubIsInCategoryList= sinon.stub();
@@ -139,7 +137,7 @@ describe('GET /listCategory', function () {
 
 
     useCaseContainer = {};
-    useCaseContainer.getChatbotInCategoryUseCase = GetChatbotInCategoryUseCase;
+    useCaseContainer.getChatbotInCategoryUseCase = GetChatBotInCategoryUseCase;
   });
 
   context('when query is successful', () => {

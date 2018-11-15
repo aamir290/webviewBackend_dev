@@ -27,11 +27,7 @@ class DistantSource {
 
     //Request
     const res = await request.get(url);
-    if (res && res.body) {
-      return res.body;
-    }else{
-      throw new Error('Request error');
-    }
+    return res.body;
   }
 
 }

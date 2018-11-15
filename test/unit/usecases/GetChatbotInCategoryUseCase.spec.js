@@ -15,11 +15,11 @@ describe('GetChatbotInCategoryUseCase', () => {
     stubIsInCategoryList= sinon.stub();
     stubIsInCategoryList.withArgs('tit').rejects();
     stubIsInCategoryList.withArgs('toto').resolves(false);
-    stubIsInCategoryList.withArgs('fina').resolves(true);
     stubIsInCategoryList.withArgs('finabank').resolves(true);
+    stubIsInCategoryList.withArgs('educ').resolves(true);
 
     stubGetListCategory= sinon.stub();
-    stubGetListCategory.withArgs('fina').resolves({
+    stubGetListCategory.withArgs('finabank').resolves({
       result: [
         {
           category: 'finabank',
@@ -35,7 +35,7 @@ describe('GetChatbotInCategoryUseCase', () => {
           id: 'oldbank@botplatform.orange.fr',
           name: 'Old Bank'
         }]});
-    stubGetListCategory.withArgs('finabank').rejects();
+    stubGetListCategory.withArgs('educ').rejects();
 
     stubRepository = sinon.createStubInstance(ChatBotRepository, {
       isCategoryInList: stubIsInCategoryList,
@@ -79,7 +79,7 @@ describe('GetChatbotInCategoryUseCase', () => {
         done('fail - NOT_FOUND');
       });
 
-      getChatbotCategory.execute('fina');
+      getChatbotCategory.execute('finabank');
     });
 
   });
@@ -154,7 +154,7 @@ describe('GetChatbotInCategoryUseCase', () => {
         done('fail - NOT_FOUND');
       });
 
-      getChatbotCategory.execute('finabank');
+      getChatbotCategory.execute('educ');
     });
   });
 

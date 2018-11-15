@@ -21,7 +21,6 @@ class GetChatbotInCategoryUseCase extends UseCase{
    */
   async execute(categoryId){
     const { SUCCESS, NOT_FOUND, PARAMETER_ERROR} = this.events;
-
     if(categoryId){
       try{
         const isInCategoryList = await this.chatBotRepository.isCategoryInList(categoryId);

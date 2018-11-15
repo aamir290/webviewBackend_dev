@@ -104,7 +104,7 @@ describe('GET /getDefaultCategories', function () {
 
 describe('GET /listCategory', function () {
 
-  let stubRepository, useCaseContainer, getChatbotInCategoryUseCaseImpl;
+  let stubRepository, useCaseContainer
 
   before(() => {
     const stubIsInCategoryList= sinon.stub();
@@ -138,15 +138,14 @@ describe('GET /listCategory', function () {
     });
 
 
-    getChatbotInCategoryUseCaseImpl = new GetChatbotInCategoryUseCase(stubRepository);
     useCaseContainer = {};
-    useCaseContainer.getChatbotInCategoryUseCase = getChatbotInCategoryUseCaseImpl;
+    useCaseContainer.getChatbotInCategoryUseCase = GetChatbotInCategoryUseCase;
   });
 
   context('when query is successful', () => {
 
     it('respond with 404 when category not found', function (done) {
-      const apiRouter = new ApiRouter(useCaseContainer, {}, {});
+      const apiRouter = new ApiRouter(useCaseContainer, stubRepository, {});
       const app = express();
       app.use(apiRouter.apiRouter);
 
@@ -157,7 +156,7 @@ describe('GET /listCategory', function () {
     });
 
     it('respond with array of chatbots when category found', function (done) {
-      const apiRouter = new ApiRouter(useCaseContainer, {}, {});
+      const apiRouter = new ApiRouter(useCaseContainer, stubRepository, {});
       const app = express();
       app.use(apiRouter.apiRouter);
 
@@ -205,7 +204,7 @@ describe('GET /listCategory', function () {
 
       //Test
       request(app)
-        .get('/listCategory')
+        .get('/listCategory/ti')
         .expect(400, done);
     });
 

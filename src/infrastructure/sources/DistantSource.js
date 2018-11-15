@@ -6,9 +6,10 @@ class DistantSource {
 
   /**
    * Initiate distant source
+   * @param config application configuration
    */
-  constructor(){
-
+  constructor(config){
+    this._urlServer = this.config.chatBotRepositoryServerUrl | 'http://localhost';
   }
 
   /**

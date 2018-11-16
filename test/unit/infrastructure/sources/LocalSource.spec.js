@@ -19,19 +19,21 @@ describe('LocalSource', () => {
       const localSource = new LocalSource(testDataPath);
       const categories = await localSource.getRootCategories();
 
-      categories.length.should.be.equal(2);
-      categories.should.eql([
-        {
-          id: 'educ',
-          name: 'Education',
-          subCategories: undefined
-        },
-        {
-          id: 'fina',
-          name: 'Finance',
-          subCategories: undefined
-        }
-      ], 'Array categories should be the same');
+      categories.result.length.should.be.equal(2);
+      categories.should.eql({
+        result: [
+          {
+            id: 'educ',
+            name: 'Education',
+            subCategories: undefined
+          },
+          {
+            id: 'fina',
+            name: 'Finance',
+            subCategories: undefined
+          }
+        ]
+      }, 'Array categories should be the same');
     });
 
     it('return empty array if path is incorrect', async () => {
@@ -39,7 +41,7 @@ describe('LocalSource', () => {
       const localSource = new LocalSource('titi', stubLogger);
       const categories = await localSource.getRootCategories();
 
-      categories.length.should.be.equal(0);
+      categories.result.length.should.be.equal(0);
       stubLogger.error.should.have.been.calledTwice;
     });
   });

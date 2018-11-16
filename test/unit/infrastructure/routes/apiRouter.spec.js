@@ -16,12 +16,14 @@ describe('GET /getDefaultCategories', function () {
     it('respond with json with categories', function (done) {
       //Init
       const stubChatBotRepository = sinon.createStubInstance(ChatBotRepository, {
-        getRootCategories: sinon.stub().resolves([
-          {
-            id: 'educ',
-            name: 'Education'
-          }
-        ]),
+        getRootCategories: sinon.stub().resolves({
+          result : [
+            {
+              id: 'educ',
+              name: 'Education'
+            }
+          ]
+        }),
       });
       const useCaseContainer = {};
       useCaseContainer.getRootCategoriesUsecase = GetRootCategoriesUseCase;
@@ -37,12 +39,14 @@ describe('GET /getDefaultCategories', function () {
         .expect('Content-Type', /json/)
         .expect(200)
         .then(response => {
-          response.body.should.eql([
-            {
-              id: 'educ',
-              name: 'Education'
-            }
-          ]);
+          response.body.should.eql({
+            result : [
+              {
+                id: 'educ',
+                name: 'Education'
+              }
+            ]
+          });
           done();
         })
         .catch((e) => {

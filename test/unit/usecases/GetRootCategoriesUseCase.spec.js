@@ -9,12 +9,14 @@ describe('GetRootCategoriesUseCase', () => {
 
   context('when query is successful', () => {
     it('emits SUCCESS with a category array result', (done) => {
-      const stubGetAllCategories = sinon.stub().resolves([
-        {
-          id: 'educ',
-          name: 'Education'
-        }
-      ]);
+      const stubGetAllCategories = sinon.stub().resolves({
+        result: [
+          {
+            id: 'educ',
+            name: 'Education'
+          }
+        ]
+      });
       const stubRepository = sinon.createStubInstance(ChatBotRepository, {
         getRootCategories: stubGetAllCategories
       });
@@ -23,10 +25,14 @@ describe('GetRootCategoriesUseCase', () => {
 
       getRootCategories.on(getRootCategories.events.SUCCESS, (categories) => {
         stubGetAllCategories.should.have.been.calledOnce;
-        categories.should.eql([{
-          id: 'educ',
-          name: 'Education'
-        }], 'Array categories should be the same');
+        categories.should.eql({
+          result: [
+            {
+              id: 'educ',
+              name: 'Education'
+            }
+          ]
+        }, 'Array categories should be the same');
         done();
       });
       getRootCategories.on(getRootCategories.events.ERROR, () => {

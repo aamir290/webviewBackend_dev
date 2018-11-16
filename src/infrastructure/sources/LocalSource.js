@@ -68,7 +68,40 @@ class LocalSource {
 
       return found !== undefined;
     } else {
-      this.logger.error('isCategoryInList - Requesting undefined');
+      this.logger.error('isCategoryInList - Requesting categoryId : ' + categoryId);
+      throw new Error('Missing parameter');
+    }
+  }
+
+  /**
+   * Return category name associated to given id.
+   * @param categoryId category id to retrieve name for
+   * @returns {string} category name
+   * @throws error when no name
+   */
+  getCategoryName(categoryId) {
+    if (categoryId && categoryId.length >= 4) {
+      const rootCategory = categoryId.substring(0, 4);  //Get root category
+      let categoryFound = this.jsonCategories.find(function (currentCategory) {
+        return currentCategory.id === rootCategory;
+      });
+
+      if (categoryFound) {
+        if (rootCategory !== categoryId) {
+          //Search in subcategory
+          categoryFound = categoryFound.subCategories.find(function (currentCategory) {
+            return currentCategory.id === categoryId;
+          });
+        }
+      }
+
+      if (categoryFound) {
+        return categoryFound.name;
+      } else {
+        throw new Error('Category not found');
+      }
+    } else {
+      this.logger.error('getCategoryName - Requesting categoryId : ' + categoryId);
       throw new Error('Missing parameter');
     }
   }

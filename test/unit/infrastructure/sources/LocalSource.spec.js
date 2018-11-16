@@ -110,11 +110,19 @@ describe('LocalSource', () => {
       }).should.throw('Missing parameter');
     });
 
-    it('throw error when category id not found', async() => {
+    it('throw error when category root id not found', async() => {
       const localSource = new LocalSource(testDataPath, stubLogger);
 
       (() => {
         localSource.getCategoryName('titi');
+      }).should.throw('Category not found');
+    });
+
+    it('throw error when subcategory root id not found', async() => {
+      const localSource = new LocalSource(testDataPath, stubLogger);
+
+      (() => {
+        localSource.getCategoryName('finatiti');
       }).should.throw('Category not found');
     });
   });

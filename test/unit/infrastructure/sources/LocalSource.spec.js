@@ -78,12 +78,44 @@ describe('LocalSource', () => {
       isInCategoryList.should.be.equal(false);
     });
 
-    it('return false if parameter not set', async () => {
+    it('throw error if parameter not set', async () => {
       const localSource = new LocalSource(testDataPath, stubLogger);
 
       (() => {
         localSource.isCategoryInList();
       }).should.throw('Missing parameter');
+    });
+  });
+
+  context('when retrieving category name', () => {
+
+    it('return category name when category id exists (root category)', async() => {
+      const localSource = new LocalSource(testDataPath, stubLogger);
+      const categoryName = await localSource.getCategoryName('fina');
+
+      categoryName.should.be.equal('Finance');
+    });
+
+    it('return category name when category id exists (sub category)', async() => {
+      const localSource = new LocalSource(testDataPath, stubLogger);
+      const categoryName = await localSource.getCategoryName('educscho');
+
+      categoryName.should.be.equal('Schools & Colleges');
+    });
+
+    it('throw error when parameter not set', async() => {
+      const localSource = new LocalSource(testDataPath, stubLogger);
+      (() => {
+        localSource.getCategoryName();
+      }).should.throw('Missing parameter');
+    });
+
+    it('throw error when category id not found', async() => {
+      const localSource = new LocalSource(testDataPath, stubLogger);
+
+      (() => {
+        localSource.getCategoryName('titi');
+      }).should.throw('Category not found');
     });
   });
 

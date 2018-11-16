@@ -34,7 +34,7 @@ class LocalSource {
     const categories = [];
 
     this.jsonCategories.forEach((currentCategory) => {
-      categories.push(new Category(currentCategory.id, currentCategory.name));
+      categories.push(new Category(currentCategory.id, currentCategory.name, currentCategory.icon));
     });
 
     //Format answer

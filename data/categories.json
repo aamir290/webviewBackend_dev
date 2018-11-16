@@ -26,7 +26,7 @@
     "name" : "Finance",
     "subCategories" : [
       {
-        "id": "finabills",
+        "id": "finabill",
         "name": "Bills"
       },
       {

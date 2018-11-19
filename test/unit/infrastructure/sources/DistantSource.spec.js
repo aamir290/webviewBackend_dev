@@ -10,7 +10,7 @@ var request = require('superagent');
 var configSuperAgent = require('../../testData/superAgentListCategory.config');
 require('superagent-mock')(request, configSuperAgent);
 
-describe('LocalSource', () => {
+describe('DistantSource', () => {
 
   let stubLogger;
 
@@ -61,7 +61,6 @@ describe('LocalSource', () => {
       );
     });
 
-
     it('return error when no category parameter', async () => {
       const distantSource = new DistantSource(config, stubLogger);
       await distantSource.listCategory().should.be.rejected;
@@ -70,6 +69,11 @@ describe('LocalSource', () => {
     it('return error when error with server', async () => {
       const distantSource = new DistantSource(config, stubLogger);
       await distantSource.listCategory('educ').should.be.rejected;
+    });
+
+    it('set server url to loaclhost when incorrect Config', async () => {
+      const distantSource = new DistantSource({}, stubLogger);
+      distantSource._urlServer.should.eql('http://localhost');
     });
   });
 

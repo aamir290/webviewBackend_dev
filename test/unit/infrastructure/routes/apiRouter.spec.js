@@ -212,17 +212,25 @@ describe('GET /listCategory', function () {
 
     it('respond with error when parameter not set', function (done) {
       //Init
-      const useCaseContainer = {};
-      useCaseContainer.getRootCategoriesUsecase = {};
-
-
-      const apiRouter = new ApiRouter(useCaseContainer, {}, {});
+      const apiRouter = new ApiRouter(useCaseContainer, stubRepository, {});
       const app = express();
       app.use(apiRouter.apiRouter);
 
       //Test
       request(app)
-        .get('/listCategory')
+        .get('/listCategory/')
+        .expect(400, done);
+    });
+
+    it('respond with error when error occurs in usecase', function (done) {
+      //Init
+      const apiRouter = new ApiRouter(useCaseContainer, stubRepository, {});
+      const app = express();
+      app.use(apiRouter.apiRouter);
+
+      //Test
+      request(app)
+        .get('/listCategory/finabank')
         .expect(400, done);
     });
 

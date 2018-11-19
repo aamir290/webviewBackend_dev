@@ -8,34 +8,55 @@ const UseCase = require('./UseCase');
  *    - NOT_FOUND => unknown category
  *    - PARAMETER_ERROR => error with category parameter (+ error message)
  */
-class GetChatbotInCategoryUseCase extends UseCase{
+class GetChatbotInCategoryUseCase extends UseCase {
 
-  constructor(chatBotRepository){
+  constructor(chatBotRepository) {
     super(['SUCCESS', 'NOT_FOUND', 'PARAMETER_ERROR']);
 
     this.chatBotRepository = chatBotRepository;
   }
 
   /**
-   * Launch use case task
+   * Launch use case task.
+   * test if category exists : if yes, launch request to server and format result.
+   * If catgeory doesn't exist, throw error.
    */
-  async execute(categoryId){
-    const { SUCCESS, NOT_FOUND, PARAMETER_ERROR} = this.events;
-    if(categoryId){
-      try{
+  async execute(categoryId) {
+    const {SUCCESS, NOT_FOUND, PARAMETER_ERROR} = this.events;
+    if (categoryId) {
+      try {
         const isInCategoryList = await this.chatBotRepository.isCategoryInList(categoryId);
-        if(isInCategoryList){
+        if (isInCategoryList) {
           const chatbotArray = await this.chatBotRepository.getListCategory(categoryId);
+
+          //add category name on each chatbot (based on id)
+          await this._addCategoriesNames(chatbotArray);
+
           this.emit(SUCCESS, chatbotArray);
-        }else{
+        } else {
           this.emit(NOT_FOUND);
         }
-      }catch (e) {
+      } catch (e) {
         this.emit(PARAMETER_ERROR, 'Incorrect category id parameter');
       }
-    }else{
+    } else {
       this.emit(PARAMETER_ERROR, 'Incorrect category id parameter');
     }
+  }
+
+  /**
+   * Add the category name on each chatbot.
+   * @param chatBotArray array of chatbot return by repository
+   * @private
+   */
+  _addCategoriesNames(chatBotArray) {
+    chatBotArray.result.forEach(async (currentChaBot) => {
+      try {
+        currentChaBot.categoryName = await this.chatBotRepository.getCategoryName(currentChaBot.category);
+      } catch (e) {
+        //Do nothing
+      }
+    }, this);
   }
 }
 

@@ -17,6 +17,7 @@ class Server {
   constructor(router, config, logger) {
     this.config = config;
     this.logger = logger;
+    this.server = undefined;
 
     this.express = express();
     this.express.use(router);
@@ -27,13 +28,17 @@ class Server {
       const port = this.config.port || 3000;
       const host = this.config.host || 'localhost';
 
-      const http = this.express
+      this.server = this.express
         .listen(port, host, () => {
           this.logger.info(`Listening at ${host}:${port}`);
           this.logger.info(`[p ${process.pid}]`);
           resolve();
         });
     });
+  }
+
+  stop() {
+    this.server.close();
   }
 }
 

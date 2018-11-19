@@ -29,7 +29,8 @@ class Server {
 
       const http = this.express
         .listen(port, host, () => {
-          this.logger.info(`[p ${process.pid}] - Listening at ${host}:${port}`);
+          this.logger.info(`Listening at ${host}:${port}`);
+          this.logger.info(`[p ${process.pid}]`);
           resolve();
         });
     });

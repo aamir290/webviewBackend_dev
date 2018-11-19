@@ -60,6 +60,19 @@ class ChatBotRepository {
       throw new Error('DistantSource has no method listCategory or is called with wrong parameter');
     }
   }
+
+  /**
+   * Return category name associated to given id.
+   * @param categoryId catgeory id to retrive name
+   * @returns {Promise<void>}
+   */
+  async getCategoryName(categoryId){
+    if(this._localSource && this._localSource.getCategoryName && categoryId){
+      return this._localSource.getCategoryName(categoryId);
+    }else{
+      throw new Error('getCategoryName - incorrect category id : '+categoryId);
+    }
+  }
 }
 
 module.exports = ChatBotRepository;

@@ -112,7 +112,7 @@ describe('ChatBotRepository', () => {
 
   /***********************************************************************************************************/
 
-  context('when testing get listcategory', () => {
+  context('when getting listcategory', () => {
 
     let stubDistantSource;
     let stubListCategory;
@@ -195,6 +195,57 @@ describe('ChatBotRepository', () => {
     it('throw error when problem with distant source', async () => {
       const chatBotRepository = new ChatBotRepository({}, stubDistantSource);
       await chatBotRepository.getListCategory('tutu').should.be.rejected;
+    });
+
+    afterEach(() => {
+      // Reset count
+      sinon.resetHistory();
+    });
+
+  });
+
+  /***********************************************************************************************************/
+
+  context('when getting category name', () => {
+
+    let stubLocalSource;
+    let stubGetCategoryName;
+
+    before(() => {
+      stubGetCategoryName = sinon.stub();
+      stubGetCategoryName.withArgs('titi').returns('titiName');
+      stubGetCategoryName.withArgs('tutu').rejects('Category not found');
+      stubGetCategoryName.rejects('Missing parameter');
+
+      stubLocalSource = sinon.createStubInstance(LocalSource, {
+        getCategoryName: stubGetCategoryName
+      });
+    });
+
+    it('return correct category name', async () => {
+      const chatBotRepository = new ChatBotRepository(stubLocalSource);
+      const isInList = await chatBotRepository.getCategoryName('titi');
+
+      stubGetCategoryName.should.have.been.calledOnce;
+      isInList.should.eql('titiName');
+
+    });
+
+    it('throw error when category not found', async () => {
+      const chatBotRepository = new ChatBotRepository(stubLocalSource);
+      await chatBotRepository.getCategoryName('tutu').should.be.rejected;
+    });
+
+    it('throw error when no distant source', async () => {
+      const chatBotRepository = new ChatBotRepository();
+
+      await chatBotRepository.getCategoryName().should.be.rejected;
+    });
+
+    it('throw error when no parameter', async () => {
+      const chatBotRepository = new ChatBotRepository(stubLocalSource);
+
+      await chatBotRepository.getCategoryName().should.be.rejected;
     });
 
     afterEach(() => {

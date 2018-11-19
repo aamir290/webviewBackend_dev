@@ -15,4 +15,19 @@ Based on Nodejs/Express
 ``` bash
 # install dependencies
 npm install
+
+# serve with hot reload at localhost:3000
+npm run dev
+
+# run unit test
+npm run test:unit
+
+# get code coverage
+npm run coverage
+
+# generate html code coverage
+npm run coverage:html
+
+# serve in production mode
+npm run start
 ```

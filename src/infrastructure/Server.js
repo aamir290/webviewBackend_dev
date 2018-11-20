@@ -21,8 +21,8 @@ class Server {
     this.server = undefined;
 
     this.express = express();
-    this.express.use(router);
     this.express.use(cors());
+    this.express.use(router);
   }
 
   start() {

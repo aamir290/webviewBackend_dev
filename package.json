@@ -18,6 +18,7 @@
   "author": "Jeremy Le Piolet <jeremy.le-piolet@gfi.fr>",
   "license": "ISC",
   "dependencies": {
+    "cors": "^2.8.5",
     "cross-env": "^5.2.0",
     "debug": "~2.6.9",
     "express": "^4.16.4",

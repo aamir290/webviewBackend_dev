@@ -4,6 +4,7 @@
  */
 
 const express = require('express');
+const cors = require('cors');
 
 
 class Server {
@@ -21,6 +22,7 @@ class Server {
 
     this.express = express();
     this.express.use(router);
+    this.express.use(cors());
   }
 
   start() {

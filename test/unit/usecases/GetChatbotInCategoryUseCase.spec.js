@@ -7,11 +7,7 @@ const ChatBotRepository = require('../../../src/interface/ChatBotRepository');
 
 describe('GetChatbotInCategoryUseCase', () => {
 
-  let stubRepository;
-  let stubIsInCategoryList;
-  let stubGetListCategory;
-  let stubGetCategoryName;
-  let stubLogger;
+  let stubRepository, stubIsInCategoryList, stubGetListCategory, stubGetCategoryName, stubLogger;
 
   before(() => {
     stubIsInCategoryList= sinon.stub();

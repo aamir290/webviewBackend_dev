@@ -62,9 +62,7 @@ describe('ChatBotRepository', () => {
 
   context('when testing category in list', () => {
 
-    let stubLocalSource;
-    let stubIsCategoryInListLocalSource;
-    let stubLogger;
+    let stubLocalSource, stubIsCategoryInListLocalSource, stubLogger;
 
     before(() => {
       stubIsCategoryInListLocalSource = sinon.stub();
@@ -125,9 +123,7 @@ describe('ChatBotRepository', () => {
 
   context('when getting listcategory', () => {
 
-    let stubDistantSource;
-    let stubListCategory;
-    let stubLogger;
+    let stubDistantSource, stubListCategory, stubLogger;
 
     before(() => {
       stubListCategory = sinon.stub();
@@ -223,9 +219,7 @@ describe('ChatBotRepository', () => {
 
   context('when getting category name', () => {
 
-    let stubLocalSource;
-    let stubGetCategoryName;
-    let stubLogger;
+    let stubLocalSource, stubGetCategoryName, stubLogger;
 
     before(() => {
       stubGetCategoryName = sinon.stub();

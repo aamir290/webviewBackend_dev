@@ -31,3 +31,12 @@ npm run coverage:html
 # serve in production mode
 npm run start
 ```
+
+**/!\ for debug only**
+
+If problems with self certificate, set env var NODE_TLS_REJECT_UNAUTHORIZED to 0 before running npm run dev
+``` bash
+NODE_TLS_REJECT_UNAUTHORIZED='0' npm run dev
+```
+
+For production purpose, add certificate as request option.

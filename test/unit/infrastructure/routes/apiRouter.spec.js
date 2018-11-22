@@ -10,7 +10,7 @@ const GetChatBotInCategoryUseCase = require('../../../../src/usecases/GetChatbot
 const ChatBotRepository = require('../../../../src/interface/ChatBotRepository');
 
 
-describe('GET /getDefaultCategories', function () {
+describe('apiRouter - GET /getDefaultCategories', function () {
 
   context('when query is successful', () => {
     it('respond with json with categories', function (done) {
@@ -104,9 +104,9 @@ describe('GET /getDefaultCategories', function () {
   });
 });
 
-describe('GET /listCategory', function () {
+describe('apiRouter - GET /listCategory', function () {
 
-  let stubRepository, useCaseContainer;
+  let stubRepository, useCaseContainer, stubLogger;
 
   before(() => {
     const stubIsInCategoryList= sinon.stub();
@@ -139,15 +139,17 @@ describe('GET /listCategory', function () {
       getListCategory: stubGetListCategory
     });
 
-
     useCaseContainer = {};
     useCaseContainer.getChatbotInCategoryUseCase = GetChatBotInCategoryUseCase;
+
+    stubLogger = {};
+    stubLogger.debug = sinon.stub();
   });
 
   context('when query is successful', () => {
 
     it('respond with 404 when category not found', function (done) {
-      const apiRouter = new ApiRouter(useCaseContainer, stubRepository, {});
+      const apiRouter = new ApiRouter(useCaseContainer, stubRepository, stubLogger);
       const app = express();
       app.use(apiRouter.apiRouter);
 
@@ -158,7 +160,7 @@ describe('GET /listCategory', function () {
     });
 
     it('respond with array of chatbots when category found', function (done) {
-      const apiRouter = new ApiRouter(useCaseContainer, stubRepository, {});
+      const apiRouter = new ApiRouter(useCaseContainer, stubRepository, stubLogger);
       const app = express();
       app.use(apiRouter.apiRouter);
 
@@ -200,7 +202,7 @@ describe('GET /listCategory', function () {
       useCaseContainer.getRootCategoriesUsecase = {};
 
 
-      const apiRouter = new ApiRouter(useCaseContainer, {}, {});
+      const apiRouter = new ApiRouter(useCaseContainer, {}, stubLogger);
       const app = express();
       app.use(apiRouter.apiRouter);
 
@@ -212,7 +214,7 @@ describe('GET /listCategory', function () {
 
     it('respond with error when parameter not set', function (done) {
       //Init
-      const apiRouter = new ApiRouter(useCaseContainer, stubRepository, {});
+      const apiRouter = new ApiRouter(useCaseContainer, stubRepository, stubLogger);
       const app = express();
       app.use(apiRouter.apiRouter);
 
@@ -224,7 +226,7 @@ describe('GET /listCategory', function () {
 
     it('respond with error when error occurs in usecase', function (done) {
       //Init
-      const apiRouter = new ApiRouter(useCaseContainer, stubRepository, {});
+      const apiRouter = new ApiRouter(useCaseContainer, stubRepository, stubLogger);
       const app = express();
       app.use(apiRouter.apiRouter);
 
@@ -238,7 +240,7 @@ describe('GET /listCategory', function () {
       //Init
       const useCaseContainer = {};
 
-      const apiRouter = new ApiRouter(useCaseContainer, {}, {});
+      const apiRouter = new ApiRouter(useCaseContainer, {}, stubLogger);
       const app = express();
       app.use(apiRouter.apiRouter);
 
@@ -250,7 +252,7 @@ describe('GET /listCategory', function () {
 
     it('respond with error when no container', function (done) {
       //Init
-      const apiRouter = new ApiRouter(undefined, {}, {});
+      const apiRouter = new ApiRouter(undefined, {}, stubLogger);
       const app = express();
       app.use(apiRouter.apiRouter);
 

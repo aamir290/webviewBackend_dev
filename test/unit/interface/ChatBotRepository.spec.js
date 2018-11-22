@@ -16,8 +16,10 @@ describe('ChatBotRepository', () => {
       const stubLocalSource = sinon.createStubInstance(LocalSource, {
         getRootCategories: stubGetAllCategoriesLocalSource
       });
+      const stubLogger = {};
+      stubLogger.debug = sinon.stub();
 
-      const chatBotRepository = new ChatBotRepository(stubLocalSource);
+      const chatBotRepository = new ChatBotRepository(stubLocalSource, {}, stubLogger);
       const categories = await chatBotRepository.getRootCategories();
 
       stubGetAllCategoriesLocalSource.should.have.been.calledOnce;
@@ -33,8 +35,10 @@ describe('ChatBotRepository', () => {
       const stubLocalSource = sinon.createStubInstance(LocalSource, {
         getRootCategories: stubGetAllCategoriesLocalSource
       });
+      const stubLogger = {};
+      stubLogger.debug = sinon.stub();
 
-      const chatBotRepository = new ChatBotRepository(stubLocalSource);
+      const chatBotRepository = new ChatBotRepository(stubLocalSource, {}, stubLogger);
       const categories = await chatBotRepository.getRootCategories();
 
       stubGetAllCategoriesLocalSource.should.have.been.calledOnce;
@@ -46,7 +50,10 @@ describe('ChatBotRepository', () => {
     });
 
     it('return undefined when local source has a problem', async () => {
-      const chatBotRepository = new ChatBotRepository();
+      const stubLogger = {};
+      stubLogger.debug = sinon.stub();
+
+      const chatBotRepository = new ChatBotRepository({}, {}, stubLogger);
       await chatBotRepository.getRootCategories().should.be.rejected;
     });
   });
@@ -57,6 +64,7 @@ describe('ChatBotRepository', () => {
 
     let stubLocalSource;
     let stubIsCategoryInListLocalSource;
+    let stubLogger;
 
     before(() => {
       stubIsCategoryInListLocalSource = sinon.stub();
@@ -67,10 +75,13 @@ describe('ChatBotRepository', () => {
       stubLocalSource = sinon.createStubInstance(LocalSource, {
         isCategoryInList: stubIsCategoryInListLocalSource
       });
+
+      stubLogger = {};
+      stubLogger.debug = sinon.stub();
     });
 
     it('return true when localsource return true', async () => {
-      const chatBotRepository = new ChatBotRepository(stubLocalSource);
+      const chatBotRepository = new ChatBotRepository(stubLocalSource, {}, stubLogger);
       const isInList = await chatBotRepository.isCategoryInList('titi');
 
       stubIsCategoryInListLocalSource.should.have.been.calledOnce;
@@ -79,7 +90,7 @@ describe('ChatBotRepository', () => {
     });
 
     it('return true when localsource return false', async () => {
-      const chatBotRepository = new ChatBotRepository(stubLocalSource);
+      const chatBotRepository = new ChatBotRepository(stubLocalSource, {}, stubLogger);
       const isInList = await chatBotRepository.isCategoryInList('toto');
 
       stubIsCategoryInListLocalSource.should.have.been.calledOnce;
@@ -88,13 +99,13 @@ describe('ChatBotRepository', () => {
     });
 
     it('reject when localsource throw error', async () => {
-      const chatBotRepository = new ChatBotRepository(stubLocalSource);
+      const chatBotRepository = new ChatBotRepository(stubLocalSource, {}, stubLogger);
 
       chatBotRepository.isCategoryInList().should.be.rejected;
     });
 
     it('throw error when problem with local source', async () => {
-      const chatBotRepository = new ChatBotRepository();
+      const chatBotRepository = new ChatBotRepository({}, {}, stubLogger);
 
       await chatBotRepository.isCategoryInList().should.be.rejected;
     });
@@ -116,6 +127,7 @@ describe('ChatBotRepository', () => {
 
     let stubDistantSource;
     let stubListCategory;
+    let stubLogger;
 
     before(() => {
       stubListCategory = sinon.stub();
@@ -144,10 +156,13 @@ describe('ChatBotRepository', () => {
       stubDistantSource = sinon.createStubInstance(DistantSource, {
         listCategory: stubListCategory
       });
+
+      stubLogger = {};
+      stubLogger.debug = sinon.stub();
     });
 
     it('return array of chatbot when distant source return array', async () => {
-      const chatBotRepository = new ChatBotRepository({}, stubDistantSource);
+      const chatBotRepository = new ChatBotRepository({}, stubDistantSource, stubLogger);
       const isInList = await chatBotRepository.getListCategory('titi');
 
       stubListCategory.should.have.been.calledOnce;
@@ -171,7 +186,7 @@ describe('ChatBotRepository', () => {
     });
 
     it('return empty array of chatbot when distant source return empty array', async () => {
-      const chatBotRepository = new ChatBotRepository({}, stubDistantSource);
+      const chatBotRepository = new ChatBotRepository({}, stubDistantSource, stubLogger);
       const isInList = await chatBotRepository.getListCategory('toto');
 
       stubListCategory.should.have.been.calledOnce;
@@ -181,19 +196,19 @@ describe('ChatBotRepository', () => {
     });
 
     it('throw error when no distant source', async () => {
-      const chatBotRepository = new ChatBotRepository();
+      const chatBotRepository = new ChatBotRepository({}, {}, stubLogger);
 
       await chatBotRepository.getListCategory().should.be.rejected;
     });
 
     it('throw error when no parameter', async () => {
-      const chatBotRepository = new ChatBotRepository(stubDistantSource);
+      const chatBotRepository = new ChatBotRepository({}, stubDistantSource, stubLogger);
 
       await chatBotRepository.getListCategory().should.be.rejected;
     });
 
     it('throw error when problem with distant source', async () => {
-      const chatBotRepository = new ChatBotRepository({}, stubDistantSource);
+      const chatBotRepository = new ChatBotRepository({}, stubDistantSource, stubLogger);
       await chatBotRepository.getListCategory('tutu').should.be.rejected;
     });
 
@@ -210,6 +225,7 @@ describe('ChatBotRepository', () => {
 
     let stubLocalSource;
     let stubGetCategoryName;
+    let stubLogger;
 
     before(() => {
       stubGetCategoryName = sinon.stub();
@@ -220,30 +236,33 @@ describe('ChatBotRepository', () => {
       stubLocalSource = sinon.createStubInstance(LocalSource, {
         getCategoryName: stubGetCategoryName
       });
+
+      stubLogger = {};
+      stubLogger.debug = sinon.stub();
+
     });
 
     it('return correct category name', async () => {
-      const chatBotRepository = new ChatBotRepository(stubLocalSource);
+      const chatBotRepository = new ChatBotRepository(stubLocalSource, {}, stubLogger);
       const isInList = await chatBotRepository.getCategoryName('titi');
 
       stubGetCategoryName.should.have.been.calledOnce;
       isInList.should.eql('titiName');
-
     });
 
     it('throw error when category not found', async () => {
-      const chatBotRepository = new ChatBotRepository(stubLocalSource);
+      const chatBotRepository = new ChatBotRepository(stubLocalSource, {}, stubLogger);
       await chatBotRepository.getCategoryName('tutu').should.be.rejected;
     });
 
     it('throw error when no distant source', async () => {
-      const chatBotRepository = new ChatBotRepository();
+      const chatBotRepository = new ChatBotRepository({}, {}, stubLogger);
 
       await chatBotRepository.getCategoryName().should.be.rejected;
     });
 
     it('throw error when no parameter', async () => {
-      const chatBotRepository = new ChatBotRepository(stubLocalSource);
+      const chatBotRepository = new ChatBotRepository(stubLocalSource, {}, stubLogger);
 
       await chatBotRepository.getCategoryName().should.be.rejected;
     });

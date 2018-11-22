@@ -11,6 +11,7 @@ describe('GetChatbotInCategoryUseCase', () => {
   let stubIsInCategoryList;
   let stubGetListCategory;
   let stubGetCategoryName;
+  let stubLogger;
 
   before(() => {
     stubIsInCategoryList= sinon.stub();
@@ -46,6 +47,9 @@ describe('GetChatbotInCategoryUseCase', () => {
       getListCategory: stubGetListCategory,
       getCategoryName: stubGetCategoryName
     });
+
+    stubLogger = {};
+    stubLogger.debug = sinon.stub();
   });
 
   /*************************************************************************/
@@ -53,7 +57,7 @@ describe('GetChatbotInCategoryUseCase', () => {
   context('when query is successful', () => {
 
     it('emits Success with array of chatbot when category exists and chatbots exists', (done) => {
-      const getChatbotCategory = new GetChatbotInCategoryUseCase(stubRepository);
+      const getChatbotCategory = new GetChatbotInCategoryUseCase(stubRepository, stubLogger);
 
       getChatbotCategory.on(getChatbotCategory.events.PARAMETER_ERROR, () => {
         done('fail - PARAMETER_ERROR');
@@ -96,7 +100,7 @@ describe('GetChatbotInCategoryUseCase', () => {
   context('when query is unsuccessful', () => {
 
     it('emits PARAMETER_ERROR when categoryid is undefined', (done) => {
-      const getChatbotCategory = new GetChatbotInCategoryUseCase(stubRepository);
+      const getChatbotCategory = new GetChatbotInCategoryUseCase(stubRepository, stubLogger);
 
       getChatbotCategory.on(getChatbotCategory.events.PARAMETER_ERROR, (errorMessage) => {
         errorMessage.should.eql('Incorrect category id parameter');
@@ -113,7 +117,7 @@ describe('GetChatbotInCategoryUseCase', () => {
     });
 
     it('emits PARAMETER_ERROR when categoryid is incorrect format', (done) => {
-      const getChatbotCategory = new GetChatbotInCategoryUseCase(stubRepository);
+      const getChatbotCategory = new GetChatbotInCategoryUseCase(stubRepository, stubLogger);
 
       getChatbotCategory.on(getChatbotCategory.events.PARAMETER_ERROR, (errorMessage) => {
         errorMessage.should.eql('Incorrect category id parameter');
@@ -130,7 +134,7 @@ describe('GetChatbotInCategoryUseCase', () => {
     });
 
     it('emits NOT_FOUND when categoryid does not exists', (done) => {
-      const getChatbotCategory = new GetChatbotInCategoryUseCase(stubRepository);
+      const getChatbotCategory = new GetChatbotInCategoryUseCase(stubRepository, stubLogger);
 
       getChatbotCategory.on(getChatbotCategory.events.PARAMETER_ERROR, () => {
         done('fail - PARAMETER_ERROR');
@@ -147,7 +151,7 @@ describe('GetChatbotInCategoryUseCase', () => {
     });
 
     it('emits PARAMETER_ERROR when error occurs with distant source', (done) => {
-      const getChatbotCategory = new GetChatbotInCategoryUseCase(stubRepository);
+      const getChatbotCategory = new GetChatbotInCategoryUseCase(stubRepository, stubLogger);
 
       getChatbotCategory.on(getChatbotCategory.events.PARAMETER_ERROR, () => {
         stubIsInCategoryList.should.have.been.calledOnce;

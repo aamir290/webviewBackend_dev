@@ -9,9 +9,12 @@ class ChatBotRepository {
    * @param localSource local sources for data
    * @param distantSource distant soruce for data, aka server
    */
-  constructor(localSource, distantSource) {
+  constructor(localSource, distantSource, logger) {
     this._localSource = localSource;
     this._distantSource = distantSource;
+
+    if(!logger) throw new Error('Missing logger');
+    this.logger = logger;
   }
 
   /**
@@ -54,7 +57,8 @@ class ChatBotRepository {
       try{
         return await this._distantSource.listCategory(categoryId);
       }catch(e){
-        throw new Error('DistantSource has no method listCategory or is called with wrong parameter');
+        this.logger.debug('ChatBotRepository - getListCategory - error with distant source : '+e);
+        throw new Error('DistantSource generate error while calling listCategory');
       }
     }else{
       throw new Error('DistantSource has no method listCategory or is called with wrong parameter');

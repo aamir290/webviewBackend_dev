@@ -10,10 +10,13 @@ const UseCase = require('./UseCase');
  */
 class GetChatbotInCategoryUseCase extends UseCase {
 
-  constructor(chatBotRepository) {
+  constructor(chatBotRepository, logger) {
     super(['SUCCESS', 'NOT_FOUND', 'PARAMETER_ERROR']);
 
     this.chatBotRepository = chatBotRepository;
+
+    if(!logger) throw new Error('Missing logger');
+    this.logger = logger;
   }
 
   /**
@@ -37,6 +40,7 @@ class GetChatbotInCategoryUseCase extends UseCase {
           this.emit(NOT_FOUND);
         }
       } catch (e) {
+        this.logger.debug('GetChatbotInCategoryUseCase - catch : '+e);
         this.emit(PARAMETER_ERROR, 'Incorrect category id parameter');
       }
     } else {

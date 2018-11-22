@@ -8,9 +8,12 @@ class DistantSource {
   /**
    * Initiate distant source
    * @param config application configuration
+   * @param logger alogger
    */
   constructor(config, logger) {
     this._urlServer = config.chatBotRepositoryServerUrl || 'http://localhost';
+
+    if(!logger) throw new Error('Missing logger');
     this._logger = logger;
   }
 
@@ -26,6 +29,7 @@ class DistantSource {
     const url = this._urlServer + '/listCategory/' + categoryId + '/inapp';
 
     //Request
+    this._logger.debug('DistantSource - listCategory request : '+url);
     const res = await request.get(url);
     return res.body;
   }

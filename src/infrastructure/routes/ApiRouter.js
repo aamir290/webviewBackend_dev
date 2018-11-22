@@ -14,7 +14,10 @@ class ApiRouter {
 
   constructor(useCaseContainer, chatBotRepository, logger) {
     this.useCaseContainer = useCaseContainer || {};
+
+    if(!logger) throw new Error('Missing logger');
     this.logger = logger;
+
     this.apiRouter = express.Router();
     this._chatBotRepository = chatBotRepository;
 
@@ -66,10 +69,11 @@ class ApiRouter {
     if (this.useCaseContainer.getChatbotInCategoryUseCase) {
       if(req.params && req.params.categoryId){
         const paramCategoryId = req.params.categoryId;
-        const getChatbotInCategoryUseCase = new this.useCaseContainer.getChatbotInCategoryUseCase(this._chatBotRepository);
+        const getChatbotInCategoryUseCase = new this.useCaseContainer.getChatbotInCategoryUseCase(this._chatBotRepository, this.logger);
         const {SUCCESS, NOT_FOUND, PARAMETER_ERROR} = getChatbotInCategoryUseCase.events;
 
         getChatbotInCategoryUseCase.on(SUCCESS, (chatbots) => {
+          this.logger.debug('_getListCategory - Success : '+chatbots);
           return res
             .status(Status.OK)
             .json(chatbots);
@@ -81,7 +85,8 @@ class ApiRouter {
             .end();
         });
 
-        getChatbotInCategoryUseCase.on(PARAMETER_ERROR, ()=>{
+        getChatbotInCategoryUseCase.on(PARAMETER_ERROR, ()=> {
+          this.logger.debug('_getListCategory - PARAMETER_ERROR');
           return this._sendBadRequest(res);
         });
 

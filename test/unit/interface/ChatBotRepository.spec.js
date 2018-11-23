@@ -142,7 +142,8 @@ describe('ChatBotRepository', () => {
             icon: 'http://icons.iconarchive.com/icons/designcontest/ecommerce-business/128/bank-icon.png',
             id: 'oldbank@botplatform.orange.fr',
             name: 'Old Bank'
-          }]});
+          }]
+      });
       stubListCategory.withArgs('toto').resolves({
         result: []
       });
@@ -177,7 +178,8 @@ describe('ChatBotRepository', () => {
             icon: 'http://icons.iconarchive.com/icons/designcontest/ecommerce-business/128/bank-icon.png',
             id: 'oldbank@botplatform.orange.fr',
             name: 'Old Bank'
-          }]});
+          }]
+      });
 
     });
 
@@ -266,5 +268,17 @@ describe('ChatBotRepository', () => {
       sinon.resetHistory();
     });
 
+  });
+
+  context('when initializing', () => {
+    it('throws error when no logger', (done) => {
+      try {
+        new ChatBotRepository({}, {});
+      } catch (e) {
+        done();
+        return;
+      }
+      done('fail - no error thrown');
+    });
   });
 });

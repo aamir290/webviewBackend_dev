@@ -10,7 +10,7 @@ describe('GetChatbotInCategoryUseCase', () => {
   let stubRepository, stubIsInCategoryList, stubGetListCategory, stubGetCategoryName, stubLogger;
 
   before(() => {
-    stubIsInCategoryList= sinon.stub();
+    stubIsInCategoryList = sinon.stub();
     stubIsInCategoryList.withArgs('tit').rejects();
     stubIsInCategoryList.withArgs('toto').resolves(false);
     stubIsInCategoryList.withArgs('finabank').resolves(true);
@@ -19,7 +19,7 @@ describe('GetChatbotInCategoryUseCase', () => {
     stubGetCategoryName = sinon.stub();
     stubGetCategoryName.withArgs('finabank').resolves('Banking');
 
-    stubGetListCategory= sinon.stub();
+    stubGetListCategory = sinon.stub();
     stubGetListCategory.withArgs('finabank').resolves({
       result: [
         {
@@ -35,7 +35,8 @@ describe('GetChatbotInCategoryUseCase', () => {
           icon: 'http://icons.iconarchive.com/icons/designcontest/ecommerce-business/128/bank-icon.png',
           id: 'oldbank@botplatform.orange.fr',
           name: 'Old Bank'
-        }]});
+        }]
+    });
     stubGetListCategory.withArgs('educ').rejects();
 
     stubRepository = sinon.createStubInstance(ChatBotRepository, {
@@ -79,7 +80,8 @@ describe('GetChatbotInCategoryUseCase', () => {
               icon: 'http://icons.iconarchive.com/icons/designcontest/ecommerce-business/128/bank-icon.png',
               id: 'oldbank@botplatform.orange.fr',
               name: 'Old Bank'
-            }]});
+            }]
+        });
         done();
       });
       getChatbotCategory.on(getChatbotCategory.events.NOT_FOUND, () => {
@@ -162,6 +164,19 @@ describe('GetChatbotInCategoryUseCase', () => {
       });
 
       getChatbotCategory.execute('educ');
+    });
+
+  });
+
+  context('when initializing', () => {
+    it('throws error when no logger', (done) => {
+      try {
+        new GetChatbotInCategoryUseCase(stubRepository);
+      }catch(e){
+        done();
+        return;
+      }
+      done('fail - no error thrown');
     });
   });
 

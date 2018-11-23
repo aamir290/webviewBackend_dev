@@ -263,6 +263,18 @@ describe('apiRouter - GET /listCategory', function () {
     });
   });
 
+  context('when initializing', () => {
+    it('throws error when no logger', (done) => {
+      try {
+        new ApiRouter({}, {});
+      } catch (e) {
+        done();
+        return;
+      }
+      done('fail - no error thrown');
+    });
+  });
+
   afterEach(() => {
     // Restore the default sandbox here
     sinon.resetHistory();

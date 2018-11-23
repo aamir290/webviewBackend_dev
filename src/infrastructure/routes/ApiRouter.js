@@ -4,6 +4,7 @@
 
 const express = require('express');
 const Status = require('http-status');
+const categoryValidationMiddleware = require('../validation/categoryParameterMiddleware');
 
 /**
  *
@@ -26,8 +27,8 @@ class ApiRouter {
 
   _setupRoutes() {
     this.apiRouter.get('/getDefaultCategories', this._getDefaultCategories.bind(this));
-    this.apiRouter.get('/listCategory', this._getListCategory.bind(this));
-    this.apiRouter.get('/listCategory/:categoryId', this._getListCategory.bind(this));
+    this.apiRouter.get('/listCategory', categoryValidationMiddleware, this._getListCategory.bind(this));
+    this.apiRouter.get('/listCategory/:categoryId', categoryValidationMiddleware, this._getListCategory.bind(this));
   }
 
   /**

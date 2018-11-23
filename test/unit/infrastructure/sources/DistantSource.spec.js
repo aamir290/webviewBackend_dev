@@ -77,6 +77,18 @@ describe('DistantSource', () => {
     });
   });
 
+  context('when initializing', () => {
+    it('throws error when no logger', (done) => {
+      try {
+        new DistantSource({});
+      } catch (e) {
+        done();
+        return;
+      }
+      done('fail - no error thrown');
+    });
+  });
+
   afterEach(() => {
     sinon.resetHistory();
   });

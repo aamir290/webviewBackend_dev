@@ -34,5 +34,29 @@ describe('Server', () => {
 
       await server.stop();
     });
+
+    it('starts/close server with no config parameter', async () => {
+      const config = {};
+
+      const logger = {};
+      logger.info = sinon.stub();
+
+      const server = new Server(express.Router(), config, logger);
+      await server.start();
+
+      logger.info.should.have.been.calledTwice;
+      logger.info.should.have.been.calledWith('Listening at localhost:3000');
+      logger.info.resetHistory();
+
+      //Close
+      await server.stop();
+
+      //restart
+      await server.start();
+      logger.info.should.have.been.calledTwice;
+      logger.info.should.have.been.calledWith('Listening at localhost:3000');
+
+      await server.stop();
+    });
   });
 });

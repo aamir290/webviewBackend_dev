@@ -21,7 +21,7 @@ class DistantSource {
    * Return array of chatbots for given category
    * Empty array if no chatbots for given category
    * @param categoryId id of category to retrieve chatbots from
-   * @returns promises with ategories array
+   * @returns promises with ctabots array
    */
   async listCategory(categoryId) {
     //Create url
@@ -30,6 +30,23 @@ class DistantSource {
 
     //Request
     this._logger.debug('DistantSource - listCategory request : '+url);
+    const res = await request.get(url);
+    return res.body;
+  }
+
+  /**
+   * Return array of chatbots for given search keyword
+   * Empty array if no chatbots for given keyword
+   * @param keyword keyword to search for
+   * @returns promises with chatbots array
+   */
+  async search(keyword) {
+    //Create url
+    if (keyword === undefined) throw new Error('Incorrect parameter keyword');
+    const url = this._urlServer + '/searchChatbots/' + keyword;
+
+    //Request
+    this._logger.debug('DistantSource - search request : '+url);
     const res = await request.get(url);
     return res.body;
   }

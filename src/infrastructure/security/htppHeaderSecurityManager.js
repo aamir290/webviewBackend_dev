@@ -4,6 +4,7 @@
  */
 
 const helmet = require('helmet');
+const cors = require('cors');
 
 module.exports = (expressApp) => {
 
@@ -17,4 +18,6 @@ module.exports = (expressApp) => {
     }
   }));
 
+  //CORS header
+  expressApp.use(cors());
 };

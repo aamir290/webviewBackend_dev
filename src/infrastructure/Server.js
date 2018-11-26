@@ -4,7 +4,6 @@
  */
 
 const express = require('express');
-const cors = require('cors');
 const applyHttpHeaderSecurity = require('./security/htppHeaderSecurityManager');
 
 
@@ -23,7 +22,6 @@ class Server {
 
     this.express = express();
     applyHttpHeaderSecurity(this.express);
-    this.express.use(cors());
     this.express.use(router);
   }
 

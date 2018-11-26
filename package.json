@@ -50,7 +50,8 @@
       "public",
       "bin",
       "coverage",
-      "app.js"
+      "app.js",
+      "src/infrastructure/logging"
     ]
   }
 }

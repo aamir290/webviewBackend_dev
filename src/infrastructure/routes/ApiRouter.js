@@ -50,12 +50,12 @@ class ApiRouter {
       });
 
       getRootCategoriesUseCase.on(ERROR, ()=>{
-        this._sendBadRequest(res);
+        this.constructor._sendBadRequest(res);
       });
 
       getRootCategoriesUseCase.execute();
     }else{
-      this._sendBadRequest(res);
+      this.constructor._sendBadRequest(res);
     }
   }
 
@@ -88,16 +88,16 @@ class ApiRouter {
 
         getChatbotInCategoryUseCase.on(PARAMETER_ERROR, ()=> {
           this.logger.debug('_getListCategory - PARAMETER_ERROR');
-          return this._sendBadRequest(res);
+          return this.constructor._sendBadRequest(res);
         });
 
         await getChatbotInCategoryUseCase.execute(paramCategoryId);
       }else{
         //No params => parameter error
-        this._sendBadRequest(res);
+        this.constructor._sendBadRequest(res);
       }
     }else{
-      this._sendBadRequest(res);
+      this.constructor._sendBadRequest(res);
     }
   }
 
@@ -106,7 +106,7 @@ class ApiRouter {
    * @param res
    * @private
    */
-  _sendBadRequest(res){
+  static _sendBadRequest(res){
     res
       .status(Status.BAD_REQUEST)
       .end();

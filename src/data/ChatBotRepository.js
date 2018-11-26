@@ -77,6 +77,25 @@ class ChatBotRepository {
       throw new Error('getCategoryName - incorrect category id : '+categoryId);
     }
   }
+
+  /**
+   * Return list of chatbot associated with given keyword
+   * @param keyword serach request
+   * @returns {Promise<void>} array of chatbot (could be empty if no chatbot found)
+   *  @throws Error if incorrect distant source
+   */
+  async search(keyword){
+    if(this._distantSource && this._distantSource.search && keyword) {
+      try{
+        return await this._distantSource.search(keyword);
+      }catch(e){
+        this.logger.debug('ChatBotRepository - search - error with distant source : '+e);
+        throw new Error('DistantSource generate error while calling search');
+      }
+    }else{
+      throw new Error('DistantSource has no method search or is called with wrong parameter');
+    }
+  }
 }
 
 module.exports = ChatBotRepository;

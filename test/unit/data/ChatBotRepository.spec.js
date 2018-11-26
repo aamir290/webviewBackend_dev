@@ -270,6 +270,105 @@ describe('ChatBotRepository', () => {
 
   });
 
+  /***********************************************************************************************************/
+
+  context('when perform search', () => {
+
+    let stubDistantSource, stubSearch, stubLogger;
+
+    before(() => {
+      stubSearch = sinon.stub();
+      stubSearch.withArgs('titi').resolves({
+        result: [
+          {
+            category: 'finabank',
+            description: 'elue meilleure banque pour les jeunes',
+            icon: 'https://upload.wikimedia.org/wikipedia/fr/0/09/Orange_Bank_2017.png',
+            id: 'orangebank@botplatform.orange.fr',
+            name: 'Orange Bank'
+          },
+          {
+            category: 'finabank',
+            description: 'oldest bank in town',
+            icon: 'http://icons.iconarchive.com/icons/designcontest/ecommerce-business/128/bank-icon.png',
+            id: 'oldbank@botplatform.orange.fr',
+            name: 'Old Bank'
+          }]
+      });
+      stubSearch.withArgs('toto').resolves({
+        result: []
+      });
+      stubSearch.withArgs('tutu').rejects();
+      stubSearch.rejects('Missing parameter');
+
+      stubDistantSource = sinon.createStubInstance(DistantSource, {
+        search: stubSearch
+      });
+
+      stubLogger = {};
+      stubLogger.debug = sinon.stub();
+    });
+
+    it('return array of chatbot when distant source return array', async () => {
+      const chatBotRepository = new ChatBotRepository({}, stubDistantSource, stubLogger);
+      const isInList = await chatBotRepository.search('titi');
+
+      stubSearch.should.have.been.calledOnce;
+      isInList.should.eql({
+        result: [
+          {
+            category: 'finabank',
+            description: 'elue meilleure banque pour les jeunes',
+            icon: 'https://upload.wikimedia.org/wikipedia/fr/0/09/Orange_Bank_2017.png',
+            id: 'orangebank@botplatform.orange.fr',
+            name: 'Orange Bank'
+          },
+          {
+            category: 'finabank',
+            description: 'oldest bank in town',
+            icon: 'http://icons.iconarchive.com/icons/designcontest/ecommerce-business/128/bank-icon.png',
+            id: 'oldbank@botplatform.orange.fr',
+            name: 'Old Bank'
+          }]
+      });
+
+    });
+
+    it('return empty array of chatbot when distant source return empty array', async () => {
+      const chatBotRepository = new ChatBotRepository({}, stubDistantSource, stubLogger);
+      const isInList = await chatBotRepository.search('toto');
+
+      stubSearch.should.have.been.calledOnce;
+      isInList.should.eql({
+        result: []
+      });
+    });
+
+    it('throw error when no distant source', async () => {
+      const chatBotRepository = new ChatBotRepository({}, {}, stubLogger);
+
+      await chatBotRepository.search().should.be.rejected;
+    });
+
+    it('throw error when no parameter', async () => {
+      const chatBotRepository = new ChatBotRepository({}, stubDistantSource, stubLogger);
+
+      await chatBotRepository.search().should.be.rejected;
+    });
+
+    it('throw error when problem with distant source', async () => {
+      const chatBotRepository = new ChatBotRepository({}, stubDistantSource, stubLogger);
+      await chatBotRepository.search('tutu').should.be.rejected;
+    });
+
+    afterEach(() => {
+      // Reset count
+      sinon.resetHistory();
+    });
+
+  });
+
+  /***********************************************************************************************************/
   context('when initializing', () => {
     it('throws error when no logger', (done) => {
       try {

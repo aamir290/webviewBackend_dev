@@ -2,7 +2,6 @@
  * Return data from local elements.
  * Could be constant or database from current repository.
  */
-const Category = require('../../domain/Category');
 const path = require('path');
 
 class LocalSource {
@@ -28,13 +27,17 @@ class LocalSource {
   /**
    * Return array of root categories (with no subcategories)
    * Empty array if no categories.
-   * @returns categories array
+   * @returns Object categories array
    */
   getRootCategories() {
     const categories = [];
 
     this.jsonCategories.forEach((currentCategory) => {
-      categories.push(new Category(currentCategory.id, currentCategory.name, currentCategory.icon));
+      categories.push({
+        id: currentCategory.id,
+        name: currentCategory.name,
+        icon: currentCategory.icon
+      });
     });
 
     //Format answer

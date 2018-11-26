@@ -26,6 +26,14 @@ module.exports = [
       if (match[1] === '/listCategory/educ/inapp') {
         throw new Error(500);
       }
+
+      if (match[1] === '/searchChatbots/toto') {
+        return finabankChatbotResults;
+      }
+
+      if (match[1] === '/searchChatbots/educ') {
+        throw new Error(500);
+      }
     },
 
     /**

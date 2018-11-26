@@ -2,7 +2,7 @@
  * Unit tests for Distant source
  */
 const sinon = require('sinon');
-const DistantSource = require('../../../../src/infrastructure/sources/DistantSource');
+const DistantSource = require('../../../../src/data/sources/DistantSource');
 const config = require('../../../../config/config');
 
 //Mock http client

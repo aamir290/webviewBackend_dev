@@ -7,7 +7,7 @@ const express = require('express');
 const ApiRouter = require('../../../../src/infrastructure/routes/ApiRouter');
 const GetRootCategoriesUseCase = require('../../../../src/usecases/GetRootCategoriesUseCase');
 const GetChatBotInCategoryUseCase = require('../../../../src/usecases/GetChatbotInCategoryUseCase');
-const ChatBotRepository = require('../../../../src/interface/ChatBotRepository');
+const ChatBotRepository = require('../../../../src/data/ChatBotRepository');
 
 
 describe('apiRouter - GET /getDefaultCategories', function () {

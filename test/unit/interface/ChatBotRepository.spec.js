@@ -2,9 +2,9 @@
  * Unit tests for chatBotReoository
  */
 const sinon = require('sinon');
-const ChatBotRepository = require('../../../src/interface/ChatBotRepository');
-const LocalSource = require('../../../src/infrastructure/sources/LocalSource');
-const DistantSource = require('../../../src/infrastructure/sources/DistantSource');
+const ChatBotRepository = require('../../../src/data/ChatBotRepository');
+const LocalSource = require('../../../src/data/sources/LocalSource');
+const DistantSource = require('../../../src/data/sources/DistantSource');
 
 describe('ChatBotRepository', () => {
 

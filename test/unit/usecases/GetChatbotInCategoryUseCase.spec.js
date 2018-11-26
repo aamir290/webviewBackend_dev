@@ -3,7 +3,7 @@
  */
 const sinon = require('sinon');
 const GetChatbotInCategoryUseCase = require('../../../src/usecases/GetChatbotInCategoryUseCase');
-const ChatBotRepository = require('../../../src/interface/ChatBotRepository');
+const ChatBotRepository = require('../../../src/data/ChatBotRepository');
 
 describe('GetChatbotInCategoryUseCase', () => {
 

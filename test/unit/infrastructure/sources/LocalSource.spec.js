@@ -2,7 +2,7 @@
  * Unit tests for LocalSource
  */
 const sinon = require('sinon');
-const LocalSource = require('../../../../src/infrastructure/sources/LocalSource');
+const LocalSource = require('../../../../src/data/sources/LocalSource');
 const testDataPath = './test/unit/testData';
 
 describe('LocalSource', () => {

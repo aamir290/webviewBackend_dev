@@ -4,11 +4,11 @@
  */
 
 module.exports = {
-  port: process.env.OPENSHIFT_NODEJS_PORT || process.env.PORT || 4000,
-  host: process.env.OPENSHIFT_NODEJS_IP || 'localhost',
+  port: process.env.RUN_PORT || 4000,
+  host: process.env.RUN_HOST || 'localhost',
   log : {
     level : 'info',
     logDirectory : 'logs'
   },
-  chatBotRepositoryServerUrl : 'https://pubsecbotdir.kmt.orange.com'
+  chatBotRepositoryServerUrl : process.env.CHATBOT_REPOSITORY_URL || 'https://pubsecbotdir.kmt.orange.com'
 };

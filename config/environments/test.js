@@ -4,12 +4,11 @@
  */
 
 module.exports = {
-  // port: process.env.PORT
-  port: process.env.PORT || 3000,
-  host: 'localhost',
+  port: process.env.RUN_PORT || 2000,
+  host: process.env.RUN_HOST || 'localhost',
   log : {
     level : 'debug',
     logDirectory : 'logs'
   },
-  chatBotRepositoryServerUrl : 'https://pubsecbotdir.kmt.orange.com'
+  chatBotRepositoryServerUrl : process.env.CHATBOT_REPOSITORY_URL || 'https://pubsecbotdir.kmt.orange.com'
 };

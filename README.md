@@ -10,7 +10,7 @@ Based on Nodejs/Express
 * Branch dev : development branch, contains current development. Stable.
 * Other branches : unstable development
 
-## Build Setup
+## NPM command
 
 ``` bash
 # install dependencies
@@ -40,3 +40,12 @@ NODE_TLS_REJECT_UNAUTHORIZED='0' npm run dev
 ```
 
 For production purpose, add certificate as request option.
+
+## Configuration
+
+Available environment var to set :
+
+   * *RUN_HOST* : host for production server (default : localhost)
+   * *RUN_PORT* : port for production server to listen to (default : 4000) 
+   * *CHATBOT_REPOSITORY_URL* : url for chatbot repositroy (default : https://pubsecbotdir.kmt.orange.com) 
+

@@ -3,7 +3,6 @@
  */
 
 const express = require('express');
-const Status = require('http-status');
 const categoryValidationMiddleware = require('../validation/categoryParameterMiddleware');
 
 /**
@@ -47,7 +46,7 @@ class ApiRouter {
 
       getRootCategoriesUseCase.on(SUCCESS, (categories) => {
         res
-          .status(Status.OK)
+          .status(200)
           .json(categories);
       });
 
@@ -78,13 +77,13 @@ class ApiRouter {
         getChatbotInCategoryUseCase.on(SUCCESS, (chatbots) => {
           this.logger.debug('_getListCategory - Success : '+chatbots);
           return res
-            .status(Status.OK)
+            .status(200)
             .json(chatbots);
         });
 
         getChatbotInCategoryUseCase.on(NOT_FOUND, ()=>{
           return res
-            .status(Status.NOT_FOUND)
+            .status(404)
             .end();
         });
 
@@ -120,7 +119,7 @@ class ApiRouter {
         simpleSearchUseCase.on(SUCCESS, (chatbots) => {
           this.logger.debug('_getListCategory - Success : '+chatbots);
           return res
-            .status(Status.OK)
+            .status(200)
             .json(chatbots);
         });
 
@@ -146,7 +145,7 @@ class ApiRouter {
    */
   static _sendBadRequest(res){
     res
-      .status(Status.BAD_REQUEST)
+      .status(400)
       .end();
   }
 

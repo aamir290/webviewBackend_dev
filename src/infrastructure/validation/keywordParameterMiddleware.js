@@ -6,7 +6,6 @@
  */
 
 const validator = require('validator');
-const Status = require('http-status');
 
 module.exports = function (req, res, next) {
   if(req && req.params && req.params.keyword){ //Parameter exists
@@ -39,6 +38,6 @@ module.exports = function (req, res, next) {
  */
 function _sendBadRequest(res) {
   res
-    .status(Status.BAD_REQUEST)
+    .status(400)
     .end();
 }

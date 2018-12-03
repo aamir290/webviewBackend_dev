@@ -4,20 +4,15 @@
 
 const sinon = require('sinon');
 const keywordParameterMiddleware = require('../../../../src/infrastructure/validation/keywordParameterMiddleware');
+const stubUtils = require('../../../testData/stubUtils');
 
 describe('keywordParameterMiddleware', () => {
 
   let stubRequest, stubResponse, stubNext;
 
   beforeEach(() => {
-    stubRequest = {};
-    stubRequest.params = {};
-
-    stubResponse = {};
-    stubResponse.status = sinon.stub();
-    stubResponse.status.returns(stubResponse);
-    stubResponse.end = sinon.stub();
-
+    stubRequest = stubUtils.createStubRequest();
+    stubResponse = stubUtils.createStubResponse();
     stubNext = sinon.stub();
   });
 

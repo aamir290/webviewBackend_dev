@@ -9,7 +9,7 @@ describe('categoryParameterMiddleware', () => {
 
   let stubRequest, stubResponse, stubNext;
 
-  before(() => {
+  beforeEach(() => {
     stubRequest = {};
     stubRequest.params = {};
 
@@ -85,7 +85,7 @@ describe('categoryParameterMiddleware', () => {
   });
 
   afterEach(()=>{
-    sinon.resetHistory();
+    sinon.reset();
   });
 
 });

@@ -10,6 +10,61 @@ const GetChatBotInCategoryUseCase = require('../../../../src/usecases/GetChatbot
 const SimpleSearchUseCase = require('../../../../src/usecases/SimpleSearchUseCase');
 const ChatBotRepository = require('../../../../src/data/ChatBotRepository');
 
+describe('apiRouter ', function () {
+
+  context('when initializing', () => {
+    it('throws error when no logger', (done) => {
+      try {
+        new ApiRouter({}, {});
+      } catch (e) {
+        done();
+        return;
+      }
+      done('fail - no error thrown');
+    });
+  });
+
+  context('when calling private', () => {
+    let stubReq, stubRes, stubLogger, useCaseContainer;
+
+    before(() => {
+      useCaseContainer = {};
+      useCaseContainer.getChatbotInCategoryUseCase = {};
+      useCaseContainer.simpleSearchUseCase = {};
+      stubLogger = {};
+
+      stubReq = {};
+      stubReq.params = {};
+
+      stubRes = {};
+      stubRes.status = sinon.stub().returns(stubRes);
+      stubRes.end = sinon.stub();
+    });
+
+    it('throws error when _getListCategory  has no category parameter', () => {
+      //Init
+      const apiRouter = new ApiRouter(useCaseContainer, {}, stubLogger);
+      apiRouter._getListCategory(stubReq, stubRes, {});
+
+      stubRes.status.should.have.been.calledOnceWith(400);
+      stubRes.end.should.have.been.calledOnce;
+    });
+
+    it('throws error when _search  has no keyword parameter', () => {
+      //Init
+      const apiRouter = new ApiRouter(useCaseContainer, {}, stubLogger);
+      apiRouter._search(stubReq, stubRes, {});
+
+      stubRes.status.should.have.been.calledOnceWith(400);
+      stubRes.end.should.have.been.calledOnce;
+    });
+  });
+
+  afterEach(() => {
+    // Restore the default sandbox here
+    sinon.resetHistory();
+  });
+});
 
 describe('apiRouter - GET /getDefaultCategories', function () {
 
@@ -264,18 +319,6 @@ describe('apiRouter - GET /listCategory', function () {
     });
   });
 
-  context('when initializing', () => {
-    it('throws error when no logger', (done) => {
-      try {
-        new ApiRouter({}, {});
-      } catch (e) {
-        done();
-        return;
-      }
-      done('fail - no error thrown');
-    });
-  });
-
   afterEach(() => {
     // Restore the default sandbox here
     sinon.resetHistory();
@@ -404,18 +447,6 @@ describe('apiRouter - GET /search', function () {
       request(app)
         .get('/search/fina')
         .expect(400, done);
-    });
-  });
-
-  context('when initializing', () => {
-    it('throws error when no logger', (done) => {
-      try {
-        new ApiRouter({}, {});
-      } catch (e) {
-        done();
-        return;
-      }
-      done('fail - no error thrown');
     });
   });
 

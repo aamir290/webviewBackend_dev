@@ -5,8 +5,15 @@ const sinon = require('sinon');
 const ChatBotRepository = require('../../../src/data/ChatBotRepository');
 const LocalSource = require('../../../src/data/sources/LocalSource');
 const DistantSource = require('../../../src/data/sources/DistantSource');
+const stubUtils = require('../../testData/stubUtils');
 
 describe('ChatBotRepository', () => {
+
+  let stubLogger;
+
+  before(() => {
+    stubLogger = stubUtils.createStubLogger();
+  });
 
   /***********************************************************************************************************/
 
@@ -16,8 +23,6 @@ describe('ChatBotRepository', () => {
       const stubLocalSource = sinon.createStubInstance(LocalSource, {
         getRootCategories: stubGetAllCategoriesLocalSource
       });
-      const stubLogger = {};
-      stubLogger.debug = sinon.stub();
 
       const chatBotRepository = new ChatBotRepository(stubLocalSource, {}, stubLogger);
       const categories = await chatBotRepository.getRootCategories();
@@ -35,8 +40,6 @@ describe('ChatBotRepository', () => {
       const stubLocalSource = sinon.createStubInstance(LocalSource, {
         getRootCategories: stubGetAllCategoriesLocalSource
       });
-      const stubLogger = {};
-      stubLogger.debug = sinon.stub();
 
       const chatBotRepository = new ChatBotRepository(stubLocalSource, {}, stubLogger);
       const categories = await chatBotRepository.getRootCategories();
@@ -50,9 +53,6 @@ describe('ChatBotRepository', () => {
     });
 
     it('return undefined when local source has a problem', async () => {
-      const stubLogger = {};
-      stubLogger.debug = sinon.stub();
-
       const chatBotRepository = new ChatBotRepository({}, {}, stubLogger);
       await chatBotRepository.getRootCategories().should.be.rejected;
     });
@@ -62,7 +62,7 @@ describe('ChatBotRepository', () => {
 
   context('when testing category in list', () => {
 
-    let stubLocalSource, stubIsCategoryInListLocalSource, stubLogger;
+    let stubLocalSource, stubIsCategoryInListLocalSource;
 
     before(() => {
       stubIsCategoryInListLocalSource = sinon.stub();
@@ -73,9 +73,6 @@ describe('ChatBotRepository', () => {
       stubLocalSource = sinon.createStubInstance(LocalSource, {
         isCategoryInList: stubIsCategoryInListLocalSource
       });
-
-      stubLogger = {};
-      stubLogger.debug = sinon.stub();
     });
 
     it('return true when localsource return true', async () => {
@@ -123,7 +120,7 @@ describe('ChatBotRepository', () => {
 
   context('when getting listcategory', () => {
 
-    let stubDistantSource, stubListCategory, stubLogger;
+    let stubDistantSource, stubListCategory;
 
     before(() => {
       stubListCategory = sinon.stub();
@@ -153,9 +150,6 @@ describe('ChatBotRepository', () => {
       stubDistantSource = sinon.createStubInstance(DistantSource, {
         listCategory: stubListCategory
       });
-
-      stubLogger = {};
-      stubLogger.debug = sinon.stub();
     });
 
     it('return array of chatbot when distant source return array', async () => {
@@ -221,7 +215,7 @@ describe('ChatBotRepository', () => {
 
   context('when getting category name', () => {
 
-    let stubLocalSource, stubGetCategoryName, stubLogger;
+    let stubLocalSource, stubGetCategoryName;
 
     before(() => {
       stubGetCategoryName = sinon.stub();
@@ -232,9 +226,6 @@ describe('ChatBotRepository', () => {
       stubLocalSource = sinon.createStubInstance(LocalSource, {
         getCategoryName: stubGetCategoryName
       });
-
-      stubLogger = {};
-      stubLogger.debug = sinon.stub();
 
     });
 
@@ -274,7 +265,7 @@ describe('ChatBotRepository', () => {
 
   context('when perform search', () => {
 
-    let stubDistantSource, stubSearch, stubLogger;
+    let stubDistantSource, stubSearch;
 
     before(() => {
       stubSearch = sinon.stub();
@@ -304,9 +295,6 @@ describe('ChatBotRepository', () => {
       stubDistantSource = sinon.createStubInstance(DistantSource, {
         search: stubSearch
       });
-
-      stubLogger = {};
-      stubLogger.debug = sinon.stub();
     });
 
     it('return array of chatbot when distant source return array', async () => {

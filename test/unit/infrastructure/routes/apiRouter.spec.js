@@ -9,6 +9,7 @@ const GetRootCategoriesUseCase = require('../../../../src/usecases/GetRootCatego
 const GetChatBotInCategoryUseCase = require('../../../../src/usecases/GetChatbotInCategoryUseCase');
 const SimpleSearchUseCase = require('../../../../src/usecases/SimpleSearchUseCase');
 const ChatBotRepository = require('../../../../src/data/ChatBotRepository');
+const stubUtils = require('../../../testData/stubUtils');
 
 describe('apiRouter ', function () {
 
@@ -31,7 +32,7 @@ describe('apiRouter ', function () {
       useCaseContainer = {};
       useCaseContainer.getChatbotInCategoryUseCase = {};
       useCaseContainer.simpleSearchUseCase = {};
-      stubLogger = {};
+      stubLogger = stubUtils.createStubLogger();
 
       stubReq = {};
       stubReq.params = {};
@@ -198,8 +199,7 @@ describe('apiRouter - GET /listCategory', function () {
     useCaseContainer = {};
     useCaseContainer.getChatbotInCategoryUseCase = GetChatBotInCategoryUseCase;
 
-    stubLogger = {};
-    stubLogger.debug = sinon.stub();
+    stubLogger = stubUtils.createStubLogger();
   });
 
   context('when query is successful', () => {
@@ -357,8 +357,7 @@ describe('apiRouter - GET /search', function () {
     useCaseContainer = {};
     useCaseContainer.simpleSearchUseCase = SimpleSearchUseCase;
 
-    stubLogger = {};
-    stubLogger.debug = sinon.stub();
+    stubLogger = stubUtils.createStubLogger();
   });
 
   context('when query is successful', () => {

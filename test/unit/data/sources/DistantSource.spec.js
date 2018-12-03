@@ -4,6 +4,7 @@
 const sinon = require('sinon');
 const DistantSource = require('../../../../src/data/sources/DistantSource');
 const config = require('../../../../config/config');
+const stubUtils = require('../../../testData/stubUtils');
 
 //Mock http client
 var request = require('superagent');
@@ -15,9 +16,7 @@ describe('DistantSource', () => {
   let stubLogger;
 
   before(() => {
-    stubLogger = {};
-    stubLogger.error = sinon.stub();
-    stubLogger.debug = sinon.stub();
+    stubLogger = stubUtils.createStubLogger();
   });
 
   context('when getting chatbot list for given category', () => {

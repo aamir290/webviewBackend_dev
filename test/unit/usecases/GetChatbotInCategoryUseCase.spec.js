@@ -4,6 +4,7 @@
 const sinon = require('sinon');
 const GetChatbotInCategoryUseCase = require('../../../src/usecases/GetChatbotInCategoryUseCase');
 const ChatBotRepository = require('../../../src/data/ChatBotRepository');
+const stubUtils = require('../../testData/stubUtils');
 
 describe('GetChatbotInCategoryUseCase', () => {
 
@@ -45,8 +46,7 @@ describe('GetChatbotInCategoryUseCase', () => {
       getCategoryName: stubGetCategoryName
     });
 
-    stubLogger = {};
-    stubLogger.debug = sinon.stub();
+    stubLogger = stubUtils.createStubLogger();
   });
 
   /*************************************************************************/

@@ -4,14 +4,14 @@
 const sinon = require('sinon');
 const LocalSource = require('../../../../src/data/sources/LocalSource');
 const testDataPath = './test/testData';
+const stubUtils = require('../../../testData/stubUtils');
 
 describe('LocalSource', () => {
 
   let stubLogger;
 
   before(() => {
-    stubLogger = {};
-    stubLogger.error = sinon.stub();
+    stubLogger = stubUtils.createStubLogger();
   });
 
   context('when getting default categories', () => {

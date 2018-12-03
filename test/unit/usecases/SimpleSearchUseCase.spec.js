@@ -4,6 +4,7 @@
 const sinon = require('sinon');
 const SimpleSearchUsecase = require('../../../src/usecases/SimpleSearchUseCase');
 const ChatBotRepository = require('../../../src/data/ChatBotRepository');
+const stubUtils = require('../../testData/stubUtils');
 
 describe('SimpleSearchUseCase', () => {
 
@@ -35,8 +36,7 @@ describe('SimpleSearchUseCase', () => {
       search: stubSearch,
     });
 
-    stubLogger = {};
-    stubLogger.debug = sinon.stub();
+    stubLogger = stubUtils.createStubLogger();
   });
 
   /*************************************************************************/

@@ -5,8 +5,8 @@
   "main": "./bin/www",
   "scripts": {
     "test": "npm run test-unit",
-    "start": "cross-env DEBUG=searchDirectoryApi*,-*debug node ./bin/www",
-    "dev": "cross-env DEBUG=searchDirectoryApi* NODE_ENV=development nodemon ./bin/www",
+    "start": "cross-env node ./bin/www",
+    "dev": "cross-env NODE_ENV=development nodemon ./bin/www",
     "test:unit": "cross-env NODE_ENV_=test mocha --opts test/mocha.opts.unit ",
     "coverage": "cross-env NODE_ENV_=test nyc --all mocha --opts test/mocha.opts.unit ",
     "coverage:html": "cross-env NODE_ENV_=test nyc --all --reporter=html mocha --opts test/mocha.opts.unit "
@@ -20,7 +20,6 @@
   "dependencies": {
     "cors": "^2.8.5",
     "cross-env": "^5.2.0",
-    "debug": "~2.6.9",
     "express": "^4.16.4",
     "helmet": "^3.15.0",
     "morgan": "~1.9.0",

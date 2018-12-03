@@ -75,6 +75,13 @@ describe('categoryParameterMiddleware', () => {
       stubResponse.status.should.have.been.calledWith(400);
       stubResponse.end.should.have.been.called;
     });
+
+    it('return 400 BAD Request with no parameter',  () => {
+      categoryParameterMiddleware(stubRequest, stubResponse, stubNext);
+
+      stubResponse.status.should.have.been.calledWith(400);
+      stubResponse.end.should.have.been.called;
+    });
   });
 
   afterEach(()=>{

@@ -7,7 +7,7 @@ const config = require('../../../../config/config');
 
 //Mock http client
 var request = require('superagent');
-var configSuperAgent = require('../../testData/superAgent.config');
+var configSuperAgent = require('../../../testData/superAgent.config');
 require('superagent-mock')(request, configSuperAgent);
 
 describe('DistantSource', () => {

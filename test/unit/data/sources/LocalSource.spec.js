@@ -3,7 +3,7 @@
  */
 const sinon = require('sinon');
 const LocalSource = require('../../../../src/data/sources/LocalSource');
-const testDataPath = './test/unit/testData';
+const testDataPath = './test/testData';
 
 describe('LocalSource', () => {
 

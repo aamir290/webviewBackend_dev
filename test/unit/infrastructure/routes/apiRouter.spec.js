@@ -7,6 +7,7 @@ const express = require('express');
 const ApiRouter = require('../../../../src/infrastructure/routes/ApiRouter');
 const GetRootCategoriesUseCase = require('../../../../src/usecases/GetRootCategoriesUseCase');
 const GetChatBotInCategoryUseCase = require('../../../../src/usecases/GetChatbotInCategoryUseCase');
+const SimpleSearchUseCase = require('../../../../src/usecases/SimpleSearchUseCase');
 const ChatBotRepository = require('../../../../src/data/ChatBotRepository');
 
 
@@ -259,6 +260,149 @@ describe('apiRouter - GET /listCategory', function () {
       //Test
       request(app)
         .get('/listCategory')
+        .expect(400, done);
+    });
+  });
+
+  context('when initializing', () => {
+    it('throws error when no logger', (done) => {
+      try {
+        new ApiRouter({}, {});
+      } catch (e) {
+        done();
+        return;
+      }
+      done('fail - no error thrown');
+    });
+  });
+
+  afterEach(() => {
+    // Restore the default sandbox here
+    sinon.resetHistory();
+  });
+});
+
+describe('apiRouter - GET /search', function () {
+
+  let stubRepository, useCaseContainer, stubLogger;
+
+  before(() => {
+
+    const stubSearch= sinon.stub();
+    stubSearch.withArgs('fina').resolves({
+      result: [
+        {
+          category: 'finabank',
+          description: 'elue meilleure banque pour les jeunes',
+          icon: 'https://upload.wikimedia.org/wikipedia/fr/0/09/Orange_Bank_2017.png',
+          id: 'orangebank@botplatform.orange.fr',
+          name: 'Orange Bank'
+        },
+        {
+          category: 'finabank',
+          description: 'oldest bank in town',
+          icon: 'http://icons.iconarchive.com/icons/designcontest/ecommerce-business/128/bank-icon.png',
+          id: 'oldbank@botplatform.orange.fr',
+          name: 'Old Bank'
+        }]});
+    stubSearch.withArgs('finabank').rejects();
+
+    stubRepository = sinon.createStubInstance(ChatBotRepository, {
+      search: stubSearch
+    });
+
+    useCaseContainer = {};
+    useCaseContainer.simpleSearchUseCase = SimpleSearchUseCase;
+
+    stubLogger = {};
+    stubLogger.debug = sinon.stub();
+  });
+
+  context('when query is successful', () => {
+    it('respond with array of chatbots', function (done) {
+      const apiRouter = new ApiRouter(useCaseContainer, stubRepository, stubLogger);
+      const app = express();
+      app.use(apiRouter.apiRouter);
+
+      //Test
+      request(app)
+        .get('/search/fina')
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .then(response => {
+          response.body.should.eql({
+            result: [
+              {
+                category: 'finabank',
+                description: 'elue meilleure banque pour les jeunes',
+                icon: 'https://upload.wikimedia.org/wikipedia/fr/0/09/Orange_Bank_2017.png',
+                id: 'orangebank@botplatform.orange.fr',
+                name: 'Orange Bank'
+              },
+              {
+                category: 'finabank',
+                description: 'oldest bank in town',
+                icon: 'http://icons.iconarchive.com/icons/designcontest/ecommerce-business/128/bank-icon.png',
+                id: 'oldbank@botplatform.orange.fr',
+                name: 'Old Bank'
+              }]});
+          done();
+        })
+        .catch((e) => {
+          done(e);
+        });
+    });
+  });
+
+  context('when query is unsuccessful', () => {
+
+    it('respond with error when parameter not set', function (done) {
+      //Init
+      const apiRouter = new ApiRouter(useCaseContainer, stubRepository, stubLogger);
+      const app = express();
+      app.use(apiRouter.apiRouter);
+
+      //Test
+      request(app)
+        .get('/search/')
+        .expect(400, done);
+    });
+
+    it('respond with error when error occurs in usecase', function (done) {
+      //Init
+      const apiRouter = new ApiRouter(useCaseContainer, stubRepository, stubLogger);
+      const app = express();
+      app.use(apiRouter.apiRouter);
+
+      //Test
+      request(app)
+        .get('/search/finabank')
+        .expect(400, done);
+    });
+
+    it('respond with error when usecase not added to container', function (done) {
+      //Init
+      const useCaseContainer = {};
+
+      const apiRouter = new ApiRouter(useCaseContainer, {}, stubLogger);
+      const app = express();
+      app.use(apiRouter.apiRouter);
+
+      //Test
+      request(app)
+        .get('/search/fina')
+        .expect(400, done);
+    });
+
+    it('respond with error when no container', function (done) {
+      //Init
+      const apiRouter = new ApiRouter(undefined, {}, stubLogger);
+      const app = express();
+      app.use(apiRouter.apiRouter);
+
+      //Test
+      request(app)
+        .get('/search/fina')
         .expect(400, done);
     });
   });

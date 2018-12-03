@@ -16,6 +16,7 @@ const ApiRouter = require('../src/infrastructure/routes/ApiRouter');
 
 const GetRootCategoriesUseCase = require('../src/usecases/GetRootCategoriesUseCase');
 const GetChatBotInCategoryUseCase = require('../src/usecases/GetChatbotInCategoryUseCase');
+const SimpleSearchUseCase = require('../src/usecases/SimpleSearchUseCase');
 
 //Configuration
 const config = require('../config/config.js');
@@ -36,6 +37,7 @@ const chatBotRepositoryImpl = new ChatBotRepository(localSourceImpl, distantSour
 const useCaseContainer = {};
 useCaseContainer.getRootCategoriesUsecase = GetRootCategoriesUseCase;
 useCaseContainer.getChatbotInCategoryUseCase = GetChatBotInCategoryUseCase;
+useCaseContainer.simpleSearchUseCase = SimpleSearchUseCase;
 
 
 const apiRouterImpl = new ApiRouter(useCaseContainer, chatBotRepositoryImpl, logger);

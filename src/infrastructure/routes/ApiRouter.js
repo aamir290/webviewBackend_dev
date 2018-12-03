@@ -29,6 +29,7 @@ class ApiRouter {
     this.apiRouter.get('/getDefaultCategories', this._getDefaultCategories.bind(this));
     this.apiRouter.get('/listCategory', categoryValidationMiddleware, this._getListCategory.bind(this));
     this.apiRouter.get('/listCategory/:categoryId', categoryValidationMiddleware, this._getListCategory.bind(this));
+    this.apiRouter.get('/search/:keyword', this._search.bind(this));
   }
 
   /**
@@ -92,6 +93,42 @@ class ApiRouter {
         });
 
         await getChatbotInCategoryUseCase.execute(paramCategoryId);
+      }else{
+        //No params => parameter error
+        this.constructor._sendBadRequest(res);
+      }
+    }else{
+      this.constructor._sendBadRequest(res);
+    }
+  }
+
+  /**
+   * handle request /search/:keyword
+   * @param req
+   * @param res
+   * @param next
+   * @private
+   */
+  async _search(req, res, next) {
+    if (this.useCaseContainer.simpleSearchUseCase) {
+      if(req.params && req.params.keyword){
+        const paramKeyword = req.params.keyword;
+        const simpleSearchUseCase = new this.useCaseContainer.simpleSearchUseCase(this._chatBotRepository, this.logger);
+        const {SUCCESS, PARAMETER_ERROR} = simpleSearchUseCase.events;
+
+        simpleSearchUseCase.on(SUCCESS, (chatbots) => {
+          this.logger.debug('_getListCategory - Success : '+chatbots);
+          return res
+            .status(Status.OK)
+            .json(chatbots);
+        });
+
+        simpleSearchUseCase.on(PARAMETER_ERROR, ()=> {
+          this.logger.debug('_getListCategory - PARAMETER_ERROR');
+          return this.constructor._sendBadRequest(res);
+        });
+
+        await simpleSearchUseCase.execute(paramKeyword);
       }else{
         //No params => parameter error
         this.constructor._sendBadRequest(res);

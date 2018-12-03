@@ -5,7 +5,7 @@ const UseCase = require('./UseCase');
  * Perform a simple search on list of all chatbots.
  * Extends EventEmitter to handle different response for method :
  *    - SUCCESS => response OK
- *    - ERROR => error in process
+ *    - PARAMETER_ERROR => error in process
  */
 class SimpleSearchUseCase extends UseCase{
 

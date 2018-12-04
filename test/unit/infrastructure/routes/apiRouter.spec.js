@@ -41,7 +41,7 @@ describe('apiRouter ', function () {
       stubNext = sinon.stub();
     });
 
-    it('throws error when _getListCategory  has no category parameter', () => {
+    it('throws error when _getListCategory has no category parameter', () => {
       //Init
       const apiRouter = new ApiRouter(useCaseContainer, {}, stubLogger);
       apiRouter._getListCategory(stubReq, {}, stubNext);
@@ -311,7 +311,7 @@ describe('apiRouter - GET /listCategory', function () {
 
       //Test
       request(app)
-        .get('/listCategory')
+        .get('/listCategory/fina')
         .expect(400, done);
     });
 

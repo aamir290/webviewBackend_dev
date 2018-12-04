@@ -1,6 +1,6 @@
 /**
  * Handle http error.
- * If not http error, call next error handler.
+ * If not http error, return error 400.
  * Id dev mod, display error message. Not in production mode.
  * @param err
  * @param req
@@ -21,6 +21,6 @@ module.exports = (err, req, res, next) => {
         .end();
     }
   } else {
-    next(err);
+    res.status(400).end();
   }
 };

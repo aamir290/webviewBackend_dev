@@ -1,5 +1,6 @@
 /**
  * Unit tests for apiRouter
+ * //TODO : mock and stubs request/response and next elements
  */
 const sinon = require('sinon');
 const request = require('supertest');
@@ -10,7 +11,7 @@ const GetChatBotInCategoryUseCase = require('../../../../src/usecases/GetChatbot
 const SimpleSearchUseCase = require('../../../../src/usecases/SimpleSearchUseCase');
 const ChatBotRepository = require('../../../../src/data/ChatBotRepository');
 const stubUtils = require('../../../testData/stubUtils');
-const HTTPError = require('../../../../src/infrastructure/error/HTTPError');
+const errorHandlerMiddlware = require('../../../../src/infrastructure/error/errorHandlerMiddleware');
 
 describe('apiRouter ', function () {
 
@@ -125,8 +126,9 @@ describe('apiRouter - GET /getDefaultCategories', function () {
       const apiRouter = new ApiRouter(useCaseContainer, stubChatBotRepository, {});
       const app = express();
       app.use(apiRouter.apiRouter);
+      app.use(errorHandlerMiddlware); //don't log error with default handler
 
-      //Test
+      //execute test
       request(app)
         .get('/getDefaultCategories')
         .expect(400, done);
@@ -140,6 +142,7 @@ describe('apiRouter - GET /getDefaultCategories', function () {
       const apiRouter = new ApiRouter(useCaseContainer, {}, {});
       const app = express();
       app.use(apiRouter.apiRouter);
+      app.use(errorHandlerMiddlware); //don't log error with default handler
 
       //Test
       request(app)
@@ -152,6 +155,7 @@ describe('apiRouter - GET /getDefaultCategories', function () {
       const apiRouter = new ApiRouter(undefined, {}, {});
       const app = express();
       app.use(apiRouter.apiRouter);
+      app.use(errorHandlerMiddlware); //don't log error with default handler
 
       //Test
       request(app)
@@ -208,6 +212,7 @@ describe('apiRouter - GET /listCategory', function () {
       const apiRouter = new ApiRouter(useCaseContainer, stubRepository, stubLogger);
       const app = express();
       app.use(apiRouter.apiRouter);
+      app.use(errorHandlerMiddlware); //don't log error with default handler
 
       //Test
       request(app)
@@ -261,6 +266,7 @@ describe('apiRouter - GET /listCategory', function () {
       const apiRouter = new ApiRouter(useCaseContainer, {}, stubLogger);
       const app = express();
       app.use(apiRouter.apiRouter);
+      app.use(errorHandlerMiddlware); //don't log error with default handler
 
       //Test
       request(app)
@@ -273,6 +279,7 @@ describe('apiRouter - GET /listCategory', function () {
       const apiRouter = new ApiRouter(useCaseContainer, stubRepository, stubLogger);
       const app = express();
       app.use(apiRouter.apiRouter);
+      app.use(errorHandlerMiddlware); //don't log error with default handler
 
       //Test
       request(app)
@@ -285,6 +292,7 @@ describe('apiRouter - GET /listCategory', function () {
       const apiRouter = new ApiRouter(useCaseContainer, stubRepository, stubLogger);
       const app = express();
       app.use(apiRouter.apiRouter);
+      app.use(errorHandlerMiddlware); //don't log error with default handler
 
       //Test
       request(app)
@@ -299,6 +307,7 @@ describe('apiRouter - GET /listCategory', function () {
       const apiRouter = new ApiRouter(useCaseContainer, {}, stubLogger);
       const app = express();
       app.use(apiRouter.apiRouter);
+      app.use(errorHandlerMiddlware); //don't log error with default handler
 
       //Test
       request(app)
@@ -311,6 +320,7 @@ describe('apiRouter - GET /listCategory', function () {
       const apiRouter = new ApiRouter(undefined, {}, stubLogger);
       const app = express();
       app.use(apiRouter.apiRouter);
+      app.use(errorHandlerMiddlware); //don't log error with default handler
 
       //Test
       request(app)
@@ -403,11 +413,13 @@ describe('apiRouter - GET /search', function () {
       const apiRouter = new ApiRouter(useCaseContainer, stubRepository, stubLogger);
       const app = express();
       app.use(apiRouter.apiRouter);
+      app.use(errorHandlerMiddlware); //don't log error with default handler
 
       //Test
       request(app)
         .get('/search/')
         .expect(400, done);
+
     });
 
     it('respond with error when error occurs in usecase', function (done) {
@@ -415,6 +427,7 @@ describe('apiRouter - GET /search', function () {
       const apiRouter = new ApiRouter(useCaseContainer, stubRepository, stubLogger);
       const app = express();
       app.use(apiRouter.apiRouter);
+      app.use(errorHandlerMiddlware); //don't log error with default handler
 
       //Test
       request(app)
@@ -429,6 +442,7 @@ describe('apiRouter - GET /search', function () {
       const apiRouter = new ApiRouter(useCaseContainer, {}, stubLogger);
       const app = express();
       app.use(apiRouter.apiRouter);
+      app.use(errorHandlerMiddlware); //don't log error with default handler
 
       //Test
       request(app)
@@ -441,6 +455,7 @@ describe('apiRouter - GET /search', function () {
       const apiRouter = new ApiRouter(undefined, {}, stubLogger);
       const app = express();
       app.use(apiRouter.apiRouter);
+      app.use(errorHandlerMiddlware); //don't log error with default handler
 
       //Test
       request(app)

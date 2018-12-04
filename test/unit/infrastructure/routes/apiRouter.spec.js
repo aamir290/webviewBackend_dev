@@ -10,6 +10,7 @@ const GetChatBotInCategoryUseCase = require('../../../../src/usecases/GetChatbot
 const SimpleSearchUseCase = require('../../../../src/usecases/SimpleSearchUseCase');
 const ChatBotRepository = require('../../../../src/data/ChatBotRepository');
 const stubUtils = require('../../../testData/stubUtils');
+const HTTPError = require('../../../../src/infrastructure/error/HTTPError');
 
 describe('apiRouter ', function () {
 
@@ -26,44 +27,43 @@ describe('apiRouter ', function () {
   });
 
   context('when calling private', () => {
-    let stubReq, stubRes, stubLogger, useCaseContainer;
+    let stubReq, stubNext, stubLogger, useCaseContainer;
 
-    before(() => {
+    beforeEach(() => {
       useCaseContainer = {};
       useCaseContainer.getChatbotInCategoryUseCase = {};
       useCaseContainer.simpleSearchUseCase = {};
       stubLogger = stubUtils.createStubLogger();
 
-      stubReq = {};
-      stubReq.params = {};
+      stubReq = stubUtils.createStubRequest();
 
-      stubRes = {};
-      stubRes.status = sinon.stub().returns(stubRes);
-      stubRes.end = sinon.stub();
+      stubNext = sinon.stub();
     });
 
     it('throws error when _getListCategory  has no category parameter', () => {
       //Init
       const apiRouter = new ApiRouter(useCaseContainer, {}, stubLogger);
-      apiRouter._getListCategory(stubReq, stubRes, {});
+      apiRouter._getListCategory(stubReq, {}, stubNext);
 
-      stubRes.status.should.have.been.calledOnceWith(400);
-      stubRes.end.should.have.been.calledOnce;
+      stubNext.should.have.been.calledOnce;
+      stubNext.args[0][0].status.should.be.eql(400);
+      stubNext.args[0][0].message.should.be.eql('No param category id');
     });
 
     it('throws error when _search  has no keyword parameter', () => {
       //Init
       const apiRouter = new ApiRouter(useCaseContainer, {}, stubLogger);
-      apiRouter._search(stubReq, stubRes, {});
+      apiRouter._search(stubReq, {}, stubNext);
 
-      stubRes.status.should.have.been.calledOnceWith(400);
-      stubRes.end.should.have.been.calledOnce;
+      stubNext.should.have.been.calledOnce;
+      stubNext.args[0][0].status.should.be.eql(400);
+      stubNext.args[0][0].message.should.be.eql('No param keyword');
     });
   });
 
   afterEach(() => {
     // Restore the default sandbox here
-    sinon.resetHistory();
+    sinon.reset();
   });
 });
 

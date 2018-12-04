@@ -13,6 +13,7 @@ describe('categoryParameterMiddleware', () => {
   beforeEach(() => {
     stubRequest = stubUtils.createStubRequest();
     stubResponse = stubUtils.createStubResponse();
+
     stubNext = sinon.stub();
   });
 
@@ -40,8 +41,9 @@ describe('categoryParameterMiddleware', () => {
 
       categoryParameterMiddleware(stubRequest, stubResponse, stubNext);
 
-      stubResponse.status.should.have.been.calledOnceWith(400);
-      stubResponse.end.should.have.been.calledOnce;
+      stubNext.should.have.been.calledOnce;  //one call for error, the other call at the end (not in real world)
+      stubNext.args[0][0].status.should.be.eql(400);
+      stubNext.args[0][0].message.should.be.eql('Invalid Category Id - id length must be between 4 and 8');
     });
 
     it('return 400 BAD Request with category > 8 chars',  () => {
@@ -49,8 +51,9 @@ describe('categoryParameterMiddleware', () => {
 
       categoryParameterMiddleware(stubRequest, stubResponse, stubNext);
 
-      stubResponse.status.should.have.been.calledOnceWith(400);
-      stubResponse.end.should.have.been.calledOnce;
+      stubNext.should.have.been.calledOnce;  //one call for error, the other call at the end (not in real world)
+      stubNext.args[0][0].status.should.be.eql(400);
+      stubNext.args[0][0].message.should.be.eql('Invalid Category Id - id length must be between 4 and 8');
     });
 
     it('return 400 BAD Request with category with num',  () => {
@@ -58,8 +61,9 @@ describe('categoryParameterMiddleware', () => {
 
       categoryParameterMiddleware(stubRequest, stubResponse, stubNext);
 
-      stubResponse.status.should.have.been.calledWith(400);
-      stubResponse.end.should.have.been.called;
+      stubNext.should.have.been.calledOnce;
+      stubNext.args[0][0].status.should.be.eql(400);
+      stubNext.args[0][0].message.should.be.eql('Invalid Category Id - not alpha only');
     });
 
     it('return 400 BAD Request with category incorrect char',  () => {
@@ -67,15 +71,17 @@ describe('categoryParameterMiddleware', () => {
 
       categoryParameterMiddleware(stubRequest, stubResponse, stubNext);
 
-      stubResponse.status.should.have.been.calledWith(400);
-      stubResponse.end.should.have.been.called;
+      stubNext.should.have.been.calledOnce;
+      stubNext.args[0][0].status.should.be.eql(400);
+      stubNext.args[0][0].message.should.be.eql('Invalid Category Id - not alpha only');
     });
 
     it('return 400 BAD Request with no parameter',  () => {
       categoryParameterMiddleware(stubRequest, stubResponse, stubNext);
 
-      stubResponse.status.should.have.been.calledWith(400);
-      stubResponse.end.should.have.been.called;
+      stubNext.should.have.been.calledOnce;
+      stubNext.args[0][0].status.should.be.eql(400);
+      stubNext.args[0][0].message.should.be.eql('Invalid Category Id - Missing parameter');
     });
   });
 

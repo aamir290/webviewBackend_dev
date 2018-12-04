@@ -5,6 +5,7 @@
 
 const express = require('express');
 const applyHttpHeaderSecurity = require('./security/htppHeaderSecurityManager');
+const errorHandlerMiddlware = require('./error/errorHandlerMiddleware');
 
 
 class Server {
@@ -23,6 +24,7 @@ class Server {
     this.express = express();
     applyHttpHeaderSecurity(this.express);
     this.express.use(router);
+    this.express.use(errorHandlerMiddlware);
   }
 
   start() {

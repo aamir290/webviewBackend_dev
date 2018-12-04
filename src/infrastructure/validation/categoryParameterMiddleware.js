@@ -13,18 +13,18 @@ module.exports = function (req, res, next) {
     paramCategoryId = validator.escape(paramCategoryId);  //convert html char to html entities
 
     if(!validator.isAlpha(paramCategoryId)) {//only alpha char
-      _sendBadRequest(res);
+      next('error');
     }
 
     if(!validator.isLength(paramCategoryId, {min:4, max:8})) {//category name between 4 & 8
-      _sendBadRequest(res);
+      next('error');
     }
 
     req.params.categoryId = paramCategoryId;  //set sanitize param
 
     next();
   }else{
-    _sendBadRequest(res);
+    next('error');
   }
 };
 

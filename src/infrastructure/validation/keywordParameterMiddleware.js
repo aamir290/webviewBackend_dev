@@ -16,17 +16,17 @@ module.exports = function (req, res, next) {
 
     if(paramKeyword.indexOf(' ') !== -1) {//only one word
       next(new HTTPError(400, 'Invalid keyword - must be one word'));
+    }else{
+      paramKeyword = validator.escape(paramKeyword);  //convert html char to html entities
+
+      if(!validator.isAlphanumeric(paramKeyword)) {//only alphanum char
+        next(new HTTPError(400, 'Invalid keyword - must be alphanumeric'));
+      }else {
+        req.params.keyword = paramKeyword;  //set sanitize param
+
+        next();
+      }
     }
-
-    paramKeyword = validator.escape(paramKeyword);  //convert html char to html entities
-
-    if(!validator.isAlphanumeric(paramKeyword)) {//only alphanum char
-      next(new HTTPError(400, 'Invalid keyword - must be alphanumeric'));
-    }
-
-    req.params.keyword = paramKeyword;  //set sanitize param
-
-    next();
   }else{
     next(new HTTPError(400, 'Invalid keyword - missing parameter'));
   }

@@ -48,8 +48,9 @@ describe('keywordParameterMiddleware', () => {
 
       keywordParameterMiddleware(stubRequest, stubResponse, stubNext);
 
-      stubResponse.status.should.have.been.calledWith(400);
-      stubResponse.end.should.have.been.called;
+      stubNext.should.have.been.calledOnce;
+      stubNext.args[0][0].status.should.be.eql(400);
+      stubNext.args[0][0].message.should.be.eql('Invalid keyword - must be one word');
     });
 
     it('return 400 BAD Request with keyword with no alphanumeric words',  () => {
@@ -57,15 +58,17 @@ describe('keywordParameterMiddleware', () => {
 
       keywordParameterMiddleware(stubRequest, stubResponse, stubNext);
 
-      stubResponse.status.should.have.been.calledOnceWith(400);
-      stubResponse.end.should.have.been.calledOnce;
+      stubNext.should.have.been.calledOnce;
+      stubNext.args[0][0].status.should.be.eql(400);
+      stubNext.args[0][0].message.should.be.eql('Invalid keyword - must be alphanumeric');
     });
 
     it('return 400 BAD Request with no params in req',  () => {
       keywordParameterMiddleware(stubRequest, stubResponse, stubNext);
 
-      stubResponse.status.should.have.been.calledOnceWith(400);
-      stubResponse.end.should.have.been.calledOnce;
+      stubNext.should.have.been.calledOnce;
+      stubNext.args[0][0].status.should.be.eql(400);
+      stubNext.args[0][0].message.should.be.eql('Invalid keyword - missing parameter');
     });
   });
 

@@ -4,6 +4,7 @@
 
 const express = require('express');
 const categoryValidationMiddleware = require('../validation/categoryParameterMiddleware');
+const HTTPError = require('../error/HTTPError');
 
 /**
  *
@@ -51,12 +52,12 @@ class ApiRouter {
       });
 
       getRootCategoriesUseCase.on(ERROR, ()=>{
-        this.constructor._sendBadRequest(res);
+        next(new HTTPError(400, 'Error while retrieving categories'));
       });
 
       getRootCategoriesUseCase.execute();
     }else{
-      this.constructor._sendBadRequest(res);
+      next(new HTTPError(400, 'Missing usecase'));
     }
   }
 
@@ -82,23 +83,21 @@ class ApiRouter {
         });
 
         getChatbotInCategoryUseCase.on(NOT_FOUND, ()=>{
-          return res
-            .status(404)
-            .end();
+          next(new HTTPError(404, 'category not found'));
         });
 
         getChatbotInCategoryUseCase.on(PARAMETER_ERROR, ()=> {
           this.logger.debug('_getListCategory - PARAMETER_ERROR');
-          return this.constructor._sendBadRequest(res);
+          next(new HTTPError(400, 'Error with chatbot repository'));
         });
 
         await getChatbotInCategoryUseCase.execute(paramCategoryId);
       }else{
         //No params => parameter error
-        this.constructor._sendBadRequest(res);
+        next(new HTTPError(400, 'No param category id'));
       }
     }else{
-      this.constructor._sendBadRequest(res);
+      next(new HTTPError(400, 'Missing usecase'));
     }
   }
 
@@ -117,38 +116,26 @@ class ApiRouter {
         const {SUCCESS, PARAMETER_ERROR} = simpleSearchUseCase.events;
 
         simpleSearchUseCase.on(SUCCESS, (chatbots) => {
-          this.logger.debug('_getListCategory - Success : '+chatbots);
+          this.logger.debug('_search - Success : '+chatbots);
           return res
             .status(200)
             .json(chatbots);
         });
 
         simpleSearchUseCase.on(PARAMETER_ERROR, ()=> {
-          this.logger.debug('_getListCategory - PARAMETER_ERROR');
-          return this.constructor._sendBadRequest(res);
+          this.logger.debug('_search - PARAMETER_ERROR');
+          next(new HTTPError(400, 'Error with chatbot repository'));
         });
 
         await simpleSearchUseCase.execute(paramKeyword);
       }else{
         //No params => parameter error
-        this.constructor._sendBadRequest(res);
+        next(new HTTPError(400, 'No param keyword'));
       }
     }else{
-      this.constructor._sendBadRequest(res);
+      next(new HTTPError(400, 'Missing usecase'));
     }
   }
-
-  /**
-   * Return response 400 for bad request.
-   * @param res
-   * @private
-   */
-  static _sendBadRequest(res){
-    res
-      .status(400)
-      .end();
-  }
-
 }
 
 module.exports = ApiRouter;

@@ -4,6 +4,7 @@
  */
 
 const validator = require('validator');
+const HTTPError = require('../error/HTTPError');
 
 module.exports = function (req, res, next) {
   if(req && req.params && req.params.categoryId){ //Parameter exists
@@ -13,28 +14,17 @@ module.exports = function (req, res, next) {
     paramCategoryId = validator.escape(paramCategoryId);  //convert html char to html entities
 
     if(!validator.isAlpha(paramCategoryId)) {//only alpha char
-      next('error');
+      next(new HTTPError(400, 'Invalid Category Id - not alpha only'));
     }
 
     if(!validator.isLength(paramCategoryId, {min:4, max:8})) {//category name between 4 & 8
-      next('error');
+      next(new HTTPError(400, 'Invalid Category Id - id length must be between 4 and 8'));
     }
 
     req.params.categoryId = paramCategoryId;  //set sanitize param
 
     next();
   }else{
-    next('error');
+    next(new HTTPError(400, 'Invalid Category Id - Missing parameter'));
   }
 };
-
-/**
- * Return response 400 for bad request.
- * @param res
- * @private
- */
-function _sendBadRequest(res) {
-  res
-    .status(400)
-    .end();
-}

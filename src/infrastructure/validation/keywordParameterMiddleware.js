@@ -6,6 +6,7 @@
  */
 
 const validator = require('validator');
+const HTTPError = require('../error/HTTPError');
 
 module.exports = function (req, res, next) {
   if(req && req.params && req.params.keyword){ //Parameter exists
@@ -14,30 +15,19 @@ module.exports = function (req, res, next) {
     paramKeyword = validator.trim(paramKeyword);  //remove unused space
 
     if(paramKeyword.indexOf(' ') !== -1) {//only one word
-      _sendBadRequest(res);
+      next(new HTTPError(400, 'Invalid keyword - must be one word'));
     }
 
     paramKeyword = validator.escape(paramKeyword);  //convert html char to html entities
 
     if(!validator.isAlphanumeric(paramKeyword)) {//only alphanum char
-      _sendBadRequest(res);
+      next(new HTTPError(400, 'Invalid keyword - must be alphanumeric'));
     }
 
     req.params.keyword = paramKeyword;  //set sanitize param
 
     next();
   }else{
-    _sendBadRequest(res);
+    next(new HTTPError(400, 'Invalid keyword - missing parameter'));
   }
 };
-
-/**
- * Return response 400 for bad request.
- * @param res
- * @private
- */
-function _sendBadRequest(res) {
-  res
-    .status(400)
-    .end();
-}

@@ -1,5 +1,3 @@
-const validator = require('validator');
-
 /**
  * Specific class for generating http errors.
  */
@@ -13,7 +11,7 @@ class HTTPError extends Error {
   constructor (status = 400, ...params){
     super(params);
 
-    if(!validator.isInt(status) ) throw new Error('Incorrect use of HTTPError');
+    if(!Number.isInteger(status) && (status < 0 || status > 600)) throw new Error('Incorrect use of HTTPError - invalid status');
     this.status = status;
   }
 }

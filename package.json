@@ -7,6 +7,7 @@
     "test": "npm run test-unit",
     "start": "cross-env node ./bin/www",
     "dev": "cross-env NODE_ENV=development nodemon ./bin/www",
+    "dev:marie": "cross-env RUN_PORT=4000 NODE_TLS_REJECT_UNAUTHORIZED='0' DEBUG=searchDirectoryApi* NODE_ENV=development nodemon ./bin/www",
     "test:unit": "cross-env NODE_ENV_=test mocha --opts test/mocha.opts.unit ",
     "coverage": "cross-env NODE_ENV_=test nyc --all mocha --opts test/mocha.opts.unit ",
     "coverage:html": "cross-env NODE_ENV_=test nyc --all --reporter=html mocha --opts test/mocha.opts.unit "

@@ -1,11 +1,11 @@
 /**
- * Unit tests for GetRootCategoriesUseCase
+ * Unit tests for getCategoriesUseCase
  */
 const sinon = require('sinon');
-const GetRootCategoriesUseCase = require('../../../src/usecases/GetCategoriesUseCase');
+const getCategoriesUseCase = require('../../../src/usecases/GetCategoriesUseCase');
 const ChatBotRepository = require('../../../src/data/ChatBotRepository');
 
-describe('GetRootCategoriesUseCase', () => {
+describe('getCategoriesUseCase', () => {
 
   context('when query is successful', () => {
     it('emits SUCCESS with a category array result', (done) => {
@@ -18,12 +18,12 @@ describe('GetRootCategoriesUseCase', () => {
         ]
       });
       const stubRepository = sinon.createStubInstance(ChatBotRepository, {
-        getRootCategories: stubGetAllCategories
+        getCategories: stubGetAllCategories
       });
 
-      const getRootCategories = new GetRootCategoriesUseCase(stubRepository);
+      const getCategories = new getCategoriesUseCase(stubRepository);
 
-      getRootCategories.on(getRootCategories.events.SUCCESS, (categories) => {
+      getCategories.on(getCategories.events.SUCCESS, (categories) => {
         stubGetAllCategories.should.have.been.calledOnce;
         categories.should.eql({
           result: [
@@ -35,30 +35,30 @@ describe('GetRootCategoriesUseCase', () => {
         }, 'Array categories should be the same');
         done();
       });
-      getRootCategories.on(getRootCategories.events.ERROR, () => {
+      getCategories.on(getCategories.events.ERROR, () => {
         done('fail');
       });
 
-      getRootCategories.execute();
+      getCategories.execute();
     });
 
     it('emits ERROR when result is undefined', (done) => {
       const stubGetAllCategories = sinon.stub().resolves(undefined);
       const stubRepository = sinon.createStubInstance(ChatBotRepository, {
-        getRootCategories: stubGetAllCategories
+        getCategories: stubGetAllCategories
       });
 
-      const getRootCategories = new GetRootCategoriesUseCase(stubRepository);
+      const getCategories = new getCategoriesUseCase(stubRepository);
 
-      getRootCategories.on(getRootCategories.events.SUCCESS, () => {
+      getCategories.on(getCategories.events.SUCCESS, () => {
         done('fail');
       });
-      getRootCategories.on(getRootCategories.events.ERROR, () => {
+      getCategories.on(getCategories.events.ERROR, () => {
         stubGetAllCategories.should.have.been.calledOnce;
         done();
       });
 
-      getRootCategories.execute();
+      getCategories.execute();
     });
   });
 
@@ -66,20 +66,20 @@ describe('GetRootCategoriesUseCase', () => {
     it('emits ERROR', (done) => {
       const stubGetAllCategories = sinon.stub().rejects();
       const stubRepository = sinon.createStubInstance(ChatBotRepository, {
-        getRootCategories: stubGetAllCategories
+        getCategories: stubGetAllCategories
       });
 
-      const getRootCategories = new GetRootCategoriesUseCase(stubRepository);
+      const getCategories = new getCategoriesUseCase(stubRepository);
 
-      getRootCategories.on(getRootCategories.events.ERROR, () => {
+      getCategories.on(getCategories.events.ERROR, () => {
         stubGetAllCategories.should.have.been.calledOnce;
         done();
       });
-      getRootCategories.on(getRootCategories.events.SUCCESS, () => {
+      getCategories.on(getCategories.events.SUCCESS, () => {
         done('fail');
       });
 
-      getRootCategories.execute();
+      getCategories.execute();
     });
   });
 

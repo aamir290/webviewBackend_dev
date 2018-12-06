@@ -17,7 +17,7 @@ describe('LocalSource', () => {
   context('when getting default categories', () => {
     it('return default categories array', async () => {
       const localSource = new LocalSource(testDataPath);
-      const categories = await localSource.getRootCategories();
+      const categories = await localSource.getCategories();
 
       categories.result.length.should.be.equal(2);
       categories.should.eql({
@@ -39,7 +39,7 @@ describe('LocalSource', () => {
     it('return empty array if path is incorrect', async () => {
 
       const localSource = new LocalSource('titi', stubLogger);
-      const categories = await localSource.getRootCategories();
+      const categories = await localSource.getCategories();
 
       categories.result.length.should.be.equal(0);
       stubLogger.error.should.have.been.calledTwice;

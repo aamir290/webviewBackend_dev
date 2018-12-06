@@ -21,11 +21,11 @@ describe('ChatBotRepository', () => {
     it('return empty array when local sources has no data', async () => {
       const stubGetAllCategoriesLocalSource = sinon.stub().resolves([]);
       const stubLocalSource = sinon.createStubInstance(LocalSource, {
-        getRootCategories: stubGetAllCategoriesLocalSource
+        getCategories: stubGetAllCategoriesLocalSource
       });
 
       const chatBotRepository = new ChatBotRepository(stubLocalSource, {}, stubLogger);
-      const categories = await chatBotRepository.getRootCategories();
+      const categories = await chatBotRepository.getCategories();
 
       stubGetAllCategoriesLocalSource.should.have.been.calledOnce;
       categories.should.eql([], 'Array categories should be the same');
@@ -38,11 +38,11 @@ describe('ChatBotRepository', () => {
         name: 'Education'
       }]);
       const stubLocalSource = sinon.createStubInstance(LocalSource, {
-        getRootCategories: stubGetAllCategoriesLocalSource
+        getCategories: stubGetAllCategoriesLocalSource
       });
 
       const chatBotRepository = new ChatBotRepository(stubLocalSource, {}, stubLogger);
-      const categories = await chatBotRepository.getRootCategories();
+      const categories = await chatBotRepository.getCategories();
 
       stubGetAllCategoriesLocalSource.should.have.been.calledOnce;
       categories.should.eql([{
@@ -54,7 +54,7 @@ describe('ChatBotRepository', () => {
 
     it('return undefined when local source has a problem', async () => {
       const chatBotRepository = new ChatBotRepository({}, {}, stubLogger);
-      await chatBotRepository.getRootCategories().should.be.rejected;
+      await chatBotRepository.getCategories().should.be.rejected;
     });
   });
 

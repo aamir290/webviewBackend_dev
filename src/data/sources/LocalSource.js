@@ -29,7 +29,7 @@ class LocalSource {
    * Empty array if no categories.
    * @returns Object categories array
    */
-  getRootCategories() {
+  getCategories() {
     const categories = [];
 
     this.jsonCategories.forEach((currentCategory) => {

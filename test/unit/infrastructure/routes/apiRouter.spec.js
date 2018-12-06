@@ -6,7 +6,7 @@ const sinon = require('sinon');
 const request = require('supertest');
 const express = require('express');
 const ApiRouter = require('../../../../src/infrastructure/routes/ApiRouter');
-const GetRootCategoriesUseCase = require('../../../../src/usecases/GetCategoriesUseCase');
+const getCategoriesUseCase = require('../../../../src/usecases/GetCategoriesUseCase');
 const GetChatBotInCategoryUseCase = require('../../../../src/usecases/GetChatbotInCategoryUseCase');
 const SimpleSearchUseCase = require('../../../../src/usecases/SimpleSearchUseCase');
 const ChatBotRepository = require('../../../../src/data/ChatBotRepository');
@@ -74,7 +74,7 @@ describe('apiRouter - GET /getDefaultCategories', function () {
     it('respond with json with categories', function (done) {
       //Init
       const stubChatBotRepository = sinon.createStubInstance(ChatBotRepository, {
-        getRootCategories: sinon.stub().resolves({
+        getCategories: sinon.stub().resolves({
           result : [
             {
               id: 'educ',
@@ -84,7 +84,7 @@ describe('apiRouter - GET /getDefaultCategories', function () {
         }),
       });
       const useCaseContainer = {};
-      useCaseContainer.getRootCategoriesUsecase = GetRootCategoriesUseCase;
+      useCaseContainer.getCategoriesUsecase = getCategoriesUseCase;
 
 
       const apiRouter = new ApiRouter(useCaseContainer, stubChatBotRepository, {});
@@ -117,10 +117,10 @@ describe('apiRouter - GET /getDefaultCategories', function () {
     it('respond with error when error occurs', function (done) {
       //Init
       const stubChatBotRepository = sinon.createStubInstance(ChatBotRepository, {
-        getRootCategories: sinon.stub().rejects(),
+        getCategories: sinon.stub().rejects(),
       });
       const useCaseContainer = {};
-      useCaseContainer.getRootCategoriesUsecase = GetRootCategoriesUseCase;
+      useCaseContainer.getCategoriesUsecase = getCategoriesUseCase;
 
 
       const apiRouter = new ApiRouter(useCaseContainer, stubChatBotRepository, {});
@@ -260,7 +260,7 @@ describe('apiRouter - GET /listCategory', function () {
     it('respond with error when category parameter incorrect', function (done) {
       //Init
       const useCaseContainer = {};
-      useCaseContainer.getRootCategoriesUsecase = {};
+      useCaseContainer.getCategoriesUsecase = {};
 
 
       const apiRouter = new ApiRouter(useCaseContainer, {}, stubLogger);

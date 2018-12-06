@@ -41,21 +41,21 @@ class ApiRouter {
    * @private
    */
   _getDefaultCategories(req, res, next) {
-    if (this.useCaseContainer.getRootCategoriesUsecase) {
-      const getRootCategoriesUseCase = new this.useCaseContainer.getRootCategoriesUsecase(this._chatBotRepository);
-      const {SUCCESS, ERROR} = getRootCategoriesUseCase.events;
+    if (this.useCaseContainer.getCategoriesUsecase) {
+      const getCategoriesUsecase = new this.useCaseContainer.getCategoriesUsecase(this._chatBotRepository);
+      const {SUCCESS, ERROR} = getCategoriesUsecase.events;
 
-      getRootCategoriesUseCase.on(SUCCESS, (categories) => {
+      getCategoriesUsecase.on(SUCCESS, (categories) => {
         res
           .status(200)
           .json(categories);
       });
 
-      getRootCategoriesUseCase.on(ERROR, ()=>{
+      getCategoriesUsecase.on(ERROR, ()=>{
         next(new HTTPError(400, 'Error while retrieving categories'));
       });
 
-      getRootCategoriesUseCase.execute();
+      getCategoriesUsecase.execute();
     }else{
       next(new HTTPError(400, 'Missing usecase'));
     }

@@ -24,11 +24,11 @@ class ChatBotRepository {
    * @returns array of root category, undefined if error occurs
    * @throws Error if  incorrect localsource
    */
-  async getRootCategories() {
-    if (this._localSource && this._localSource.getRootCategories) {
-      return this._localSource.getRootCategories();
+  async getCategories() {
+    if (this._localSource && this._localSource.getCategories) {
+      return this._localSource.getCategories();
     } else {
-      throw new Error('LocalSource has no method getRootCategories');
+      throw new Error('LocalSource has no method getCategories');
     }
   }
 

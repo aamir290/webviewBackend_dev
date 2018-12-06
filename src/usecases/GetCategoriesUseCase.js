@@ -21,7 +21,7 @@ class GetCategoriesUseCase extends UseCase{
     const { SUCCESS, ERROR } = this.events;
 
     try {
-      const categories = await this.chatBotRepository.getRootCategories();
+      const categories = await this.chatBotRepository.getCategories();
 
       if(categories) {
         this.emit(SUCCESS, categories);

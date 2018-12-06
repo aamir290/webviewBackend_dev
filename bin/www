@@ -14,7 +14,7 @@ const DistantSource = require('../src/data/sources/DistantSource');
 const ChatBotRepository = require('../src/data/ChatBotRepository');
 const ApiRouter = require('../src/infrastructure/routes/ApiRouter');
 
-const GetRootCategoriesUseCase = require('../src/usecases/GetCategoriesUseCase');
+const GetCategoriesUsecase = require('../src/usecases/GetCategoriesUseCase');
 const GetChatBotInCategoryUseCase = require('../src/usecases/GetChatbotInCategoryUseCase');
 const SimpleSearchUseCase = require('../src/usecases/SimpleSearchUseCase');
 
@@ -35,7 +35,7 @@ const chatBotRepositoryImpl = new ChatBotRepository(localSourceImpl, distantSour
 
 //Load use case
 const useCaseContainer = {};
-useCaseContainer.getRootCategoriesUsecase = GetRootCategoriesUseCase;
+useCaseContainer.getCategoriesUsecase = GetCategoriesUsecase;
 useCaseContainer.getChatbotInCategoryUseCase = GetChatBotInCategoryUseCase;
 useCaseContainer.simpleSearchUseCase = SimpleSearchUseCase;
 

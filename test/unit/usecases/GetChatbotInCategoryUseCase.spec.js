@@ -19,6 +19,7 @@ describe('GetChatbotInCategoryUseCase', () => {
 
     stubGetCategoryName = sinon.stub();
     stubGetCategoryName.withArgs('finabank').resolves('Banking');
+    stubGetCategoryName.withArgs('educ').resolves('Education');
 
     stubGetListCategory = sinon.stub();
     stubGetListCategory.withArgs('finabank').resolves({
@@ -39,11 +40,35 @@ describe('GetChatbotInCategoryUseCase', () => {
         }]
     });
     stubGetListCategory.withArgs('educ').rejects();
+    stubGetListCategory.withArgs(undefined).resolves({
+      result: [
+        {
+          category: 'finabank',
+          description: 'elue meilleure banque pour les jeunes',
+          icon: 'https://upload.wikimedia.org/wikipedia/fr/0/09/Orange_Bank_2017.png',
+          id: 'orangebank@botplatform.orange.fr',
+          name: 'Orange Bank'
+        },
+        {
+          category: 'finabank',
+          description: 'oldest bank in town',
+          icon: 'http://icons.iconarchive.com/icons/designcontest/ecommerce-business/128/bank-icon.png',
+          id: 'oldbank@botplatform.orange.fr',
+          name: 'Old Bank'
+        },
+        {
+          category: 'educ',
+          description: 'oldest bank in town',
+          icon: 'http://icons.iconarchive.com/icons/designcontest/ecommerce-business/128/bank-icon.png',
+          id: 'oldbank@botplatform.orange.fr',
+          name: 'Old Bank2'
+        }]
+    });
 
     stubRepository = sinon.createStubInstance(ChatBotRepository, {
       isCategoryInList: stubIsInCategoryList,
       getListCategory: stubGetListCategory,
-      getCategoryName: stubGetCategoryName
+      getCategoryName: stubGetCategoryName,
     });
 
     stubLogger = stubUtils.createStubLogger();
@@ -91,21 +116,44 @@ describe('GetChatbotInCategoryUseCase', () => {
       getChatbotCategory.execute('finabank');
     });
 
-  });
-
-  /*************************************************************************/
-
-  context('when query is unsuccessful', () => {
-
-    it('emits PARAMETER_ERROR when categoryid is undefined', (done) => {
+    it('emits SUCCESS with array of chatbot when no category', (done) => {
       const getChatbotCategory = new GetChatbotInCategoryUseCase(stubRepository, stubLogger);
 
-      getChatbotCategory.on(getChatbotCategory.events.PARAMETER_ERROR, (errorMessage) => {
-        errorMessage.should.eql('Incorrect category id parameter');
-        done();
+      getChatbotCategory.on(getChatbotCategory.events.PARAMETER_ERROR, () => {
+        done('fail - PARAMETER_ERROR');
       });
-      getChatbotCategory.on(getChatbotCategory.events.SUCCESS, () => {
-        done('fail - SUCCESS');
+      getChatbotCategory.on(getChatbotCategory.events.SUCCESS, (chatbotResult) => {
+        stubIsInCategoryList.should.not.have.been.calledOnce;
+        stubGetListCategory.should.have.been.calledOnce;
+
+        chatbotResult.should.eql({
+          result: [
+            {
+              category: 'finabank',
+              categoryName: 'Banking',
+              description: 'elue meilleure banque pour les jeunes',
+              icon: 'https://upload.wikimedia.org/wikipedia/fr/0/09/Orange_Bank_2017.png',
+              id: 'orangebank@botplatform.orange.fr',
+              name: 'Orange Bank'
+            },
+            {
+              category: 'finabank',
+              categoryName: 'Banking',
+              description: 'oldest bank in town',
+              icon: 'http://icons.iconarchive.com/icons/designcontest/ecommerce-business/128/bank-icon.png',
+              id: 'oldbank@botplatform.orange.fr',
+              name: 'Old Bank'
+            },
+            {
+              category: 'educ',
+              categoryName: 'Education',
+              description: 'oldest bank in town',
+              icon: 'http://icons.iconarchive.com/icons/designcontest/ecommerce-business/128/bank-icon.png',
+              id: 'oldbank@botplatform.orange.fr',
+              name: 'Old Bank2'
+            }]
+        });
+        done();
       });
       getChatbotCategory.on(getChatbotCategory.events.NOT_FOUND, () => {
         done('fail - NOT_FOUND');
@@ -113,6 +161,13 @@ describe('GetChatbotInCategoryUseCase', () => {
 
       getChatbotCategory.execute();
     });
+
+  });
+
+  /*************************************************************************/
+
+  context('when query is unsuccessful', () => {
+
 
     it('emits PARAMETER_ERROR when categoryid is incorrect format', (done) => {
       const getChatbotCategory = new GetChatbotInCategoryUseCase(stubRepository, stubLogger);

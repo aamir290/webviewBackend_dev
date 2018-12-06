@@ -120,7 +120,7 @@ describe('ChatBotRepository', () => {
 
   context('when getting listcategory', () => {
 
-    let stubDistantSource, stubListCategory;
+    let stubDistantSource, stubListCategory, stubList;
 
     before(() => {
       stubListCategory = sinon.stub();
@@ -147,8 +147,35 @@ describe('ChatBotRepository', () => {
       stubListCategory.withArgs('tutu').rejects();
       stubListCategory.rejects('Missing parameter');
 
+      stubList = sinon.stub();
+      stubList.resolves({
+        result: [
+          {
+            category: 'finabank',
+            description: 'elue meilleure banque pour les jeunes',
+            icon: 'https://upload.wikimedia.org/wikipedia/fr/0/09/Orange_Bank_2017.png',
+            id: 'orangebank@botplatform.orange.fr',
+            name: 'Orange Bank'
+          },
+          {
+            category: 'finabank',
+            description: 'oldest bank in town',
+            icon: 'http://icons.iconarchive.com/icons/designcontest/ecommerce-business/128/bank-icon.png',
+            id: 'oldbank@botplatform.orange.fr',
+            name: 'Old Bank'
+          },
+          {
+            category: 'educ',
+            description: 'oldest bank in town',
+            icon: 'http://icons.iconarchive.com/icons/designcontest/ecommerce-business/128/bank-icon.png',
+            id: 'oldbank@botplatform.orange.fr',
+            name: 'Old Bank2'
+          }]
+      });
+
       stubDistantSource = sinon.createStubInstance(DistantSource, {
-        listCategory: stubListCategory
+        listCategory: stubListCategory,
+        list: stubList,
       });
     });
 
@@ -157,6 +184,7 @@ describe('ChatBotRepository', () => {
       const isInList = await chatBotRepository.getListCategory('titi');
 
       stubListCategory.should.have.been.calledOnce;
+      stubList.should.not.have.been.called;
       isInList.should.eql({
         result: [
           {
@@ -182,19 +210,47 @@ describe('ChatBotRepository', () => {
       const isInList = await chatBotRepository.getListCategory('toto');
 
       stubListCategory.should.have.been.calledOnce;
+      stubList.should.not.have.been.called;
       isInList.should.eql({
         result: []
       });
     });
 
-    it('throw error when no distant source', async () => {
-      const chatBotRepository = new ChatBotRepository({}, {}, stubLogger);
+    it('return array of chatbot when no parameter', async () => {
+      const chatBotRepository = new ChatBotRepository({}, stubDistantSource, stubLogger);
+      const isInList = await chatBotRepository.getListCategory();
 
-      await chatBotRepository.getListCategory().should.be.rejected;
+      stubList.should.have.been.calledOnce;
+      stubListCategory.should.not.have.been.called;
+      isInList.should.eql({
+        result: [
+          {
+            category: 'finabank',
+            description: 'elue meilleure banque pour les jeunes',
+            icon: 'https://upload.wikimedia.org/wikipedia/fr/0/09/Orange_Bank_2017.png',
+            id: 'orangebank@botplatform.orange.fr',
+            name: 'Orange Bank'
+          },
+          {
+            category: 'finabank',
+            description: 'oldest bank in town',
+            icon: 'http://icons.iconarchive.com/icons/designcontest/ecommerce-business/128/bank-icon.png',
+            id: 'oldbank@botplatform.orange.fr',
+            name: 'Old Bank'
+          },
+          {
+            category: 'educ',
+            description: 'oldest bank in town',
+            icon: 'http://icons.iconarchive.com/icons/designcontest/ecommerce-business/128/bank-icon.png',
+            id: 'oldbank@botplatform.orange.fr',
+            name: 'Old Bank2'
+          }]
+      });
+
     });
 
-    it('throw error when no parameter', async () => {
-      const chatBotRepository = new ChatBotRepository({}, stubDistantSource, stubLogger);
+    it('throw error when no distant source', async () => {
+      const chatBotRepository = new ChatBotRepository({}, {}, stubLogger);
 
       await chatBotRepository.getListCategory().should.be.rejected;
     });

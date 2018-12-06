@@ -41,16 +41,6 @@ describe('apiRouter ', function () {
       stubNext = sinon.stub();
     });
 
-    it('throws error when _getListCategory has no category parameter', () => {
-      //Init
-      const apiRouter = new ApiRouter(useCaseContainer, {}, stubLogger);
-      apiRouter._getListCategory(stubReq, {}, stubNext);
-
-      stubNext.should.have.been.calledOnce;
-      stubNext.args[0][0].status.should.be.eql(400);
-      stubNext.args[0][0].message.should.be.eql('No param category id');
-    });
-
     it('throws error when _search  has no keyword parameter', () => {
       //Init
       const apiRouter = new ApiRouter(useCaseContainer, {}, stubLogger);

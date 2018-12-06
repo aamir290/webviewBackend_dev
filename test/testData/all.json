@@ -1,0 +1,34 @@
+{
+  "result": [
+    {
+      "category": "travflig",
+      "description": "The fine art of flying",
+      "name": "Air France",
+      "id": "airfrance@botplatform.orange.fr",
+      "class": 0,
+      "icon": "http://tous-logos.com/wp-content/uploads/2017/08/Logo-Air-France.png"
+    },
+    {
+      "category": "finabank",
+      "description": "oldest bank in town",
+      "icon": "http://icons.iconarchive.com/icons/designcontest/ecommerce-business/128/bank-icon.png",
+      "id": "oldbank@botplatform.orange.fr",
+      "name": "Old Bank"
+    },
+    {
+      "category": "newstele",
+      "description": "Vote for your favourite X-Talent contestant, check out the gossip and download the latest tracks.",
+      "name": "X-Talent",
+      "id": "X-Talent.trials@orange.com",
+      "class": 0,
+      "icon": "https://obc-c.kmt.orange.com/c/10b1da91b67d95a2e1c903dee4392031_5bed926c20edf_picture1.png"
+    },
+    {
+      "category": "finabank",
+      "description": "Banking -- this would normally be a list of Chatbots related to Banking;",
+      "icon": "https://obc-c.kmt.orange.com/c/10b1da91b67d95a2e1c903dee4392031_5bea95b777a45_chatbot_01.jpg",
+      "id": "banking.chatbot.trials@botplatform.orange.com",
+      "name": "Banking Chatbot"
+    }
+  ]
+}

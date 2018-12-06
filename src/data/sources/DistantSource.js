@@ -35,6 +35,19 @@ class DistantSource {
   }
 
   /**
+   * Return array of all chatbots from repository
+   * @returns promises with chatbots array
+   */
+  async list() {
+    const url = this._urlServer + '/list';
+
+    //Request
+    this._logger.debug('DistantSource - list request : '+url);
+    const res = await request.get(url);
+    return res.body;
+  }
+
+  /**
    * Return array of chatbots for given search keyword
    * Empty array if no chatbots for given keyword
    * @param keyword keyword to search for

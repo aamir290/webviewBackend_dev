@@ -1,4 +1,5 @@
 const finabankChatbotResults = require('./finabank');
+const allChatbotsResults = require('./all');
 
 module.exports = [
   {
@@ -33,6 +34,10 @@ module.exports = [
 
       if (match[1] === '/searchChatbots/educ') {
         throw new Error(500);
+      }
+
+      if (match[1] === '/list') {
+        return allChatbotsResults;
       }
     },
 

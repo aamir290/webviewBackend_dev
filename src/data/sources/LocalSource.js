@@ -36,7 +36,8 @@ class LocalSource {
       categories.push({
         id: currentCategory.id,
         name: currentCategory.name,
-        icon: currentCategory.icon
+        icon: currentCategory.icon,
+        subCategories: currentCategory.subCategories
       });
     });
 

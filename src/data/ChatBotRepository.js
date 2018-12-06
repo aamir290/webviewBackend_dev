@@ -71,14 +71,15 @@ class ChatBotRepository {
 
   /**
    * Return list of chatbot associated with given keyword
-   * @param keyword serach request
+   * @param keyword keyword for search request
+   * @param categoryId catgeory id for search request. Let blank for no filtering on request id.
    * @returns {Promise<void>} array of chatbot (could be empty if no chatbot found)
    *  @throws Error if incorrect distant source
    */
-  async search(keyword){
+  async search(keyword, categoryId){
     if(this._distantSource && this._distantSource.search && keyword) {
       try{
-        return await this._distantSource.search(keyword);
+        return await this._distantSource.search(keyword, categoryId);
       }catch(e){
         this.logger.debug('ChatBotRepository - search - error with distant source : '+e);
         throw new Error('DistantSource generate error while calling search');

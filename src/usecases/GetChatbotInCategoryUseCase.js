@@ -15,7 +15,7 @@ class GetChatbotInCategoryUseCase extends UseCase {
 
     this.chatBotRepository = chatBotRepository;
 
-    if(!logger) throw new Error('Missing logger');
+    if (!logger) throw new Error('Missing logger');
     this.logger = logger;
   }
 
@@ -26,24 +26,28 @@ class GetChatbotInCategoryUseCase extends UseCase {
    */
   async execute(categoryId) {
     const {SUCCESS, NOT_FOUND, PARAMETER_ERROR} = this.events;
-    if (categoryId) {
-      try {
-        const isInCategoryList = await this.chatBotRepository.isCategoryInList(categoryId);
-        if (isInCategoryList) {
-          const chatbotArray = await this.chatBotRepository.getListCategory(categoryId);
-
-          //add category name on each chatbot (based on id)
-          await this._addCategoriesNames(chatbotArray);
-
-          this.emit(SUCCESS, chatbotArray);
-        } else {
-          this.emit(NOT_FOUND);
-        }
-      } catch (e) {
-        this.logger.debug('GetChatbotInCategoryUseCase - catch : '+e);
-        this.emit(PARAMETER_ERROR, 'Incorrect category id parameter');
+    try {
+      let isInCategoryList;
+      if(categoryId) {
+        // Category : check if exists
+        isInCategoryList = await this.chatBotRepository.isCategoryInList(categoryId);
+      }else{
+        //no parameter => return all chatbots
+        isInCategoryList = true;
       }
-    } else {
+
+      if (isInCategoryList) {
+        const chatbotArray = await this.chatBotRepository.getListCategory(categoryId);
+
+        //add category name on each chatbot (based on id)
+        await this._addCategoriesNames(chatbotArray);
+
+        this.emit(SUCCESS, chatbotArray);
+      } else {
+        this.emit(NOT_FOUND);
+      }
+    } catch (e) {
+      this.logger.debug('GetChatbotInCategoryUseCase - catch : ' + e);
       this.emit(PARAMETER_ERROR, 'Incorrect category id parameter');
     }
   }

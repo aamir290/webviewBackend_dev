@@ -48,21 +48,6 @@ class GetChatbotInCategoryUseCase extends UseCase {
       this.emit(PARAMETER_ERROR, 'Incorrect category id parameter');
     }
   }
-
-  /**
-   * Add the category name on each chatbot.
-   * @param chatBotArray array of chatbot return by repository
-   * @private
-   */
-  _addCategoriesNames(chatBotArray) {
-    chatBotArray.result.forEach(async (currentChaBot) => {
-      try {
-        currentChaBot.categoryName = await this.chatBotRepository.getCategoryName(currentChaBot.category);
-      } catch (e) {
-        //Do nothing
-      }
-    }, this);
-  }
 }
 
 module.exports = GetChatbotInCategoryUseCase;

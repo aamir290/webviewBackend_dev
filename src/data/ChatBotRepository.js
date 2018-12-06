@@ -53,9 +53,13 @@ class ChatBotRepository {
    *  @throws Error if  incorrect distant source
    */
   async getListCategory(categoryId) {
-    if(this._distantSource && this._distantSource.listCategory && categoryId) {
+    if(this._distantSource && this._distantSource.listCategory) {
       try{
-        return await this._distantSource.listCategory(categoryId);
+        if(categoryId) {
+          return await this._distantSource.listCategory(categoryId);
+        }else{
+          return await this._distantSource.list();
+        }
       }catch(e){
         this.logger.debug('ChatBotRepository - getListCategory - error with distant source : '+e);
         throw new Error('DistantSource generate error while calling listCategory');

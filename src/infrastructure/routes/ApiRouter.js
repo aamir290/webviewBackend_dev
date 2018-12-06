@@ -16,7 +16,7 @@ class ApiRouter {
   constructor(useCaseContainer, chatBotRepository, logger) {
     this.useCaseContainer = useCaseContainer || {};
 
-    if(!logger) throw new Error('Missing logger');
+    if (!logger) throw new Error('Missing logger');
     this.logger = logger;
 
     this.apiRouter = express.Router();
@@ -27,7 +27,7 @@ class ApiRouter {
 
   _setupRoutes() {
     this.apiRouter.get('/getDefaultCategories', this._getDefaultCategories.bind(this));
-    this.apiRouter.get('/listCategory', categoryValidationMiddleware, this._getListCategory.bind(this));
+    this.apiRouter.get('/listCategory', this._getListCategory.bind(this));
     this.apiRouter.get('/listCategory/:categoryId', categoryValidationMiddleware, this._getListCategory.bind(this));
     this.apiRouter.get('/search/:keyword', this._search.bind(this));
     this.apiRouter.get('/search', this._search.bind(this));
@@ -51,12 +51,12 @@ class ApiRouter {
           .json(categories);
       });
 
-      getCategoriesUsecase.on(ERROR, ()=>{
+      getCategoriesUsecase.on(ERROR, () => {
         next(new HTTPError(400, 'Error while retrieving categories'));
       });
 
       getCategoriesUsecase.execute();
-    }else{
+    } else {
       next(new HTTPError(400, 'Missing usecase'));
     }
   }
@@ -70,33 +70,28 @@ class ApiRouter {
    */
   async _getListCategory(req, res, next) {
     if (this.useCaseContainer.getChatbotInCategoryUseCase) {
-      if(req.params && req.params.categoryId){
-        const paramCategoryId = req.params.categoryId;
-        const getChatbotInCategoryUseCase = new this.useCaseContainer.getChatbotInCategoryUseCase(this._chatBotRepository, this.logger);
-        const {SUCCESS, NOT_FOUND, PARAMETER_ERROR} = getChatbotInCategoryUseCase.events;
+      const paramCategoryId = req.params.categoryId;
+      const getChatbotInCategoryUseCase = new this.useCaseContainer.getChatbotInCategoryUseCase(this._chatBotRepository, this.logger);
+      const {SUCCESS, NOT_FOUND, PARAMETER_ERROR} = getChatbotInCategoryUseCase.events;
 
-        getChatbotInCategoryUseCase.on(SUCCESS, (chatbots) => {
-          this.logger.debug('_getListCategory - Success : '+chatbots);
-          return res
-            .status(200)
-            .json(chatbots);
-        });
+      getChatbotInCategoryUseCase.on(SUCCESS, (chatbots) => {
+        this.logger.debug('_getListCategory - Success : ' + chatbots);
+        return res
+          .status(200)
+          .json(chatbots);
+      });
 
-        getChatbotInCategoryUseCase.on(NOT_FOUND, ()=>{
-          next(new HTTPError(404, 'category not found'));
-        });
+      getChatbotInCategoryUseCase.on(NOT_FOUND, () => {
+        next(new HTTPError(404, 'category not found'));
+      });
 
-        getChatbotInCategoryUseCase.on(PARAMETER_ERROR, ()=> {
-          this.logger.debug('_getListCategory - PARAMETER_ERROR');
-          next(new HTTPError(400, 'Error with chatbot repository'));
-        });
+      getChatbotInCategoryUseCase.on(PARAMETER_ERROR, () => {
+        this.logger.debug('_getListCategory - PARAMETER_ERROR');
+        next(new HTTPError(400, 'Error with chatbot repository'));
+      });
 
-        await getChatbotInCategoryUseCase.execute(paramCategoryId);
-      }else{
-        //No params => parameter error
-        next(new HTTPError(400, 'No param category id'));
-      }
-    }else{
+      await getChatbotInCategoryUseCase.execute(paramCategoryId);
+    } else {
       next(new HTTPError(400, 'Missing usecase'));
     }
   }
@@ -110,29 +105,29 @@ class ApiRouter {
    */
   async _search(req, res, next) {
     if (this.useCaseContainer.simpleSearchUseCase) {
-      if(req.params && req.params.keyword){
+      if (req.params && req.params.keyword) {
         const paramKeyword = req.params.keyword;
         const simpleSearchUseCase = new this.useCaseContainer.simpleSearchUseCase(this._chatBotRepository, this.logger);
         const {SUCCESS, PARAMETER_ERROR} = simpleSearchUseCase.events;
 
         simpleSearchUseCase.on(SUCCESS, (chatbots) => {
-          this.logger.debug('_search - Success : '+chatbots);
+          this.logger.debug('_search - Success : ' + chatbots);
           return res
             .status(200)
             .json(chatbots);
         });
 
-        simpleSearchUseCase.on(PARAMETER_ERROR, ()=> {
+        simpleSearchUseCase.on(PARAMETER_ERROR, () => {
           this.logger.debug('_search - PARAMETER_ERROR');
           next(new HTTPError(400, 'Error with chatbot repository'));
         });
 
         await simpleSearchUseCase.execute(paramKeyword);
-      }else{
+      } else {
         //No params => parameter error
         next(new HTTPError(400, 'No param keyword'));
       }
-    }else{
+    } else {
       next(new HTTPError(400, 'Missing usecase'));
     }
   }

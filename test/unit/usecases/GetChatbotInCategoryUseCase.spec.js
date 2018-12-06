@@ -8,7 +8,7 @@ const stubUtils = require('../../testData/stubUtils');
 
 describe('GetChatbotInCategoryUseCase', () => {
 
-  let stubRepository, stubIsInCategoryList, stubGetListCategory, stubGetCategoryName, stubLogger;
+  let stubRepository, stubIsInCategoryList, stubGetListCategory, stubLogger;
 
   before(() => {
     stubIsInCategoryList = sinon.stub();
@@ -16,10 +16,6 @@ describe('GetChatbotInCategoryUseCase', () => {
     stubIsInCategoryList.withArgs('toto').resolves(false);
     stubIsInCategoryList.withArgs('finabank').resolves(true);
     stubIsInCategoryList.withArgs('educ').resolves(true);
-
-    stubGetCategoryName = sinon.stub();
-    stubGetCategoryName.withArgs('finabank').resolves('Banking');
-    stubGetCategoryName.withArgs('educ').resolves('Education');
 
     stubGetListCategory = sinon.stub();
     stubGetListCategory.withArgs('finabank').resolves({
@@ -68,7 +64,6 @@ describe('GetChatbotInCategoryUseCase', () => {
     stubRepository = sinon.createStubInstance(ChatBotRepository, {
       isCategoryInList: stubIsInCategoryList,
       getListCategory: stubGetListCategory,
-      getCategoryName: stubGetCategoryName,
     });
 
     stubLogger = stubUtils.createStubLogger();
@@ -92,7 +87,6 @@ describe('GetChatbotInCategoryUseCase', () => {
           result: [
             {
               category: 'finabank',
-              categoryName: 'Banking',
               description: 'elue meilleure banque pour les jeunes',
               icon: 'https://upload.wikimedia.org/wikipedia/fr/0/09/Orange_Bank_2017.png',
               id: 'orangebank@botplatform.orange.fr',
@@ -100,7 +94,6 @@ describe('GetChatbotInCategoryUseCase', () => {
             },
             {
               category: 'finabank',
-              categoryName: 'Banking',
               description: 'oldest bank in town',
               icon: 'http://icons.iconarchive.com/icons/designcontest/ecommerce-business/128/bank-icon.png',
               id: 'oldbank@botplatform.orange.fr',
@@ -130,7 +123,6 @@ describe('GetChatbotInCategoryUseCase', () => {
           result: [
             {
               category: 'finabank',
-              categoryName: 'Banking',
               description: 'elue meilleure banque pour les jeunes',
               icon: 'https://upload.wikimedia.org/wikipedia/fr/0/09/Orange_Bank_2017.png',
               id: 'orangebank@botplatform.orange.fr',
@@ -138,7 +130,6 @@ describe('GetChatbotInCategoryUseCase', () => {
             },
             {
               category: 'finabank',
-              categoryName: 'Banking',
               description: 'oldest bank in town',
               icon: 'http://icons.iconarchive.com/icons/designcontest/ecommerce-business/128/bank-icon.png',
               id: 'oldbank@botplatform.orange.fr',
@@ -146,7 +137,6 @@ describe('GetChatbotInCategoryUseCase', () => {
             },
             {
               category: 'educ',
-              categoryName: 'Education',
               description: 'oldest bank in town',
               icon: 'http://icons.iconarchive.com/icons/designcontest/ecommerce-business/128/bank-icon.png',
               id: 'oldbank@botplatform.orange.fr',

@@ -74,18 +74,6 @@ describe('apiRouter - GET /getDefaultCategories', function () {
                 {
                   id: 'educbook',
                   name: 'Books'
-                },
-                {
-                  id: 'educcour',
-                  name: 'Courses'
-                },
-                {
-                  id: 'educuniv',
-                  name: 'Universities'
-                },
-                {
-                  id: 'educscho',
-                  name: 'Schools & Colleges'
                 }
               ]
             }
@@ -116,18 +104,6 @@ describe('apiRouter - GET /getDefaultCategories', function () {
                   {
                     id: 'educbook',
                     name: 'Books'
-                  },
-                  {
-                    id: 'educcour',
-                    name: 'Courses'
-                  },
-                  {
-                    id: 'educuniv',
-                    name: 'Universities'
-                  },
-                  {
-                    id: 'educscho',
-                    name: 'Schools & Colleges'
                   }
                 ]
               }
@@ -205,7 +181,8 @@ describe('apiRouter - GET /listCategory', function () {
     stubIsInCategoryList.withArgs('finabank').resolves(true);
 
     const stubGetListCategory= sinon.stub();
-    stubGetListCategory.withArgs('fina').resolves({
+    stubGetListCategory.withArgs('finabank').rejects();
+    stubGetListCategory.resolves({
       result: [
         {
           category: 'finabank',
@@ -221,7 +198,7 @@ describe('apiRouter - GET /listCategory', function () {
           id: 'oldbank@botplatform.orange.fr',
           name: 'Old Bank'
         }]});
-    stubGetListCategory.withArgs('finabank').rejects();
+
 
     stubRepository = sinon.createStubInstance(ChatBotRepository, {
       isCategoryInList: stubIsInCategoryList,
@@ -281,6 +258,40 @@ describe('apiRouter - GET /listCategory', function () {
           done(e);
         });
     });
+
+    it('respond with chatbot list when parameter not set', function (done) {
+      const apiRouter = new ApiRouter(useCaseContainer, stubRepository, stubLogger);
+      const app = express();
+      app.use(apiRouter.apiRouter);
+
+      //Test
+      request(app)
+        .get('/listCategory')
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .then(response => {
+          response.body.should.eql({
+            result: [
+              {
+                category: 'finabank',
+                description: 'elue meilleure banque pour les jeunes',
+                icon: 'https://upload.wikimedia.org/wikipedia/fr/0/09/Orange_Bank_2017.png',
+                id: 'orangebank@botplatform.orange.fr',
+                name: 'Orange Bank'
+              },
+              {
+                category: 'finabank',
+                description: 'oldest bank in town',
+                icon: 'http://icons.iconarchive.com/icons/designcontest/ecommerce-business/128/bank-icon.png',
+                id: 'oldbank@botplatform.orange.fr',
+                name: 'Old Bank'
+              }]});
+          done();
+        })
+        .catch((e) => {
+          done(e);
+        });
+    });
   });
 
   context('when query is unsuccessful', () => {
@@ -299,19 +310,6 @@ describe('apiRouter - GET /listCategory', function () {
       //Test
       request(app)
         .get('/listCategory/ti')
-        .expect(400, done);
-    });
-
-    it('respond with error when parameter not set', function (done) {
-      //Init
-      const apiRouter = new ApiRouter(useCaseContainer, stubRepository, stubLogger);
-      const app = express();
-      app.use(apiRouter.apiRouter);
-      app.use(errorHandlerMiddlware); //don't log error with default handler
-
-      //Test
-      request(app)
-        .get('/listCategory/')
         .expect(400, done);
     });
 

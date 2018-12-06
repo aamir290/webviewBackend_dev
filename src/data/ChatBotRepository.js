@@ -70,19 +70,6 @@ class ChatBotRepository {
   }
 
   /**
-   * Return category name associated to given id.
-   * @param categoryId catgeory id to retrive name
-   * @returns {Promise<void>}
-   */
-  async getCategoryName(categoryId){
-    if(this._localSource && this._localSource.getCategoryName && categoryId){
-      return this._localSource.getCategoryName(categoryId);
-    }else{
-      throw new Error('getCategoryName - incorrect category id : '+categoryId);
-    }
-  }
-
-  /**
    * Return list of chatbot associated with given keyword
    * @param keyword serach request
    * @returns {Promise<void>} array of chatbot (could be empty if no chatbot found)

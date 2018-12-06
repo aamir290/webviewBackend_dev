@@ -121,46 +121,6 @@ describe('LocalSource', () => {
     });
   });
 
-  context('when retrieving category name', () => {
-
-    it('return category name when category id exists (root category)', async() => {
-      const localSource = new LocalSource(testDataPath, stubLogger);
-      const categoryName = await localSource.getCategoryName('fina');
-
-      categoryName.should.be.equal('Finance');
-    });
-
-    it('return category name when category id exists (sub category)', async() => {
-      const localSource = new LocalSource(testDataPath, stubLogger);
-      const categoryName = await localSource.getCategoryName('educscho');
-
-      categoryName.should.be.equal('Schools & Colleges');
-    });
-
-    it('throw error when parameter not set', async() => {
-      const localSource = new LocalSource(testDataPath, stubLogger);
-      (() => {
-        localSource.getCategoryName();
-      }).should.throw('Missing parameter');
-    });
-
-    it('throw error when category root id not found', async() => {
-      const localSource = new LocalSource(testDataPath, stubLogger);
-
-      (() => {
-        localSource.getCategoryName('titi');
-      }).should.throw('Category not found');
-    });
-
-    it('throw error when subcategory root id not found', async() => {
-      const localSource = new LocalSource(testDataPath, stubLogger);
-
-      (() => {
-        localSource.getCategoryName('finatiti');
-      }).should.throw('Category not found');
-    });
-  });
-
   afterEach(() => {
     // Restore the default sandbox here
     sinon.restore();

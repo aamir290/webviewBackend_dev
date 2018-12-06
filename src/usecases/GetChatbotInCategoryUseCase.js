@@ -39,9 +39,6 @@ class GetChatbotInCategoryUseCase extends UseCase {
       if (isInCategoryList) {
         const chatbotArray = await this.chatBotRepository.getListCategory(categoryId);
 
-        //add category name on each chatbot (based on id)
-        await this._addCategoriesNames(chatbotArray);
-
         this.emit(SUCCESS, chatbotArray);
       } else {
         this.emit(NOT_FOUND);
@@ -50,21 +47,6 @@ class GetChatbotInCategoryUseCase extends UseCase {
       this.logger.debug('GetChatbotInCategoryUseCase - catch : ' + e);
       this.emit(PARAMETER_ERROR, 'Incorrect category id parameter');
     }
-  }
-
-  /**
-   * Add the category name on each chatbot.
-   * @param chatBotArray array of chatbot return by repository
-   * @private
-   */
-  _addCategoriesNames(chatBotArray) {
-    chatBotArray.result.forEach(async (currentChaBot) => {
-      try {
-        currentChaBot.categoryName = await this.chatBotRepository.getCategoryName(currentChaBot.category);
-      } catch (e) {
-        //Do nothing
-      }
-    }, this);
   }
 }
 

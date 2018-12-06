@@ -32,6 +32,10 @@ module.exports = [
         return finabankChatbotResults;
       }
 
+      if (match[1] === '/searchChatbots/toto/inapp/tutu') {
+        return allChatbotsResults;
+      }
+
       if (match[1] === '/searchChatbots/educ') {
         throw new Error(500);
       }

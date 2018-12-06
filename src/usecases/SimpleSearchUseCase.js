@@ -7,14 +7,14 @@ const UseCase = require('./UseCase');
  *    - SUCCESS => response OK
  *    - PARAMETER_ERROR => error in process
  */
-class SimpleSearchUseCase extends UseCase{
+class SimpleSearchUseCase extends UseCase {
 
-  constructor(chatBotRepository, logger){
-    super(['SUCCESS', 'PARAMETER_ERROR']);
+  constructor(chatBotRepository, logger) {
+    super(['SUCCESS', 'NOT_FOUND', 'PARAMETER_ERROR']);
 
     this.chatBotRepository = chatBotRepository;
 
-    if(!logger) throw new Error('Missing logger');
+    if (!logger) throw new Error('Missing logger');
     this.logger = logger;
   }
 
@@ -22,19 +22,31 @@ class SimpleSearchUseCase extends UseCase{
    * Launch use case task
    * @param keyword keyword for search
    */
-  async execute(keyword){
-    const {SUCCESS, PARAMETER_ERROR} = this.events;
-    if(keyword) {
+  async execute(keyword, categoryId) {
+    const {SUCCESS, NOT_FOUND, PARAMETER_ERROR} = this.events;
+    if (keyword) {
       try {
-        const chatbots = await this.chatBotRepository.search(keyword);
-
-        if (chatbots) {
-          this.emit(SUCCESS, chatbots);
+        let isInCategoryList;
+        if (categoryId) {
+          // Category : check if exists
+          isInCategoryList = await this.chatBotRepository.isCategoryInList(categoryId);
         } else {
-          this.emit(PARAMETER_ERROR);
+          //no parameter => return for all categories
+          isInCategoryList = true;
+        }
+
+        if (isInCategoryList) {
+          const chatbots = await this.chatBotRepository.search(keyword, categoryId);
+          if(chatbots) {
+            this.emit(SUCCESS, chatbots);
+          }else{
+            this.emit(PARAMETER_ERROR);
+          }
+        } else {
+          this.emit(NOT_FOUND);
         }
       } catch (e) {
-        this.logger.debug('SimpleSearchUseCase - catch : '+e);
+        this.logger.debug('SimpleSearchUseCase - catch : ' + e);
         this.emit(PARAMETER_ERROR, 'Incorrect keyword parameter');
       }
     } else {

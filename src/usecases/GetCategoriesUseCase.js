@@ -1,13 +1,12 @@
 const UseCase = require('./UseCase');
 
 /**
- * Base class for use case.
- * Add common methods for use case.
+ * Return list of categories and subcategories.
  * Extends EventEmitter to handle different response for method :
  *    - SUCCESS => response OK
  *    - ERROR => error in process
  */
-class GetRootCategoriesUseCase extends UseCase{
+class GetCategoriesUseCase extends UseCase{
 
   constructor(chatBotRepository){
     super(['SUCCESS', 'ERROR']);
@@ -35,4 +34,4 @@ class GetRootCategoriesUseCase extends UseCase{
   }
 }
 
-module.exports = GetRootCategoriesUseCase;
+module.exports = GetCategoriesUseCase;

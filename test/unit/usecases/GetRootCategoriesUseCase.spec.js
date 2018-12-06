@@ -2,7 +2,7 @@
  * Unit tests for GetRootCategoriesUseCase
  */
 const sinon = require('sinon');
-const GetRootCategoriesUseCase = require('../../../src/usecases/GetRootCategoriesUseCase');
+const GetRootCategoriesUseCase = require('../../../src/usecases/GetCategoriesUseCase');
 const ChatBotRepository = require('../../../src/data/ChatBotRepository');
 
 describe('GetRootCategoriesUseCase', () => {

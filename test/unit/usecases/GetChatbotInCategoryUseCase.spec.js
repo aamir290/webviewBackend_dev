@@ -92,7 +92,6 @@ describe('GetChatbotInCategoryUseCase', () => {
           result: [
             {
               category: 'finabank',
-              categoryName: 'Banking',
               description: 'elue meilleure banque pour les jeunes',
               icon: 'https://upload.wikimedia.org/wikipedia/fr/0/09/Orange_Bank_2017.png',
               id: 'orangebank@botplatform.orange.fr',
@@ -100,7 +99,6 @@ describe('GetChatbotInCategoryUseCase', () => {
             },
             {
               category: 'finabank',
-              categoryName: 'Banking',
               description: 'oldest bank in town',
               icon: 'http://icons.iconarchive.com/icons/designcontest/ecommerce-business/128/bank-icon.png',
               id: 'oldbank@botplatform.orange.fr',
@@ -130,7 +128,6 @@ describe('GetChatbotInCategoryUseCase', () => {
           result: [
             {
               category: 'finabank',
-              categoryName: 'Banking',
               description: 'elue meilleure banque pour les jeunes',
               icon: 'https://upload.wikimedia.org/wikipedia/fr/0/09/Orange_Bank_2017.png',
               id: 'orangebank@botplatform.orange.fr',
@@ -138,7 +135,6 @@ describe('GetChatbotInCategoryUseCase', () => {
             },
             {
               category: 'finabank',
-              categoryName: 'Banking',
               description: 'oldest bank in town',
               icon: 'http://icons.iconarchive.com/icons/designcontest/ecommerce-business/128/bank-icon.png',
               id: 'oldbank@botplatform.orange.fr',
@@ -146,7 +142,6 @@ describe('GetChatbotInCategoryUseCase', () => {
             },
             {
               category: 'educ',
-              categoryName: 'Education',
               description: 'oldest bank in town',
               icon: 'http://icons.iconarchive.com/icons/designcontest/ecommerce-business/128/bank-icon.png',
               id: 'oldbank@botplatform.orange.fr',

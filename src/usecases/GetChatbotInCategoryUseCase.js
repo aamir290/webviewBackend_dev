@@ -39,9 +39,6 @@ class GetChatbotInCategoryUseCase extends UseCase {
       if (isInCategoryList) {
         const chatbotArray = await this.chatBotRepository.getListCategory(categoryId);
 
-        //add category name on each chatbot (based on id)
-        await this._addCategoriesNames(chatbotArray);
-
         this.emit(SUCCESS, chatbotArray);
       } else {
         this.emit(NOT_FOUND);

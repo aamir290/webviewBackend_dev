@@ -29,7 +29,7 @@ class Server {
 
   start() {
     return new Promise((resolve) => {
-      const port = this.config.port || 3000;
+      const port = this.config.port || 2000;
       const host = this.config.host || 'localhost';
 
       this.server = this.express

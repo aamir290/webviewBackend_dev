@@ -45,7 +45,7 @@ describe('Server', () => {
       await server.start();
 
       logger.info.should.have.been.calledTwice;
-      logger.info.should.have.been.calledWith('Listening at localhost:3000');
+      logger.info.should.have.been.calledWith('Listening at localhost:2000');
       logger.info.resetHistory();
 
       //Close
@@ -54,7 +54,7 @@ describe('Server', () => {
       //restart
       await server.start();
       logger.info.should.have.been.calledTwice;
-      logger.info.should.have.been.calledWith('Listening at localhost:3000');
+      logger.info.should.have.been.calledWith('Listening at localhost:2000');
 
       await server.stop();
     });

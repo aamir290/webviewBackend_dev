@@ -8,7 +8,7 @@ const stubUtils = require('../../testData/stubUtils');
 
 describe('GetChatbotInCategoryUseCase', () => {
 
-  let stubRepository, stubIsInCategoryList, stubGetListCategory, stubGetCategoryName, stubLogger;
+  let stubRepository, stubIsInCategoryList, stubGetListCategory, stubLogger;
 
   before(() => {
     stubIsInCategoryList = sinon.stub();
@@ -16,10 +16,6 @@ describe('GetChatbotInCategoryUseCase', () => {
     stubIsInCategoryList.withArgs('toto').resolves(false);
     stubIsInCategoryList.withArgs('finabank').resolves(true);
     stubIsInCategoryList.withArgs('educ').resolves(true);
-
-    stubGetCategoryName = sinon.stub();
-    stubGetCategoryName.withArgs('finabank').resolves('Banking');
-    stubGetCategoryName.withArgs('educ').resolves('Education');
 
     stubGetListCategory = sinon.stub();
     stubGetListCategory.withArgs('finabank').resolves({
@@ -68,7 +64,6 @@ describe('GetChatbotInCategoryUseCase', () => {
     stubRepository = sinon.createStubInstance(ChatBotRepository, {
       isCategoryInList: stubIsInCategoryList,
       getListCategory: stubGetListCategory,
-      getCategoryName: stubGetCategoryName,
     });
 
     stubLogger = stubUtils.createStubLogger();

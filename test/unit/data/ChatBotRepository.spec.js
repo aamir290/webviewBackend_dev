@@ -269,56 +269,6 @@ describe('ChatBotRepository', () => {
 
   /***********************************************************************************************************/
 
-  context('when getting category name', () => {
-
-    let stubLocalSource, stubGetCategoryName;
-
-    before(() => {
-      stubGetCategoryName = sinon.stub();
-      stubGetCategoryName.withArgs('titi').returns('titiName');
-      stubGetCategoryName.withArgs('tutu').rejects('Category not found');
-      stubGetCategoryName.rejects('Missing parameter');
-
-      stubLocalSource = sinon.createStubInstance(LocalSource, {
-        getCategoryName: stubGetCategoryName
-      });
-
-    });
-
-    it('return correct category name', async () => {
-      const chatBotRepository = new ChatBotRepository(stubLocalSource, {}, stubLogger);
-      const isInList = await chatBotRepository.getCategoryName('titi');
-
-      stubGetCategoryName.should.have.been.calledOnce;
-      isInList.should.eql('titiName');
-    });
-
-    it('throw error when category not found', async () => {
-      const chatBotRepository = new ChatBotRepository(stubLocalSource, {}, stubLogger);
-      await chatBotRepository.getCategoryName('tutu').should.be.rejected;
-    });
-
-    it('throw error when no distant source', async () => {
-      const chatBotRepository = new ChatBotRepository({}, {}, stubLogger);
-
-      await chatBotRepository.getCategoryName().should.be.rejected;
-    });
-
-    it('throw error when no parameter', async () => {
-      const chatBotRepository = new ChatBotRepository(stubLocalSource, {}, stubLogger);
-
-      await chatBotRepository.getCategoryName().should.be.rejected;
-    });
-
-    afterEach(() => {
-      // Reset count
-      sinon.resetHistory();
-    });
-
-  });
-
-  /***********************************************************************************************************/
-
   context('when perform search', () => {
 
     let stubDistantSource, stubSearch;

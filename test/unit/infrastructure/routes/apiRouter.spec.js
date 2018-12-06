@@ -74,18 +74,6 @@ describe('apiRouter - GET /getDefaultCategories', function () {
                 {
                   id: 'educbook',
                   name: 'Books'
-                },
-                {
-                  id: 'educcour',
-                  name: 'Courses'
-                },
-                {
-                  id: 'educuniv',
-                  name: 'Universities'
-                },
-                {
-                  id: 'educscho',
-                  name: 'Schools & Colleges'
                 }
               ]
             }
@@ -116,18 +104,6 @@ describe('apiRouter - GET /getDefaultCategories', function () {
                   {
                     id: 'educbook',
                     name: 'Books'
-                  },
-                  {
-                    id: 'educcour',
-                    name: 'Courses'
-                  },
-                  {
-                    id: 'educuniv',
-                    name: 'Universities'
-                  },
-                  {
-                    id: 'educscho',
-                    name: 'Schools & Colleges'
                   }
                 ]
               }

@@ -30,8 +30,8 @@ class ApiRouter {
     this.apiRouter.get('/listCategory', this._getListCategory.bind(this));
     this.apiRouter.get('/listCategory/:categoryId', categoryValidationMiddleware, this._getListCategory.bind(this));
     this.apiRouter.get('/search', this._search.bind(this));
-    this.apiRouter.get('/search/:keyword', this._search.bind(this));
-    this.apiRouter.get('/search/:keyword/:categoryId', this._search.bind(this));
+    this.apiRouter.get('/searchChatbot/:keyword', this._search.bind(this));
+    this.apiRouter.get('/searchChatbot/:keyword/:categoryId', this._search.bind(this));
   }
 
   /**

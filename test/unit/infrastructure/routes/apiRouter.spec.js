@@ -386,8 +386,14 @@ describe('apiRouter - GET /search', function () {
         }]});
     stubSearch.withArgs('finabank').rejects();
 
+    const stubIsInCategoryList = sinon.stub();
+    stubIsInCategoryList.withArgs('titi').resolves(false);
+    stubIsInCategoryList.withArgs('finabank').resolves(true);
+
+
     stubRepository = sinon.createStubInstance(ChatBotRepository, {
-      search: stubSearch
+      search: stubSearch,
+      isCategoryInList: stubIsInCategoryList
     });
 
     useCaseContainer = {};
@@ -397,7 +403,7 @@ describe('apiRouter - GET /search', function () {
   });
 
   context('when query is successful', () => {
-    it('respond with array of chatbots', function (done) {
+    it('respond with array of chatbots with simple keyword', function (done) {
       const apiRouter = new ApiRouter(useCaseContainer, stubRepository, stubLogger);
       const app = express();
       app.use(apiRouter.apiRouter);
@@ -430,9 +436,57 @@ describe('apiRouter - GET /search', function () {
           done(e);
         });
     });
+
+    it('respond with array of chatbots when category sepcied', function (done) {
+      const apiRouter = new ApiRouter(useCaseContainer, stubRepository, stubLogger);
+      const app = express();
+      app.use(apiRouter.apiRouter);
+
+      //Test
+      request(app)
+        .get('/searchChatbot/fina/orangeApp/finabank')
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .then(response => {
+          response.body.should.eql({
+            result: [
+              {
+                category: 'finabank',
+                description: 'elue meilleure banque pour les jeunes',
+                icon: 'https://upload.wikimedia.org/wikipedia/fr/0/09/Orange_Bank_2017.png',
+                id: 'orangebank@botplatform.orange.fr',
+                name: 'Orange Bank'
+              },
+              {
+                category: 'finabank',
+                description: 'oldest bank in town',
+                icon: 'http://icons.iconarchive.com/icons/designcontest/ecommerce-business/128/bank-icon.png',
+                id: 'oldbank@botplatform.orange.fr',
+                name: 'Old Bank'
+              }]});
+          done();
+        })
+        .catch((e) => {
+          done(e);
+        });
+    });
   });
 
   context('when query is unsuccessful', () => {
+
+    it('respond with 404 when category not found', function (done) {
+      //Init
+      const apiRouter = new ApiRouter(useCaseContainer, stubRepository, stubLogger);
+      const app = express();
+      app.use(apiRouter.apiRouter);
+      app.use(errorHandlerMiddlware); //don't log error with default handler
+
+      //Test
+      request(app)
+        .get('/searchChatbot/toto/orangeApp/titi')
+        .expect(404, done);
+
+    });
 
     it('respond with error when parameter not set', function (done) {
       //Init

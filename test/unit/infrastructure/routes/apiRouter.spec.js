@@ -404,7 +404,7 @@ describe('apiRouter - GET /search', function () {
 
       //Test
       request(app)
-        .get('/search/fina')
+        .get('/searchChatbot/fina')
         .expect('Content-Type', /json/)
         .expect(200)
         .then(response => {
@@ -443,7 +443,7 @@ describe('apiRouter - GET /search', function () {
 
       //Test
       request(app)
-        .get('/search/')
+        .get('/searchChatbot/')
         .expect(400, done);
 
     });
@@ -457,7 +457,7 @@ describe('apiRouter - GET /search', function () {
 
       //Test
       request(app)
-        .get('/search/finabank')
+        .get('/searchChatbot/finabank')
         .expect(400, done);
     });
 
@@ -472,7 +472,7 @@ describe('apiRouter - GET /search', function () {
 
       //Test
       request(app)
-        .get('/search/fina')
+        .get('/searchChatbot/fina')
         .expect(400, done);
     });
 
@@ -485,7 +485,7 @@ describe('apiRouter - GET /search', function () {
 
       //Test
       request(app)
-        .get('/search/fina')
+        .get('/searchChatbot/fina')
         .expect(400, done);
     });
   });

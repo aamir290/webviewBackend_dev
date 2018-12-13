@@ -26,7 +26,7 @@ class DistantSource {
   async listCategory(categoryId) {
     //Create url
     if (categoryId === undefined) throw new Error('Incorrect parameter category id');
-    const url = this._urlServer + '/listCategory/' + categoryId + '/inapp';
+    const url = this._urlServer + '/listCategory/' + categoryId + '/orangeApp';
 
     //Request
     this._logger.debug('DistantSource - listCategory request : '+url);
@@ -60,7 +60,7 @@ class DistantSource {
     let url = this._urlServer + '/searchChatbots/' + keyword;
 
     if(categoryId){
-      url += `/inapp/${categoryId}`;
+      url += `/orangeApp/${categoryId}`;
     }
 
     //Request

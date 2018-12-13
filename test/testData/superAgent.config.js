@@ -20,11 +20,11 @@ module.exports = [
       /**
        * Return for request returning list of chatbot associated to finabank category
        */
-      if (match[1] === '/listCategory/finabank/inapp') {
+      if (match[1] === '/listCategory/finabank/orangeApp') {
         return finabankChatbotResults;
       }
 
-      if (match[1] === '/listCategory/educ/inapp') {
+      if (match[1] === '/listCategory/educ/orangeApp') {
         throw new Error(500);
       }
 
@@ -32,7 +32,7 @@ module.exports = [
         return finabankChatbotResults;
       }
 
-      if (match[1] === '/searchChatbots/toto/inapp/tutu') {
+      if (match[1] === '/searchChatbots/toto/orangeApp/tutu') {
         return allChatbotsResults;
       }
 

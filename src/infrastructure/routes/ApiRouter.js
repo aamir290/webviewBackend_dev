@@ -34,7 +34,7 @@ class ApiRouter {
     this.apiRouter.get('/searchChatbot', this._search.bind(this));
     this.apiRouter.get('/searchChatbot/:keyword', this._search.bind(this));
     this.apiRouter.get('/searchChatbot/:keyword', this._search.bind(this));
-    this.apiRouter.get('/searchChatbot/:keyword/:accessChannel/:categoryId', this._search.bind(this));
+    this.apiRouter.get('/searchChatbot/:keyword/:accessChannel/:categoryId', categoryValidationMiddleware, this._search.bind(this));
   }
 
   /**

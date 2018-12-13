@@ -4,6 +4,7 @@
 
 const express = require('express');
 const categoryValidationMiddleware = require('../validation/categoryParameterMiddleware');
+const keywordValidationMiddleware = require('../validation/keywordParameterMiddleware');
 const HTTPError = require('../error/HTTPError');
 
 /**
@@ -32,9 +33,8 @@ class ApiRouter {
     this.apiRouter.get('/listCategory/:categoryId', categoryValidationMiddleware, this._getListCategory.bind(this));
     this.apiRouter.get('/listCategory/:categoryId/:accessChannel', categoryValidationMiddleware, this._getListCategory.bind(this));
     this.apiRouter.get('/searchChatbot', this._search.bind(this));
-    this.apiRouter.get('/searchChatbot/:keyword', this._search.bind(this));
-    this.apiRouter.get('/searchChatbot/:keyword', this._search.bind(this));
-    this.apiRouter.get('/searchChatbot/:keyword/:accessChannel/:categoryId', categoryValidationMiddleware, this._search.bind(this));
+    this.apiRouter.get('/searchChatbot/:keyword', keywordValidationMiddleware, this._search.bind(this));
+    this.apiRouter.get('/searchChatbot/:keyword/:accessChannel/:categoryId', keywordValidationMiddleware, categoryValidationMiddleware, this._search.bind(this));
   }
 
   /**

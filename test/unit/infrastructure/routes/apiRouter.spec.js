@@ -502,20 +502,6 @@ describe('apiRouter - GET /search', function () {
 
     });
 
-    it('respond with error when categoryId incporrect', function (done) {
-      //Init
-      const apiRouter = new ApiRouter(useCaseContainer, stubRepository, stubLogger);
-      const app = express();
-      app.use(apiRouter.apiRouter);
-      app.use(errorHandlerMiddlware); //don't log error with default handler
-
-      //Test
-      request(app)
-        .get('/searchChatbot/test/orangeApp/te')
-        .expect(400, done);
-
-    });
-
     it('respond with error when error occurs in usecase', function (done) {
       //Init
       const apiRouter = new ApiRouter(useCaseContainer, stubRepository, stubLogger);

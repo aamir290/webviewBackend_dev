@@ -17,7 +17,7 @@ describe('HTTPError', () => {
 
   context('when initiate unsuccessful', () => {
     it('set status to 400 when no status', () => {
-      const error = new HTTPError(400, 'this is an error');
+      const error = new HTTPError(undefined, 'this is an error');
 
       error.status.should.be.eql(400);
     });

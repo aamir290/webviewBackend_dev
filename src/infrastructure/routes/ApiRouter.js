@@ -27,11 +27,14 @@ class ApiRouter {
 
   _setupRoutes() {
     this.apiRouter.get('/getDefaultCategories', this._getDefaultCategories.bind(this));
+    this.apiRouter.get('/getDefaultCategories/:accessChannel', this._getDefaultCategories.bind(this));
     this.apiRouter.get('/listCategory', this._getListCategory.bind(this));
     this.apiRouter.get('/listCategory/:categoryId', categoryValidationMiddleware, this._getListCategory.bind(this));
+    this.apiRouter.get('/listCategory/:categoryId/:accessChannel', categoryValidationMiddleware, this._getListCategory.bind(this));
     this.apiRouter.get('/search', this._search.bind(this));
     this.apiRouter.get('/searchChatbot/:keyword', this._search.bind(this));
-    this.apiRouter.get('/searchChatbot/:keyword/:categoryId', this._search.bind(this));
+    this.apiRouter.get('/searchChatbot/:keyword', this._search.bind(this));
+    this.apiRouter.get('/searchChatbot/:keyword/:accessChannel/:categoryId', this._search.bind(this));
   }
 
   /**

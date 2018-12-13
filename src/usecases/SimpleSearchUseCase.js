@@ -21,6 +21,7 @@ class SimpleSearchUseCase extends UseCase {
   /**
    * Launch use case task
    * @param keyword keyword for search
+   * @param categoryId category id filter
    */
   async execute(keyword, categoryId) {
     const {SUCCESS, NOT_FOUND, PARAMETER_ERROR} = this.events;

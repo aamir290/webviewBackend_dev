@@ -29,8 +29,9 @@ class ApiRouter {
     this.apiRouter.get('/getDefaultCategories', this._getDefaultCategories.bind(this));
     this.apiRouter.get('/listCategory', this._getListCategory.bind(this));
     this.apiRouter.get('/listCategory/:categoryId', categoryValidationMiddleware, this._getListCategory.bind(this));
-    this.apiRouter.get('/search/:keyword', this._search.bind(this));
     this.apiRouter.get('/search', this._search.bind(this));
+    this.apiRouter.get('/search/:keyword', this._search.bind(this));
+    this.apiRouter.get('/search/:keyword/:categoryId', this._search.bind(this));
   }
 
   /**
@@ -107,8 +108,9 @@ class ApiRouter {
     if (this.useCaseContainer.simpleSearchUseCase) {
       if (req.params && req.params.keyword) {
         const paramKeyword = req.params.keyword;
+        const paramCategoryId = req.params.categoryId;
         const simpleSearchUseCase = new this.useCaseContainer.simpleSearchUseCase(this._chatBotRepository, this.logger);
-        const {SUCCESS, PARAMETER_ERROR} = simpleSearchUseCase.events;
+        const {SUCCESS, NOT_FOUND, PARAMETER_ERROR} = simpleSearchUseCase.events;
 
         simpleSearchUseCase.on(SUCCESS, (chatbots) => {
           this.logger.debug('_search - Success : ' + chatbots);
@@ -122,7 +124,12 @@ class ApiRouter {
           next(new HTTPError(400, 'Error with chatbot repository'));
         });
 
-        await simpleSearchUseCase.execute(paramKeyword);
+        simpleSearchUseCase.on(NOT_FOUND, () => {
+          this.logger.debug('_search - NOT_FOUND');
+          next(new HTTPError(404, 'category not found'));
+        });
+
+        await simpleSearchUseCase.execute(paramKeyword, paramCategoryId);
       } else {
         //No params => parameter error
         next(new HTTPError(400, 'No param keyword'));

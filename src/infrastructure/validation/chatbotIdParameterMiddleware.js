@@ -13,7 +13,6 @@ module.exports = function (req, res, next) {
     let paramChatbotId = req.params.chatbotId;
 
     paramChatbotId = validator.trim(paramChatbotId);  //remove unused space
-    paramChatbotId = validator.normalizeEmail(paramChatbotId);  //remove unused space
 
     if(!validator.isEmail(paramCategoryId)) {//verify if email adress
       next(new HTTPError(400, 'Invalid Chatbot Id - not email adress'));

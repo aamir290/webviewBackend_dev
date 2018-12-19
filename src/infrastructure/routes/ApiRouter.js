@@ -5,6 +5,8 @@
 const express = require('express');
 const categoryValidationMiddleware = require('../validation/categoryParameterMiddleware');
 const keywordValidationMiddleware = require('../validation/keywordParameterMiddleware');
+const chatbotIdValidationMiddleware = require('../validation/chatbotIdParameterMiddleware');
+const MSISDNValidationMiddleware = require('../validation/MSISDNValidationMiddleware');
 const HTTPError = require('../error/HTTPError');
 
 /**

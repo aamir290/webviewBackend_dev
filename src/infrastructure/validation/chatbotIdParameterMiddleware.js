@@ -12,9 +12,7 @@ const HTTPError = require('../error/HTTPError');
 
 module.exports = function (req, res, next) {
   if(req && req.params && req.params.chatbotId){ //Parameter exists
-    let paramChatbotId = req.params.chatbotId;
-
-    paramChatbotId = validator.trim(paramChatbotId);  //remove unused space
+    let paramCategoryId = validator.trim(req.params.chatbotId);  //remove unused space
 
     if(!validator.isLength(paramCategoryId, {min:6, max:60})) {//chatbotId between 6 & 60
       next(new HTTPError(400, 'Invalid Chatbot Id - id length must be between 6 and 60'));

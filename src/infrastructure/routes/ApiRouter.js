@@ -152,20 +152,22 @@ class ApiRouter {
    * @param next
    * @private
    */
+  //TODO verify
   async _beginInteraction(req, res, next) {
     if (this.useCaseContainer.beginInteraction) {
       if (req.params && req.params.chatbotId && req.params.MSISDN && req.params.accessChannel) {
         const paramChatbotId = req.params.chatbotId;
         const paramMSISDN = req.params.MSISDN;
         const paramAccessChannel = req.params.accessChannel || 'webbrowser';
-        const beginInteractionUseCase = new this.useCaseContainer.beginInteractionUseCase(this.logger); //TODO marie adpat
+
+        const beginInteractionUseCase = new this.useCaseContainer.beginInteractionUseCase(this.logger);
         const {SUCCESS, NOT_FOUND, PARAMETER_ERROR} = beginInteractionUseCase.events;
 
-        beginInteractionUseCase.on(SUCCESS, (chatbots) => {
-          this.logger.debug('_beginInteraction - Success : ' + deeplink);//TODO
+        beginInteractionUseCase.on(SUCCESS, (ABCDE_id) => {
+          this.logger.debug('_beginInteraction - Success : ' + ABCDE_id);
           return res
             .status(302)
-            .json(chatbots); //TODO deeplink botGallery:open:abcde_id
+            .json(ABCDE_id);
         });
 
         beginInteractionUseCase.on(PARAMETER_ERROR, () => {

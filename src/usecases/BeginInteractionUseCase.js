@@ -30,8 +30,6 @@ class BeginInteractionUseCase extends UseCase {
     if(chatbotId) {
       try {
         const ABCDE_id = await this.chatBotRepository.getChatBotId(chatbotId);
-        this.logger.debug('BeginInteraction - getChatBotId return : ' + ABCDE_id);
-
         if (ABCDE_id) {
           this.emit(SUCCESS, ABCDE_id);
         } else {

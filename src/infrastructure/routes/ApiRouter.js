@@ -28,7 +28,7 @@ class ApiRouter {
 
   _setupRoutes() {
     this.apiRouter.get('/getDefaultCategories/:accessChannel', this._getDefaultCategories.bind(this));
-    this.apiRouter.get('/listCategory', this._getListCategory.bind(this));
+    this.apiRouter.get('/list/:accessChannel', this._getListCategory.bind(this));
     this.apiRouter.get('/listCategory/:categoryId/:accessChannel', categoryValidationMiddleware, this._getListCategory.bind(this));
     this.apiRouter.get('/searchChatbot/:keyword/:accessChannel', keywordValidationMiddleware, this._search.bind(this));
     this.apiRouter.get('/searchChatbot/:keyword/:accessChannel/:categoryId', keywordValidationMiddleware, categoryValidationMiddleware, this._search.bind(this));

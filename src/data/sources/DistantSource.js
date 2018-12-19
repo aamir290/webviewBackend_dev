@@ -37,10 +37,11 @@ class DistantSource {
 
   /**
    * Return array of all chatbots from repository
+   * @param accessChannel access channel
    * @returns promises with chatbots array
    */
-  async list() {
-    const url = this._urlServer + '/list';
+  async list(accessChannel) {
+    const url = `${this._urlServer}/list/${accessChannel}`;
 
     //Request
     this._logger.debug('DistantSource - list request : '+url);

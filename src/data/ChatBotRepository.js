@@ -59,7 +59,7 @@ class ChatBotRepository {
         if(categoryId) {
           return await this._distantSource.listCategory(categoryId, accessChannel);
         }else{
-          return await this._distantSource.list();
+          return await this._distantSource.list(accessChannel);
         }
       }catch(e){
         this.logger.debug('ChatBotRepository - getListCategory - error with distant source : '+e);

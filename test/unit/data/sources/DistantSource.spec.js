@@ -22,7 +22,7 @@ describe('DistantSource', () => {
   context('when getting chatbot list for given category', () => {
     it('return chatbot array when category correct', async () => {
       const distantSource = new DistantSource(config, stubLogger);
-      const chatbots = await distantSource.listCategory('finabank');
+      const chatbots = await distantSource.listCategory('finabank', 'orangeApp');
 
       chatbots.should.be.eql(
         {
@@ -67,14 +67,14 @@ describe('DistantSource', () => {
 
     it('return error when error with server', async () => {
       const distantSource = new DistantSource(config, stubLogger);
-      await distantSource.listCategory('educ').should.be.rejected;
+      await distantSource.listCategory('educ', 'orangeApp').should.be.rejected;
     });
   });
 
   context('when getting all chatbots list', () => {
     it('return chatbot array', async () => {
       const distantSource = new DistantSource(config, stubLogger);
-      const chatbots = await distantSource.list();
+      const chatbots = await distantSource.list('orangeApp');
 
       chatbots.should.be.eql(
         {
@@ -119,7 +119,7 @@ describe('DistantSource', () => {
   context('when perform simple search', () => {
     it('return chatbot array when keyword ok and no catgeory parameter', async () => {
       const distantSource = new DistantSource(config, stubLogger);
-      const chatbots = await distantSource.search('toto');
+      const chatbots = await distantSource.search('toto', undefined, 'orangeApp');
 
       chatbots.should.be.eql(
         {
@@ -159,7 +159,7 @@ describe('DistantSource', () => {
 
     it('return chatbot array when keyword and category parameter ok', async () => {
       const distantSource = new DistantSource(config, stubLogger);
-      const chatbots = await distantSource.search('toto', 'tutu');
+      const chatbots = await distantSource.search('toto', 'tutu', 'orangeApp');
 
       chatbots.should.be.eql(
         {

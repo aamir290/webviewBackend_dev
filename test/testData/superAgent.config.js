@@ -40,7 +40,7 @@ module.exports = [
         throw new Error(500);
       }
 
-      if (match[1] === '/list') {
+      if (match[1] === '/list/orangeApp') {
         return allChatbotsResults;
       }
     },

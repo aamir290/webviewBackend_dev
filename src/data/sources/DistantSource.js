@@ -21,12 +21,13 @@ class DistantSource {
    * Return array of chatbots for given category
    * Empty array if no chatbots for given category
    * @param categoryId id of category to retrieve chatbots from
+   * @param accessChannel access channel
    * @returns promises with ctabots array
    */
-  async listCategory(categoryId) {
+  async listCategory(categoryId, accessChannel) {
     //Create url
     if (categoryId === undefined) throw new Error('Incorrect parameter category id');
-    const url = this._urlServer + '/listCategory/' + categoryId + '/orangeApp';
+    const url = `${this._urlServer}/listCategory/${categoryId}/${accessChannel}`;
 
     //Request
     this._logger.debug('DistantSource - listCategory request : '+url);
@@ -36,10 +37,11 @@ class DistantSource {
 
   /**
    * Return array of all chatbots from repository
+   * @param accessChannel access channel
    * @returns promises with chatbots array
    */
-  async list() {
-    const url = this._urlServer + '/list';
+  async list(accessChannel) {
+    const url = `${this._urlServer}/list/${accessChannel}`;
 
     //Request
     this._logger.debug('DistantSource - list request : '+url);
@@ -52,15 +54,16 @@ class DistantSource {
    * Empty array if no chatbots for given keyword
    * @param keyword keyword to search for
    * @param categoryId category id filter
+   * @param accessChannel access channel
    * @returns promises with chatbots array
    */
-  async search(keyword, categoryId) {
+  async search(keyword, categoryId, accessChannel) {
     //Create url
     if (keyword === undefined) throw new Error('Incorrect parameter keyword');
-    let url = this._urlServer + '/searchChatbots/' + keyword;
+    let url = `${this._urlServer}/searchChatbots/${keyword}`;
 
     if(categoryId){
-      url += `/orangeApp/${categoryId}`;
+      url += `/${accessChannel}/${categoryId}`;
     }
 
     //Request

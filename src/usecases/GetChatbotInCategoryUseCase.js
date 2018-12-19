@@ -22,9 +22,11 @@ class GetChatbotInCategoryUseCase extends UseCase {
   /**
    * Launch use case task.
    * test if category exists : if yes, launch request to server and format result.
-   * If catgeory doesn't exist, throw error.
+   * If category doesn't exist, throw error.
+   * @param categoryId category id to retrive data from. If undefined, return all chatbots
+   * @param accessChannel access channel
    */
-  async execute(categoryId) {
+  async execute(categoryId, accessChannel) {
     const {SUCCESS, NOT_FOUND, PARAMETER_ERROR} = this.events;
     try {
       let isInCategoryList;
@@ -37,7 +39,7 @@ class GetChatbotInCategoryUseCase extends UseCase {
       }
 
       if (isInCategoryList) {
-        const chatbotArray = await this.chatBotRepository.getListCategory(categoryId);
+        const chatbotArray = await this.chatBotRepository.getListCategory(categoryId, accessChannel);
 
         this.emit(SUCCESS, chatbotArray);
       } else {

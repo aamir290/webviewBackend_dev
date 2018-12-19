@@ -22,8 +22,9 @@ class SimpleSearchUseCase extends UseCase {
    * Launch use case task
    * @param keyword keyword for search
    * @param categoryId category id filter
+   *  @param accessChannel access channel
    */
-  async execute(keyword, categoryId) {
+  async execute(keyword, categoryId, accessChannel) {
     const {SUCCESS, NOT_FOUND, PARAMETER_ERROR} = this.events;
     if (keyword) {
       try {
@@ -37,7 +38,7 @@ class SimpleSearchUseCase extends UseCase {
         }
 
         if (isInCategoryList) {
-          const chatbots = await this.chatBotRepository.search(keyword, categoryId);
+          const chatbots = await this.chatBotRepository.search(keyword, categoryId, accessChannel);
           if(chatbots) {
             this.emit(SUCCESS, chatbots);
           }else{

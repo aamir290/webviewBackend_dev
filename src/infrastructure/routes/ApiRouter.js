@@ -29,14 +29,11 @@ class ApiRouter {
   }
 
   _setupRoutes() {
-    this.apiRouter.get('/getDefaultCategories', this._getDefaultCategories.bind(this));
     this.apiRouter.get('/getDefaultCategories/:accessChannel', this._getDefaultCategories.bind(this));
-    this.apiRouter.get('/listCategory', this._getListCategory.bind(this));
-    this.apiRouter.get('/listCategory/:categoryId', categoryValidationMiddleware, this._getListCategory.bind(this));
+    this.apiRouter.get('/list/:accessChannel', this._getListCategory.bind(this));
     this.apiRouter.get('/listCategory/:categoryId/:accessChannel', categoryValidationMiddleware, this._getListCategory.bind(this));
-    this.apiRouter.get('/searchChatbot', this._search.bind(this));
-    this.apiRouter.get('/searchChatbot/:keyword', keywordValidationMiddleware, this._search.bind(this));
-    this.apiRouter.get('/searchChatbot/:keyword/:accessChannel/:categoryId', keywordValidationMiddleware, categoryValidationMiddleware, this._search.bind(this));
+    this.apiRouter.get('/searchChatbots/:keyword/:accessChannel', keywordValidationMiddleware, this._search.bind(this));
+    this.apiRouter.get('/searchChatbots/:keyword/:accessChannel/:categoryId', keywordValidationMiddleware, categoryValidationMiddleware, this._search.bind(this));
     //TODO verify
     this.apiRouter.get('/beginInteraction/:chatbotId/:MSISDN/:accesChannel', chatbotIdValidationMiddleware, MSISDNValidationMiddleware, this._beginInteraction.bind(this));
   }
@@ -79,6 +76,7 @@ class ApiRouter {
   async _getListCategory(req, res, next) {
     if (this.useCaseContainer.getChatbotInCategoryUseCase) {
       const paramCategoryId = req.params.categoryId;
+      const paramAccessChannel = req.params.accessChannel || 'webbrowser';
       const getChatbotInCategoryUseCase = new this.useCaseContainer.getChatbotInCategoryUseCase(this._chatBotRepository, this.logger);
       const {SUCCESS, NOT_FOUND, PARAMETER_ERROR} = getChatbotInCategoryUseCase.events;
 
@@ -98,7 +96,7 @@ class ApiRouter {
         next(new HTTPError(400, 'Error with chatbot repository'));
       });
 
-      await getChatbotInCategoryUseCase.execute(paramCategoryId);
+      await getChatbotInCategoryUseCase.execute(paramCategoryId, paramAccessChannel);
     } else {
       next(new HTTPError(400, 'Missing usecase'));
     }
@@ -116,6 +114,7 @@ class ApiRouter {
       if (req.params && req.params.keyword) {
         const paramKeyword = req.params.keyword;
         const paramCategoryId = req.params.categoryId;
+        const paramAccessChannel = req.params.accessChannel || 'webbrowser';
         const simpleSearchUseCase = new this.useCaseContainer.simpleSearchUseCase(this._chatBotRepository, this.logger);
         const {SUCCESS, NOT_FOUND, PARAMETER_ERROR} = simpleSearchUseCase.events;
 
@@ -136,7 +135,7 @@ class ApiRouter {
           next(new HTTPError(404, 'category not found'));
         });
 
-        await simpleSearchUseCase.execute(paramKeyword, paramCategoryId);
+        await simpleSearchUseCase.execute(paramKeyword, paramCategoryId, paramAccessChannel);
       } else {
         //No params => parameter error
         next(new HTTPError(400, 'No param keyword'));

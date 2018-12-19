@@ -49,16 +49,17 @@ class ChatBotRepository {
   /**
    * Return list of chatbot associated with given catgeory id.
    * @param categoryId category id to retrive chatbot from
+   * @param accessChannel access channel
    * @returns {Promise<void>} array of chatbot (could be empty if no chatbot found)
    *  @throws Error if  incorrect distant source
    */
-  async getListCategory(categoryId) {
+  async getListCategory(categoryId, accessChannel) {
     if(this._distantSource && this._distantSource.listCategory) {
       try{
         if(categoryId) {
-          return await this._distantSource.listCategory(categoryId);
+          return await this._distantSource.listCategory(categoryId, accessChannel);
         }else{
-          return await this._distantSource.list();
+          return await this._distantSource.list(accessChannel);
         }
       }catch(e){
         this.logger.debug('ChatBotRepository - getListCategory - error with distant source : '+e);
@@ -73,13 +74,14 @@ class ChatBotRepository {
    * Return list of chatbot associated with given keyword
    * @param keyword keyword for search request
    * @param categoryId catgeory id for search request. Let blank for no filtering on request id.
+   * @param accessChannel access channel
    * @returns {Promise<void>} array of chatbot (could be empty if no chatbot found)
    *  @throws Error if incorrect distant source
    */
-  async search(keyword, categoryId){
+  async search(keyword, categoryId, accessChannel){
     if(this._distantSource && this._distantSource.search && keyword) {
       try{
-        return await this._distantSource.search(keyword, categoryId);
+        return await this._distantSource.search(keyword, categoryId, accessChannel);
       }catch(e){
         this.logger.debug('ChatBotRepository - search - error with distant source : '+e);
         throw new Error('DistantSource generate error while calling search');

@@ -90,7 +90,7 @@ describe('apiRouter - GET /getDefaultCategories', function () {
 
       //Test
       request(app)
-        .get('/getDefaultCategories')
+        .get('/getDefaultCategories/orangeApp')
         .expect('Content-Type', /json/)
         .expect(200)
         .then(response => {
@@ -134,7 +134,7 @@ describe('apiRouter - GET /getDefaultCategories', function () {
 
       //execute test
       request(app)
-        .get('/getDefaultCategories')
+        .get('/getDefaultCategories/orangeApp')
         .expect(400, done);
     });
 
@@ -150,7 +150,7 @@ describe('apiRouter - GET /getDefaultCategories', function () {
 
       //Test
       request(app)
-        .get('/getDefaultCategories')
+        .get('/getDefaultCategories/orangeApp')
         .expect(400, done);
     });
 
@@ -163,7 +163,7 @@ describe('apiRouter - GET /getDefaultCategories', function () {
 
       //Test
       request(app)
-        .get('/getDefaultCategories')
+        .get('/getDefaultCategories/orangeApp')
         .expect(400, done);
     });
   });
@@ -221,7 +221,7 @@ describe('apiRouter - GET /listCategory', function () {
 
       //Test
       request(app)
-        .get('/listCategory/toto')
+        .get('/listCategory/toto/orangeApp')
         .expect(404, done);
     });
 
@@ -232,7 +232,7 @@ describe('apiRouter - GET /listCategory', function () {
 
       //Test
       request(app)
-        .get('/listCategory/fina')
+        .get('/listCategory/fina/orangeApp')
         .expect('Content-Type', /json/)
         .expect(200)
         .then(response => {
@@ -266,7 +266,7 @@ describe('apiRouter - GET /listCategory', function () {
 
       //Test
       request(app)
-        .get('/listCategory')
+        .get('/list/orangeApp')
         .expect('Content-Type', /json/)
         .expect(200)
         .then(response => {
@@ -309,7 +309,7 @@ describe('apiRouter - GET /listCategory', function () {
 
       //Test
       request(app)
-        .get('/listCategory/ti')
+        .get('/listCategory/ti/orangeApp')
         .expect(400, done);
     });
 
@@ -322,7 +322,7 @@ describe('apiRouter - GET /listCategory', function () {
 
       //Test
       request(app)
-        .get('/listCategory/finabank')
+        .get('/listCategory/finabank/orangeApp')
         .expect(400, done);
     });
 
@@ -337,7 +337,7 @@ describe('apiRouter - GET /listCategory', function () {
 
       //Test
       request(app)
-        .get('/listCategory/fina')
+        .get('/listCategory/fina/orangeApp')
         .expect(400, done);
     });
 
@@ -350,7 +350,7 @@ describe('apiRouter - GET /listCategory', function () {
 
       //Test
       request(app)
-        .get('/listCategory')
+        .get('/list/orangeApp')
         .expect(400, done);
     });
   });
@@ -410,7 +410,7 @@ describe('apiRouter - GET /search', function () {
 
       //Test
       request(app)
-        .get('/searchChatbot/fina')
+        .get('/searchChatbots/fina/orangeApp')
         .expect('Content-Type', /json/)
         .expect(200)
         .then(response => {
@@ -444,7 +444,7 @@ describe('apiRouter - GET /search', function () {
 
       //Test
       request(app)
-        .get('/searchChatbot/fina/orangeApp/finabank')
+        .get('/searchChatbots/fina/orangeApp/finabank')
         .expect('Content-Type', /json/)
         .expect(200)
         .then(response => {
@@ -483,12 +483,12 @@ describe('apiRouter - GET /search', function () {
 
       //Test
       request(app)
-        .get('/searchChatbot/toto/orangeApp/titi')
+        .get('/searchChatbots/toto/orangeApp/titi')
         .expect(404, done);
 
     });
 
-    it('respond with error when parameter not set', function (done) {
+    it('respond with error not found when parameter not set', function (done) {
       //Init
       const apiRouter = new ApiRouter(useCaseContainer, stubRepository, stubLogger);
       const app = express();
@@ -497,8 +497,8 @@ describe('apiRouter - GET /search', function () {
 
       //Test
       request(app)
-        .get('/searchChatbot/')
-        .expect(400, done);
+        .get('/searchChatbots/')
+        .expect(404, done);
 
     });
 
@@ -511,7 +511,7 @@ describe('apiRouter - GET /search', function () {
 
       //Test
       request(app)
-        .get('/searchChatbot/finabank')
+        .get('/searchChatbots/finabank/orangeApp')
         .expect(400, done);
     });
 
@@ -526,7 +526,7 @@ describe('apiRouter - GET /search', function () {
 
       //Test
       request(app)
-        .get('/searchChatbot/fina')
+        .get('/searchChatbots/fina/orangeApp')
         .expect(400, done);
     });
 
@@ -539,7 +539,7 @@ describe('apiRouter - GET /search', function () {
 
       //Test
       request(app)
-        .get('/searchChatbot/fina')
+        .get('/searchChatbots/fina/orangeApp')
         .expect(400, done);
     });
   });

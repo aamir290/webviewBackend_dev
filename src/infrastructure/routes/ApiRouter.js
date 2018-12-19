@@ -35,6 +35,8 @@ class ApiRouter {
     this.apiRouter.get('/searchChatbot', this._search.bind(this));
     this.apiRouter.get('/searchChatbot/:keyword', keywordValidationMiddleware, this._search.bind(this));
     this.apiRouter.get('/searchChatbot/:keyword/:accessChannel/:categoryId', keywordValidationMiddleware, categoryValidationMiddleware, this._search.bind(this));
+    //TODO verify
+    this.apiRouter.get('/beginInteraction/:chatbotId/:MSISDN/:accesChannel', chatbotIdValidationMiddleware, MSISDNValidationMiddleware, this._beginInteraction.bind(this));
   }
 
   /**

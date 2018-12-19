@@ -110,6 +110,7 @@ class ApiRouter {
       if (req.params && req.params.keyword) {
         const paramKeyword = req.params.keyword;
         const paramCategoryId = req.params.categoryId;
+        const paramAccessChannel = req.params.accessChannel || 'webbrowser';
         const simpleSearchUseCase = new this.useCaseContainer.simpleSearchUseCase(this._chatBotRepository, this.logger);
         const {SUCCESS, NOT_FOUND, PARAMETER_ERROR} = simpleSearchUseCase.events;
 
@@ -130,7 +131,7 @@ class ApiRouter {
           next(new HTTPError(404, 'category not found'));
         });
 
-        await simpleSearchUseCase.execute(paramKeyword, paramCategoryId);
+        await simpleSearchUseCase.execute(paramKeyword, paramCategoryId, paramAccessChannel);
       } else {
         //No params => parameter error
         next(new HTTPError(400, 'No param keyword'));

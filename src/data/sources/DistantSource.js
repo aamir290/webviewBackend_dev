@@ -53,15 +53,16 @@ class DistantSource {
    * Empty array if no chatbots for given keyword
    * @param keyword keyword to search for
    * @param categoryId category id filter
+   * @param accessChannel access channel
    * @returns promises with chatbots array
    */
-  async search(keyword, categoryId) {
+  async search(keyword, categoryId, accessChannel) {
     //Create url
     if (keyword === undefined) throw new Error('Incorrect parameter keyword');
-    let url = this._urlServer + '/searchChatbots/' + keyword;
+    let url = `${this._urlServer}/searchChatbots/${keyword}`;
 
     if(categoryId){
-      url += `/orangeApp/${categoryId}`;
+      url += `/${accessChannel}/${categoryId}`;
     }
 
     //Request

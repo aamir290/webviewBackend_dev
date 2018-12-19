@@ -35,7 +35,7 @@ class ApiRouter {
     this.apiRouter.get('/searchChatbots/:keyword/:accessChannel', keywordValidationMiddleware, this._search.bind(this));
     this.apiRouter.get('/searchChatbots/:keyword/:accessChannel/:categoryId', keywordValidationMiddleware, categoryValidationMiddleware, this._search.bind(this));
     //TODO verify
-    this.apiRouter.get('/beginInteraction/:chatbotId/:MSISDN/:accesChannel', chatbotIdValidationMiddleware, MSISDNValidationMiddleware, this._beginInteraction.bind(this));
+    this.apiRouter.get('/beginInteraction/:chatbotId/:MSISDN/:accessChannel', chatbotIdValidationMiddleware, MSISDNValidationMiddleware, this._beginInteraction.bind(this));
   }
 
   /**
@@ -139,6 +139,49 @@ class ApiRouter {
       } else {
         //No params => parameter error
         next(new HTTPError(400, 'No param keyword'));
+      }
+    } else {
+      next(new HTTPError(400, 'Missing usecase'));
+    }
+  }
+
+  /**
+   * handle request /beginInteraction/:chatbotId/:MSISDN/:accesChannel
+   * @param req
+   * @param res
+   * @param next
+   * @private
+   */
+  async _beginInteraction(req, res, next) {
+    if (this.useCaseContainer.beginInteraction) {
+      if (req.params && req.params.chatbotId && req.params.MSISDN && req.params.accessChannel) {
+        const paramChatbotId = req.params.chatbotId;
+        const paramMSISDN = req.params.MSISDN;
+        const paramAccessChannel = req.params.accessChannel || 'webbrowser';
+        const beginInteractionUseCase = new this.useCaseContainer.beginInteractionUseCase(this.logger); //TODO marie adpat
+        const {SUCCESS, NOT_FOUND, PARAMETER_ERROR} = beginInteractionUseCase.events;
+
+        beginInteractionUseCase.on(SUCCESS, (chatbots) => {
+          this.logger.debug('_beginInteraction - Success : ' + deeplink);//TODO
+          return res
+            .status(302)
+            .json(chatbots); //TODO deeplink botGallery:open:abcde_id
+        });
+
+        beginInteractionUseCase.on(PARAMETER_ERROR, () => {
+          this.logger.debug('_beginInteraction - PARAMETER_ERROR');
+          next(new HTTPError(400, 'Error with chatbot repository'));
+        });
+
+        beginInteractionUseCase.on(NOT_FOUND, () => {
+          this.logger.debug('_search - NOT_FOUND');
+          next(new HTTPError(404, 'Intent/Deeplink not found'));
+        });
+
+        await beginInteractionUseCase.execute(paramChatbotId, paramMSISDN, paramAccessChannel);
+      } else {
+        //No params => parameter error
+        next(new HTTPError(400, 'No params chatbotId, MSISDN, accessChannel'));
       }
     } else {
       next(new HTTPError(400, 'Missing usecase'));

@@ -21,12 +21,13 @@ class DistantSource {
    * Return array of chatbots for given category
    * Empty array if no chatbots for given category
    * @param categoryId id of category to retrieve chatbots from
+   * @param accessChannel access channel
    * @returns promises with ctabots array
    */
-  async listCategory(categoryId) {
+  async listCategory(categoryId, accessChannel) {
     //Create url
     if (categoryId === undefined) throw new Error('Incorrect parameter category id');
-    const url = this._urlServer + '/listCategory/' + categoryId + '/orangeApp';
+    const url = `${this._urlServer}/listCategory/${categoryId}/${accessChannel}`;
 
     //Request
     this._logger.debug('DistantSource - listCategory request : '+url);

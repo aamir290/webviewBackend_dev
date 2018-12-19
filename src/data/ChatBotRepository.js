@@ -49,14 +49,15 @@ class ChatBotRepository {
   /**
    * Return list of chatbot associated with given catgeory id.
    * @param categoryId category id to retrive chatbot from
+   * @param accessChannel access channel
    * @returns {Promise<void>} array of chatbot (could be empty if no chatbot found)
    *  @throws Error if  incorrect distant source
    */
-  async getListCategory(categoryId) {
+  async getListCategory(categoryId, accessChannel) {
     if(this._distantSource && this._distantSource.listCategory) {
       try{
         if(categoryId) {
-          return await this._distantSource.listCategory(categoryId);
+          return await this._distantSource.listCategory(categoryId, accessChannel);
         }else{
           return await this._distantSource.list();
         }

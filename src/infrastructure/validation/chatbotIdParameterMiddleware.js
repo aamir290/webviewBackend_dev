@@ -16,9 +16,7 @@ module.exports = function (req, res, next) {
 
     paramChatbotId = validator.trim(paramChatbotId);  //remove unused space
 
-    if(!validator.isEmail(paramCategoryId)) {//verify if email adress
-      next(new HTTPError(400, 'Invalid Chatbot Id - not email adress'));
-    }else if(!validator.isLength(paramCategoryId, {min:6, max:60})) {//chatbotId between 6 & 60
+    if(!validator.isLength(paramCategoryId, {min:6, max:60})) {//chatbotId between 6 & 60
       next(new HTTPError(400, 'Invalid Chatbot Id - id length must be between 6 and 60'));
     }else {
       req.params.chatbotId = paramCategoryId;  //set sanitize param

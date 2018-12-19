@@ -1,6 +1,8 @@
 /**
  * Middleware that handle validation of category parameter in request.
  * Sanitize parameter to
+ * ChatbotId is an email
+ * Accessible threw req.params.chatbotId
  */
 
 const validator = require('validator');

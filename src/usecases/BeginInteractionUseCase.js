@@ -11,7 +11,7 @@ const UseCase = require('./UseCase');
 class BeginInteractionUseCase extends UseCase {
 
   constructor(chatBotRepository, logger) {
-    super(['SUCCESS', 'ERROR', 'PARAMETER_ERROR']);
+    super(['SUCCESS', 'NOT_FOUND', 'PARAMETER_ERROR']);
 
     this.chatBotRepository = chatBotRepository;
 
@@ -23,15 +23,19 @@ class BeginInteractionUseCase extends UseCase {
    * Launch use case task.
    * @param chatbotId chatbotId to contact
    * @param MSISDN user number phone
-   *  @param accessChannel access channel
+   * @param accessChannel access channel
    */
   async execute(chatbotId, MSISDN, accessChannel) {
     const {SUCCESS, NOT_FOUND, PARAMETER_ERROR} = this.events;
     if(chatbotId) {
       try {
-        const ABCDE_id = await this.chatBotRepository.getChatBotId(chatbotId);
-        if (ABCDE_id) {
-          this.emit(SUCCESS, ABCDE_id);
+        this.logger.debug('BeginInteraction - start for : ' + chatbotId);
+        const chatbotIds = await this.chatBotRepository.getChatbotId(chatbotId);
+        const ABCDE_ID = chatbotIds.ABCDE_ID.toString();
+        this.logger.debug('BeginInteraction - get : ' + ABCDE_ID);
+        const link = 'botGallery:open:' + ABCDE_ID;
+        if(chatbotIds) {
+          this.emit(SUCCESS, link);
         } else {
           this.emit(NOT_FOUND);
         }

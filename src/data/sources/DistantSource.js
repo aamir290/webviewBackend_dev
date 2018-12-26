@@ -72,6 +72,20 @@ class DistantSource {
     return res.body;
   }
 
+  /**
+     * Return Chatbots ids from repository
+     * @param chatbot Id
+     * @returns promises with chatbot Id
+     */
+  async chatbotId(chatbotId) {
+    const url = `${this._urlServer}/getChatbotId/${chatbotId}`;
+
+    //Request
+    this._logger.debug('DistantSource - chatbotId request : '+url);
+    const res = await request.get(url);
+    return res.body;
+  }
+
 }
 
 module.exports = DistantSource;

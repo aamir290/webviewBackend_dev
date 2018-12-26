@@ -34,7 +34,6 @@ class ApiRouter {
     this.apiRouter.get('/listCategory/:categoryId/:accessChannel', categoryValidationMiddleware, this._getListCategory.bind(this));
     this.apiRouter.get('/searchChatbots/:keyword/:accessChannel', keywordValidationMiddleware, this._search.bind(this));
     this.apiRouter.get('/searchChatbots/:keyword/:accessChannel/:categoryId', keywordValidationMiddleware, categoryValidationMiddleware, this._search.bind(this));
-    //TODO verify
     this.apiRouter.get('/beginInteraction/:chatbotId/:MSISDN/:accessChannel', chatbotIdValidationMiddleware, MSISDNValidationMiddleware, this._beginInteraction.bind(this));
   }
 
@@ -152,21 +151,21 @@ class ApiRouter {
    * @param next
    * @private
    */
-  //TODO verify
   async _beginInteraction(req, res, next) {
-    if (this.useCaseContainer.beginInteraction) {
+    this.logger.debug('_beginInteraction - start');
+    if (this.useCaseContainer.beginInteractionUseCase) {
       if (req.params && req.params.chatbotId && req.params.MSISDN && req.params.accessChannel) {
         const paramChatbotId = req.params.chatbotId;
         const paramMSISDN = req.params.MSISDN;
         const paramAccessChannel = req.params.accessChannel || 'webbrowser';
 
-        const beginInteractionUseCase = new this.useCaseContainer.beginInteractionUseCase(this.logger);
+        const beginInteractionUseCase = new this.useCaseContainer.beginInteractionUseCase(this._chatBotRepository, this.logger);
         const {SUCCESS, NOT_FOUND, PARAMETER_ERROR} = beginInteractionUseCase.events;
 
         beginInteractionUseCase.on(SUCCESS, (ABCDE_id) => {
           this.logger.debug('_beginInteraction - Success : ' + ABCDE_id);
           return res
-            .status(302)
+            .status(200)
             .json(ABCDE_id);
         });
 

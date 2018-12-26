@@ -90,6 +90,25 @@ class ChatBotRepository {
       throw new Error('DistantSource has no method search or is called with wrong parameter');
     }
   }
+
+  /**
+     * Return Chatbot id
+     * @param chatbot id
+     * @returns {Promise<void>} array of chatbot ids of chatbot
+     *  @throws Error if  incorrect distant source
+     */
+  async getChatbotId(chatbotId) {
+    if(this._distantSource && this._distantSource.chatbotId) {
+      try{
+        return await this._distantSource.chatbotId(chatbotId);
+      }catch(e){
+        this.logger.debug('ChatBotRepository - getChatbotId - error with distant source : '+e);
+        throw new Error('DistantSource generate error while calling listCategory');
+      }
+    }else{
+      throw new Error('DistantSource has no method listCategory or is called with wrong parameter');
+    }
+  }
 }
 
 module.exports = ChatBotRepository;

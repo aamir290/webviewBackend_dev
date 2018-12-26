@@ -5,6 +5,8 @@
 const express = require('express');
 const categoryValidationMiddleware = require('../validation/categoryParameterMiddleware');
 const keywordValidationMiddleware = require('../validation/keywordParameterMiddleware');
+const chatbotIdValidationMiddleware = require('../validation/chatbotIdParameterMiddleware');
+const MSISDNValidationMiddleware = require('../validation/MSISDNValidationMiddleware');
 const HTTPError = require('../error/HTTPError');
 
 /**
@@ -32,6 +34,7 @@ class ApiRouter {
     this.apiRouter.get('/listCategory/:categoryId/:accessChannel', categoryValidationMiddleware, this._getListCategory.bind(this));
     this.apiRouter.get('/searchChatbots/:keyword/:accessChannel', keywordValidationMiddleware, this._search.bind(this));
     this.apiRouter.get('/searchChatbots/:keyword/:accessChannel/:categoryId', keywordValidationMiddleware, categoryValidationMiddleware, this._search.bind(this));
+    this.apiRouter.get('/beginInteraction/:chatbotId/:MSISDN/:accessChannel', chatbotIdValidationMiddleware, MSISDNValidationMiddleware, this._beginInteraction.bind(this));
   }
 
   /**
@@ -135,6 +138,51 @@ class ApiRouter {
       } else {
         //No params => parameter error
         next(new HTTPError(400, 'No param keyword'));
+      }
+    } else {
+      next(new HTTPError(400, 'Missing usecase'));
+    }
+  }
+
+  /**
+   * handle request /beginInteraction/:chatbotId/:MSISDN/:accesChannel
+   * @param req
+   * @param res
+   * @param next
+   * @private
+   */
+  async _beginInteraction(req, res, next) {
+    this.logger.debug('_beginInteraction - start');
+    if (this.useCaseContainer.beginInteractionUseCase) {
+      if (req.params && req.params.chatbotId && req.params.MSISDN && req.params.accessChannel) {
+        const paramChatbotId = req.params.chatbotId;
+        const paramMSISDN = req.params.MSISDN;
+        const paramAccessChannel = req.params.accessChannel || 'webbrowser';
+
+        const beginInteractionUseCase = new this.useCaseContainer.beginInteractionUseCase(this._chatBotRepository, this.logger);
+        const {SUCCESS, NOT_FOUND, PARAMETER_ERROR} = beginInteractionUseCase.events;
+
+        beginInteractionUseCase.on(SUCCESS, (ABCDE_id) => {
+          this.logger.debug('_beginInteraction - Success : ' + ABCDE_id);
+          return res
+            .status(200)
+            .json(ABCDE_id);
+        });
+
+        beginInteractionUseCase.on(PARAMETER_ERROR, () => {
+          this.logger.debug('_beginInteraction - PARAMETER_ERROR');
+          next(new HTTPError(400, 'Error with chatbot repository'));
+        });
+
+        beginInteractionUseCase.on(NOT_FOUND, () => {
+          this.logger.debug('_search - NOT_FOUND');
+          next(new HTTPError(404, 'Intent/Deeplink not found'));
+        });
+
+        await beginInteractionUseCase.execute(paramChatbotId, paramMSISDN, paramAccessChannel);
+      } else {
+        //No params => parameter error
+        next(new HTTPError(400, 'No params chatbotId, MSISDN, accessChannel'));
       }
     } else {
       next(new HTTPError(400, 'Missing usecase'));

@@ -71,6 +71,25 @@ class ChatBotRepository {
   }
 
   /**
+     * Return list of all chatbot.
+     * @param accessChannel access channel
+     * @returns {Promise<void>} array of chatbot (could be empty if no chatbot found)
+     *  @throws Error if  incorrect distant source
+     */
+  async getAllCategory(accessChannel) {
+    if(this._distantSource && this._distantSource.list) {
+      try{
+        return await this._distantSource.list(accessChannel);
+      }catch(e){
+        this.logger.debug('ChatBotRepository - getAllCategory - error with distant source : '+e);
+        throw new Error('DistantSource generate error while calling list');
+      }
+    }else{
+      throw new Error('DistantSource has no method list or is called with wrong parameter');
+    }
+  }
+
+  /**
    * Return list of chatbot associated with given keyword
    * @param keyword keyword for search request
    * @param categoryId catgeory id for search request. Let blank for no filtering on request id.

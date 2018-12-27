@@ -30,7 +30,7 @@ class ApiRouter {
 
   _setupRoutes() {
     this.apiRouter.get('/getDefaultCategories/:accessChannel', this._getDefaultCategories.bind(this));
-    this.apiRouter.get('/list/:accessChannel', this._getListCategory.bind(this));
+    this.apiRouter.get('/list/:accessChannel', this._getList.bind(this));
     this.apiRouter.get('/listCategory/:categoryId/:accessChannel', categoryValidationMiddleware, this._getListCategory.bind(this));
     this.apiRouter.get('/searchChatbots/:keyword/:accessChannel', keywordValidationMiddleware, this._search.bind(this));
     this.apiRouter.get('/searchChatbots/:keyword/:accessChannel/:categoryId', keywordValidationMiddleware, categoryValidationMiddleware, this._search.bind(this));
@@ -60,6 +60,36 @@ class ApiRouter {
       });
 
       getCategoriesUsecase.execute();
+    } else {
+      next(new HTTPError(400, 'Missing usecase'));
+    }
+  }
+
+  /**
+     * handle request /listCategory
+     * @param req
+     * @param res
+     * @param next
+     * @private
+     */
+  async _getList(req, res, next) {
+    if (this.useCaseContainer.getChatbotListUseCase) {
+      const paramAccessChannel = req.params.accessChannel || 'webbrowser';
+      const getChatbotListUseCase = new this.useCaseContainer.getChatbotListUseCase(this._chatBotRepository, this.logger);
+      const {SUCCESS, NOT_FOUND} = getChatbotListUseCase.events;
+
+      getChatbotListUseCase.on(SUCCESS, (chatbots) => {
+        this.logger.debug('_getList - Success : ' + chatbots);
+        return res
+          .status(200)
+          .json(chatbots);
+      });
+
+      getChatbotListUseCase.on(NOT_FOUND, () => {
+        next(new HTTPError(404, 'Badly formatted parameters'));
+      });
+
+      await getChatbotListUseCase.execute(paramAccessChannel);
     } else {
       next(new HTTPError(400, 'Missing usecase'));
     }

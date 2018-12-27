@@ -8,6 +8,7 @@ const express = require('express');
 const ApiRouter = require('../../../../src/infrastructure/routes/ApiRouter');
 const getCategoriesUseCase = require('../../../../src/usecases/GetCategoriesUseCase');
 const GetChatBotInCategoryUseCase = require('../../../../src/usecases/GetChatbotInCategoryUseCase');
+const GetChatBotListUseCase = require('../../../../src/usecases/GetChatbotListUseCase');
 const SimpleSearchUseCase = require('../../../../src/usecases/SimpleSearchUseCase');
 const ChatBotRepository = require('../../../../src/data/ChatBotRepository');
 const stubUtils = require('../../../testData/stubUtils');

@@ -28,7 +28,26 @@ describe('MSISDNParameterMiddleware', () => {
 
   context('when testing incorrect MSISDN', () => {
     it('return 400 BAD Request with MSISDN with no numeric words',  () => {
-      stubRequest.params.MSISDN = 'fin*-aba@nk';
+      stubRequest.params.MSISDN = 'gfdfgd';
+
+      MSISDNParameterMiddleware(stubRequest, stubResponse, stubNext);
+
+      stubNext.should.have.been.calledOnce;
+      stubNext.args[0][0].status.should.be.eql(400);
+      stubNext.args[0][0].message.should.be.eql('Invalid MSISDN - must be numeric only');
+    });
+
+    it('return 400 BAD Request with MSISDN with symbols words',  () => {
+      stubRequest.params.MSISDN = '+-.';
+
+      MSISDNParameterMiddleware(stubRequest, stubResponse, stubNext);
+
+      stubNext.should.have.been.calledOnce;
+      stubNext.args[0][0].status.should.be.eql(400);
+      stubNext.args[0][0].message.should.be.eql('Invalid MSISDN - must be numeric only');
+    });
+    it('return 400 BAD Request with MSISDN with symbols and numeric',  () => {
+      stubRequest.params.MSISDN = '+33687487512';
 
       MSISDNParameterMiddleware(stubRequest, stubResponse, stubNext);
 

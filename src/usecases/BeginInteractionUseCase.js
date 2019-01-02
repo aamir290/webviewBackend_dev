@@ -33,7 +33,7 @@ class BeginInteractionUseCase extends UseCase {
         const chatbotIds = await this.chatBotRepository.getChatbotId(chatbotId);
         const ABCDE_ID = chatbotIds.ABCDE_ID.toString();
         this.logger.debug('BeginInteraction - get : ' + ABCDE_ID);
-        const link = 'botGallery:open:' + ABCDE_ID;
+        const link = 'botgallery://open?abcdeid=' + ABCDE_ID;
         if(chatbotIds) {
           this.emit(SUCCESS, link);
         } else {

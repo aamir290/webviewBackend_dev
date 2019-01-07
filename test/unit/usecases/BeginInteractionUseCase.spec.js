@@ -12,7 +12,7 @@ describe('BeginInteractionUsecase', () => {
 
   before(() => {
     stubGetChatBotId = sinon.stub();
-    stubGetChatBotId.withArgs('124587jihuij').rejects();
+    stubGetChatBotId.withArgs('toto@roange.fr').rejects();
     stubGetChatBotId.withArgs('12jihuij').resolves(false);
     stubGetChatBotId.withArgs('afcon.chatbot.trials@orange.com').resolves({ABCDE_ID:'5c13a4967133750016c5ed92'});
 
@@ -90,15 +90,14 @@ describe('BeginInteractionUsecase', () => {
     it('emits PARAMETER_ERROR ', (done) => {
       const getDeeplink = new BeginInteractionUsecase(stubRepository, stubLogger);
 
-      getDeeplink.on(getDeeplink.events.PARAMETER_ERROR, () => {
-        getDeeplink.should.have.been.calledOnce;
+      getDeeplink.on(getDeeplink.events.NOT_FOUND, () => {
         done();
       });
       getDeeplink.on(getDeeplink.events.SUCCESS, () => {
         done('fail - SUCCESS');
       });
-      getDeeplink.on(getDeeplink.events.NOT_FOUND, () => {
-        done('fail - NOT_FOUND');
+      getDeeplink.on(getDeeplink.events.PARAMETER_ERROR, () => {
+        done('fail - PARAMETER_ERROR');
       });
 
       getDeeplink.execute('123456789');

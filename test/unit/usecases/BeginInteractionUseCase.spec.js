@@ -14,7 +14,7 @@ describe('BeginInteractionUsecase', () => {
     stubGetChatBotId = sinon.stub();
     stubGetChatBotId.withArgs('124587jihuij').rejects();
     stubGetChatBotId.withArgs('12jihuij').resolves(false);
-    stubGetChatBotId.withArgs('afcon.chatbot.trials@orange.com').resolves(true);
+    stubGetChatBotId.withArgs('afcon.chatbot.trials@orange.com').resolves({ABCDE_ID:'5c13a4967133750016c5ed92'});
 
     stubRepository = sinon.createStubInstance(ChatBotRepository, {
       getChatbotId: stubGetChatBotId,
@@ -32,11 +32,12 @@ describe('BeginInteractionUsecase', () => {
 
       getDeeplink.on(getDeeplink.events.SUCCESS, (deeplinkResult) => {
         stubGetChatBotId.should.have.been.calledOnce;
-        deeplinkResult.should.eql({result:'botgallery://open?abcdeid=bd0763197f509001666e9b9'});
+        deeplinkResult.should.eql('botgallery://open?abcdeid=5c13a4967133750016c5ed92');
         done();
       });
 
       getDeeplink.on(getDeeplink.events.PARAMETER_ERROR, () => {
+        stubGetChatBotId.should.have.been.calledOnce;
         done('fail - PARAMETER_ERROR');
       });
       getDeeplink.on(getDeeplink.events.NOT_FOUND, () => {
@@ -57,7 +58,7 @@ describe('BeginInteractionUsecase', () => {
       const getDeeplink = new BeginInteractionUsecase(stubRepository, stubLogger);
 
       getDeeplink.on(getDeeplink.events.PARAMETER_ERROR, (errorMessage) => {
-        errorMessage.should.eql('Incorrect chatbotid parameter');
+        errorMessage.should.eql('Incorrect chatbotId parameter');
         done();
       });
       getDeeplink.on(getDeeplink.events.SUCCESS, () => {

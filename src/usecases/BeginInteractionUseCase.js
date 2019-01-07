@@ -34,14 +34,11 @@ class BeginInteractionUseCase extends UseCase {
         const ABCDE_ID = chatbotIds.ABCDE_ID.toString();
         this.logger.debug('BeginInteraction - get : ' + ABCDE_ID);
         const link = 'botgallery://open?abcdeid=' + ABCDE_ID;
-        if(chatbotIds) {
-          this.emit(SUCCESS, link);
-        } else {
-          this.emit(NOT_FOUND);
-        }
+
+        this.emit(SUCCESS, link);
       } catch (e) {
         this.logger.debug('BeginInteraction - catch : ' + e);
-        this.emit(PARAMETER_ERROR, 'Incorrect getChatBotId');
+        this.emit(NOT_FOUND, 'Incorrect getChatBotId');
       }
     }else {
       this.emit(PARAMETER_ERROR, 'Incorrect chatbotId parameter');

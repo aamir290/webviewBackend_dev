@@ -20,8 +20,8 @@ module.exports = function (req, res, next) {
       req.params.MSISDN = paramMSISDNuser;  //set sanitize param
       next();
     }
-    else if(!validator.isNumeric(paramMSISDNuser)) {//verify if parm is numeric value
-      next(new HTTPError(400, 'Invalid MSISDN - MSISDN is\'t numeric only'));
+    else if(!validator.isNumeric(paramMSISDNuser, {no_symbols: true})) {//verify if parm is numeric value
+      next(new HTTPError(400, 'Invalid MSISDN - must be numeric only'));
     }else if(!validator.isLength(paramMSISDNuser, {min:3, max:15})) {//MSISDN between 3 & 15 
       next(new HTTPError(400, 'Invalid MSISDN - length must be between 3 and 15'));
     }else {

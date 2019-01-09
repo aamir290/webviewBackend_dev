@@ -195,7 +195,7 @@ class ApiRouter {
         beginInteractionUseCase.on(SUCCESS, (ABCDE_id) => {
           this.logger.debug('_beginInteraction - Success : ' + ABCDE_id);
           return res
-            .status(200)
+            .status(302)
             .json(ABCDE_id);
         });
 

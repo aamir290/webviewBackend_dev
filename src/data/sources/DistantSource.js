@@ -65,6 +65,8 @@ class DistantSource {
     if(categoryId){
       url += `/${accessChannel}/${categoryId}`;
     }
+    else
+      url += `/${accessChannel}`;
 
     //Request
     this._logger.debug('DistantSource - search request : '+url);

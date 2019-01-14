@@ -28,7 +28,7 @@ module.exports = [
         throw new Error(500);
       }
 
-      if (match[1] === '/searchChatbots/toto') {
+      if (match[1] === '/searchChatbots/toto/orangeApp') {
         return finabankChatbotResults;
       }
 
@@ -36,7 +36,7 @@ module.exports = [
         return allChatbotsResults;
       }
 
-      if (match[1] === '/searchChatbots/educ') {
+      if (match[1] === '/searchChatbots/educ/orangeApp') {
         throw new Error(500);
       }
 

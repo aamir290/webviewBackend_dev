@@ -206,7 +206,7 @@ describe('DistantSource', () => {
 
     it('return error when error with server', async () => {
       const distantSource = new DistantSource(config, stubLogger);
-      await distantSource.search('educ').should.be.rejected;
+      await distantSource.search('educ', undefined, 'orangeApp').should.be.rejected;
     });
 
 

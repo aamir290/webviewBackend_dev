@@ -10,5 +10,5 @@ module.exports = {
     level : 'info',
     logDirectory : 'logs'
   },
-  chatBotRepositoryServerUrl : process.env.CHATBOT_REPOSITORY_URL || 'https://pubsecbotdir.kmt.orange.com'
+  chatBotRepositoryServerUrl : process.env.CHATBOT_REPOSITORY_URL || 'https://bot-directory.noprod-b.kmt.orange.com'
 };

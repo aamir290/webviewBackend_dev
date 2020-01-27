@@ -31,9 +31,9 @@ class BeginInteractionUseCase extends UseCase {
       try {
         this.logger.debug('BeginInteraction - start for : ' + chatbotId);
         const chatbotIds = await this.chatBotRepository.getChatbotId(chatbotId);
-        const ABCDE_ID = chatbotIds.ABCDE_ID.toString();
-        this.logger.debug('BeginInteraction - get : ' + ABCDE_ID);
-        const link = 'botgallery://open?abcdeid=' + ABCDE_ID;
+        const obc_bot_id = chatbotIds.obc_bot_id.toString();
+        this.logger.debug('BeginInteraction - get : ' + obc_bot_id);
+        const link = 'https://extras.noprod-b.kmt.orange.com/bot-trigger.php?bot_id='+obc_bot_id+'&MSISDNS='+MSISDN+'&keyword=start';
 
         this.emit(SUCCESS, link);
       } catch (e) {

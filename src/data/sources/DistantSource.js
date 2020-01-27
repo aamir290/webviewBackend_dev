@@ -80,7 +80,7 @@ class DistantSource {
      * @returns promises with chatbot Id
      */
   async chatbotId(chatbotId) {
-    const url = `${this._urlServer}/getChatbotId/${chatbotId}`;
+    const url = `${this._urlServer}/getOBCbotId/${chatbotId}`;
 
     //Request
     this._logger.debug('DistantSource - chatbotId request : '+url);

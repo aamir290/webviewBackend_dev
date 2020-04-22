@@ -33,7 +33,7 @@ class BeginInteractionUseCase extends UseCase {
         const chatbotIds = await this.chatBotRepository.getChatbotId(chatbotId);
         const obc_bot_id = chatbotIds.obc_bot_id.toString();
         this.logger.debug('BeginInteraction - get : ' + obc_bot_id);
-        const link = 'https://extras.noprod-b.kmt.orange.com/bot-trigger.php?bot_id='+obc_bot_id+'&MSISDNS='+telePhone+'&keyword=start';
+        const link = 'https://extras.noprod-b.kmt.orange.com/bot-trigger.php?bot_id='+obc_bot_id+'&MSISDNS='+telePhone+'&keyword=hi';
 
         this.emit(SUCCESS, link);
       } catch (e) {

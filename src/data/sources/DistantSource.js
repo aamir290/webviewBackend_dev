@@ -43,7 +43,7 @@ class DistantSource {
   async list(accessChannel) {
     console.log('listing all bots backend server');
     const url = `${this._urlServer}/list/${accessChannel}`;
-
+  console.log('DistantSource - list request : '+url);
     //Request
     this._logger.debug('DistantSource - list request : '+url);
     const res = await request.get(url);

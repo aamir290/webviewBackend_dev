@@ -88,7 +88,7 @@ class ApiRouter {
       getChatbotListUseCase.on(NOT_FOUND, () => {
         next(new HTTPError(404, 'Badly formatted parameters'));
       });
-
+console.log("API router");
       await getChatbotListUseCase.execute(paramAccessChannel);
     } else {
       next(new HTTPError(400, 'Missing usecase'));

@@ -26,7 +26,7 @@ class DistantSource {
    */
   async listCategory(categoryId, accessChannel) {
     //Create url
-    if (categoryId === undefined) throw new Error('Incorrect parameter category id');
+    if (categoryId === undefined) console.log('listing all bots per category backend server'); throw new Error('Incorrect parameter category id');
     const url = `${this._urlServer}/listCategory/${categoryId}/${accessChannel}`;
 
     //Request
@@ -41,6 +41,7 @@ class DistantSource {
    * @returns promises with chatbots array
    */
   async list(accessChannel) {
+    console.log('listing all bots backend server');
     const url = `${this._urlServer}/list/${accessChannel}`;
 
     //Request

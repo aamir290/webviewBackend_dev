@@ -77,6 +77,7 @@ class ChatBotRepository {
      *  @throws Error if  incorrect distant source
      */
   async getAllCategory(accessChannel) {
+    console.log('repo backend');
     if(this._distantSource && this._distantSource.list) {
       try{
         return await this._distantSource.list(accessChannel);

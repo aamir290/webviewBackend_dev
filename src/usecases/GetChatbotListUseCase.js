@@ -25,6 +25,7 @@ class GetChatbotListUseCase extends UseCase {
    */
   async execute( accessChannel) {
     const {SUCCESS, NOT_FOUND} = this.events;
+    console.log('in backend usecase');
     try {
       const chatbotArray = await this.chatBotRepository.getAllCategory(accessChannel);
       this.emit(SUCCESS, chatbotArray);

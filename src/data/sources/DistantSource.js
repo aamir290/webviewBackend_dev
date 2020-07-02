@@ -27,7 +27,7 @@ class DistantSource {
   async listCategory(categoryId, accessChannel) {
     //Create url
     if (categoryId === undefined) throw new Error('Incorrect parameter category id');
-    const url = `${this._urlServer}/listCategory/${categoryId}/${accessChannel}`;
+    const url = `${this._urlServer}/api/v1/listCategory/${categoryId}/${accessChannel}`;
 
     //Request
     this._logger.debug('DistantSource - listCategory request : '+url);
@@ -42,7 +42,7 @@ class DistantSource {
    */
   async list(accessChannel) {
   
-    const url = `${this._urlServer}/list/${accessChannel}`;
+    const url = `${this._urlServer}/api/v1/list/${accessChannel}`;
   
     //Request
     this._logger.debug('DistantSource - list request : '+url);
@@ -61,7 +61,7 @@ class DistantSource {
   async search(keyword, categoryId, accessChannel) {
     //Create url
     if (keyword === undefined) throw new Error('Incorrect parameter keyword');
-    let url = `${this._urlServer}/searchChatbots/${keyword}`;
+    let url = `${this._urlServer}/api/v1/searchChatbots/${keyword}`;
 
     if(categoryId){
       url += `/${accessChannel}/${categoryId}`;
@@ -81,7 +81,7 @@ class DistantSource {
      * @returns promises with chatbot Id
      */
   async chatbotId(chatbotId) {
-    const url = `${this._urlServer}/getOBCbotId/${chatbotId}`;
+    const url = `${this._urlServer}/api/v1/getOBCbotId/${chatbotId}`;
 
     //Request
     this._logger.debug('DistantSource - chatbotId request : '+url);
